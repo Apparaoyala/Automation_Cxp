@@ -1,6 +1,8 @@
 import { test, expect,Page  } from '@playwright/test';
 import { Login } from '../pages/Login';
 import { HomePage } from '../pages/HomePage';
+import { Customer } from '../pages/Customer';
+
 import { TestConfig } from '../Utilities/Test.Config';
 import { log } from 'node:console';
 
@@ -10,7 +12,7 @@ test('authenticate', async ({ page }) => {
 
     const login = new Login(page);
     const homePage = new HomePage(page);
-
+const customer = new Customer(page);
     await page.goto(config.appUrl);
 
     await login.login(
@@ -26,12 +28,17 @@ test('authenticate', async ({ page }) => {
         path: 'playwright/.auth/user.json'
     });
     console.log("hii")
-   // await page.pause();
+    await page.pause();
 
     await homePage.clickHome();
 
    console.log("hii")
    await page.pause();
    
+await homePage.navigateToModule("Sales New");
+ console.log("hii")
+await page.pause();
 
+await customer.Menu1();
+await page.pause();
 });
