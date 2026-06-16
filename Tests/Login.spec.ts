@@ -28,16 +28,16 @@ const customer = new Customer(page);
         path: 'playwright/.auth/user.json'
     });
     console.log("hii")
-    await page.pause();
+   //await page.pause();
 
     await homePage.clickHome();
 
    console.log("hii")
-   await page.pause();
+   //await page.pause();
    
 await homePage.navigateToModule("Sales New");
  console.log("hii")
-await page.pause();
+//await page.pause();
 
 await customer.Menu1();
 await page.pause();

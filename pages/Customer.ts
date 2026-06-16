@@ -23,11 +23,13 @@ export class Customer {
 
     async Menu1() {
 
-       
-        await this.Menu.click();
-       // await this.HomeButton.click();
+    await this.Menu.waitFor({
+        state: 'visible',
+        timeout: 180000
+    });
 
-    }
+    await this.Menu.click();
+}
 
 //    async home() {
 //    // await this.HomeButton.waitFor({ state: 'visible', timeout: 60000 });

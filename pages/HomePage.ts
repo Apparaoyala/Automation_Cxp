@@ -24,9 +24,15 @@ export class HomePage {
 
     async navigateToModule(moduleName: string) {
 
-        await this.page
-            .frameLocator('[name="right"]')
-            .getByRole('link', { name: moduleName })
-            .click();
-    }
+    const moduleLink = this.page
+        .frameLocator('[name="right"]')
+        .getByRole('link', { name: moduleName });
+
+    await moduleLink.waitFor({
+        state: 'visible',
+        timeout: 180000
+    });
+
+    await moduleLink.click();
+}
 }
