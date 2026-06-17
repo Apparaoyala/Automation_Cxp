@@ -5,8 +5,9 @@ export class Customer {
     private readonly page: Page;
     private readonly Customer: Locator;
     private readonly Menu: Locator;
-    private readonly password: Locator;
-    private readonly loginButton: Locator;
+    private readonly customerMenu: Locator;
+private readonly newCustomerButton: Locator;
+    
     //private readonly HomeButton: Locator;
 
     constructor(page: Page) {
@@ -15,10 +16,14 @@ export class Customer {
 
         this.Customer = page.locator('span').filter({ hasText: 'Customer' }).first()
         this.Menu =page.getByText('menu', { exact: true }).first();
-        this.password = page.locator('#Password');
-        this.loginButton = page.locator('input[type="image"]');
+       
        // this.HomeButton =page.frameLocator('[name="header"]').locator("img[title='Home']");
 
+       this.customerMenu = page.locator(
+        'a[href="#/sales-sub/customer-listing"]'
+    );
+this. newCustomerButton =
+    page.getByRole('button', { name: 'New Customer' });
     }
 
     async Menu1() {
@@ -38,4 +43,22 @@ export class Customer {
 // });
 //     await this.HomeButton.click();
 // }
+
+async clickCustomer() {
+
+    await this.customerMenu.waitFor({
+        state: 'visible',
+        timeout: 180000
+    });
+
+    await this.customerMenu.click();
+}
+async CustomerBtn(){
+     await this.newCustomerButton.waitFor({
+        state: 'visible',
+        timeout: 180000
+    });
+await this.newCustomerButton.click();
+
+}
 }

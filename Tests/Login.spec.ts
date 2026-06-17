@@ -9,6 +9,7 @@ import { log } from 'node:console';
 const config = new TestConfig();
 
 test('authenticate', async ({ page }) => {
+    test.setTimeout(180000);
 
     const login = new Login(page);
     const homePage = new HomePage(page);
@@ -30,6 +31,7 @@ const customer = new Customer(page);
     console.log("hii")
    //await page.pause();
 
+   
     await homePage.clickHome();
 
    console.log("hii")
@@ -40,5 +42,13 @@ await homePage.navigateToModule("Sales New");
 //await page.pause();
 
 await customer.Menu1();
+//await page.pause();
+await customer.clickCustomer();
 await page.pause();
-});
+
+
+await customer.CustomerBtn();
+
+
+}
+);
