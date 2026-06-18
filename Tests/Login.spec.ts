@@ -4,7 +4,6 @@ import { HomePage } from '../pages/HomePage';
 import { Customer } from '../pages/Customer';
 import { MandatoryFieldUtil } from '../Utilities/MandatoryFieldUtil';
 import { TestConfig } from '../Utilities/Test.Config';
-import { log } from 'node:console';
 
 const config = new TestConfig();
 
