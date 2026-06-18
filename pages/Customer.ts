@@ -20,7 +20,10 @@ private readonly newCustomerButton: Locator;
        // this.HomeButton =page.frameLocator('[name="header"]').locator("img[title='Home']");
 
        this.customerMenu = page.locator(
-        'a[href="#/sales-sub/customer-listing"]'
+        //'a[href="#/sales-sub/customer-listing"]'
+       // span[normalize-space()='Customer/Potential Customer']
+       // page.locator('a[href="#/sales/customerListing"]')
+       "//div[@id = 'sidebarMain']//span[text()='Customer' or text()='Customer/Potential Customer']"
     );
 this. newCustomerButton =
     page.getByRole('button', { name: 'New Customer' });

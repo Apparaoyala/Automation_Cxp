@@ -28,18 +28,17 @@ const customer = new Customer(page);
     await page.context().storageState({
         path: 'playwright/.auth/user.json'
     });
-    console.log("hii")
-   //await page.pause();
+    console.log("login")
 
    
     await homePage.clickHome();
 
-   console.log("hii")
-   //await page.pause();
+   console.log("Beofre sales New")
+
    
 await homePage.navigateToModule("Sales New");
- console.log("hii")
-//await page.pause();
+ console.log("Sales New")
+
 
 await customer.Menu1();
 //await page.pause();
