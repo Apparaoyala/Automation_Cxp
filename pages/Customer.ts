@@ -7,6 +7,7 @@ export class Customer {
     private readonly Menu: Locator;
     private readonly customerMenu: Locator;
 private readonly newCustomerButton: Locator;
+//private readonly row: Locator;
     
     //private readonly HomeButton: Locator;
 
@@ -64,4 +65,27 @@ async CustomerBtn(){
 await this.newCustomerButton.click();
 
 }
+/*
+async getMandatoryFieldCount() {
+
+    const mandatoryLabels = this.page.locator(
+        "//label[.//span[contains(@class,'text-danger')]]"
+    );
+
+    const count = await mandatoryLabels.count();
+    
+    
+
+    console.log("Mandatory Count :", count);
+
+    for(let i = 0; i < count; i++) {
+
+        const fieldName = await mandatoryLabels
+            .nth(i)
+            .textContent();
+
+        console.log(`Field ${i + 1}: ${fieldName}`);
+    }
+}*/
+
 }
