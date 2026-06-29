@@ -1,5 +1,6 @@
 import { Page, Locator } from '@playwright/test';
 
+
 export class MandatoryFieldUtil {
 
     private readonly page: Page;
@@ -14,7 +15,8 @@ export class MandatoryFieldUtil {
 
       
     }
-       async getMandatoryFieldCount() {
+      // async getMandatoryFieldCount() {}
+      async getMandatoryFieldCount() {
 
     const mandatoryLabels = this.page.locator(
         "//label[.//span[contains(@class,'text-danger')]]"
@@ -24,50 +26,54 @@ export class MandatoryFieldUtil {
 
     console.log("Mandatory Count :", count);
 
-    for(let i = 0; i < count; i++) {
+    for (let i = 0; i < count; i++) {
 
-        const field = mandatoryLabels.nth(i);
+        const label = mandatoryLabels.nth(i);
 
         const fieldName =
-            await field.textContent();
+            (await label.textContent())?.replace("*", "").trim();
 
-        console.log(`Field ${i + 1}: ${fieldName}`);
+        console.log("--------------------------------");
 
-        const row = field.locator(
-    'xpath=parent::div/parent::div'
-    );
+        console.log("Field :", fieldName);
 
-        console.log("Row Found");
+        // Get nearest row
+        const row = label.locator(
+            //"xpath=ancestor::div[contains(@class,'row')][1]"
+             "xpath=ancestor-or-self::div[contains(@class,'row')][1]"
+        );
 
-
+        // Find control container
         const controlContainer = row.locator(
-    "div.col-md-8"
-);
+            "xpath=.//div[contains(@class,'col-md-8') or contains(@class,'col-lg-8')]"
+        );
 
-const html = await field.evaluate(
-    el => el.parentElement?.outerHTML
-);
+        // Detect control type
+        const controlType =
+            await this.identifyControlType(controlContainer);
 
-console.log(html);
+        console.log("Control Type :", controlType);
+
     }
 }
        
 
-       async identifyControlType(control: Locator): Promise<string> {
+       
+async identifyControlType(control: Locator): Promise<string> {
 
-    if(await control.locator('p-multiselect').count() > 0) {
+    if (await control.locator('p-multiselect').count() > 0) {
         return 'MULTISELECT';
     }
 
-    if(await control.locator('p-dropdown').count() > 0) {
+    if (await control.locator('p-dropdown').count() > 0) {
         return 'DROPDOWN';
     }
 
-    if(await control.locator('input[type="checkbox"]').count() > 0) {
+    if (await control.locator('input[type="checkbox"]').count() > 0) {
         return 'CHECKBOX';
     }
 
-    if(await control.locator('input').count() > 0) {
+    if (await control.locator('input:not([readonly]), textarea').count() > 0) {
         return 'TEXTBOX';
     }
 

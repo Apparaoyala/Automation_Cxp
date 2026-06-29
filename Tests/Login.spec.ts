@@ -45,7 +45,7 @@ test('authenticate', async ({ page }) => {
 
     await customer.clickCustomer();
 
-    await page.pause();
+   // await page.pause();
 
     await customer.CustomerBtn();
 
