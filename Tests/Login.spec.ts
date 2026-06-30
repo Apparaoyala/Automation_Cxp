@@ -4,6 +4,7 @@ import { HomePage } from '../pages/HomePage';
 import { Customer } from '../pages/Customer';
 import { MandatoryFieldUtil } from '../Utilities/MandatoryFieldUtil';
 import { TestConfig } from '../Utilities/Test.Config';
+import { ExcelUtil } from '../Utilities/ExcelUtil';
 
 const config = new TestConfig();
 
@@ -45,11 +46,19 @@ test('authenticate', async ({ page }) => {
 
     await customer.clickCustomer();
 
-   // await page.pause();
-
+    //await page.pause();
+await page.waitForTimeout(3000);
     await customer.CustomerBtn();
+await page.waitForTimeout(3000);
+const excelData = ExcelUtil.readExcel(
+    './Utilities/TestData/Customer.xlsx',
+    'Sheet1'
+);
 
-    await mandatoryfieldutil.getMandatoryFieldCount();
-
-    // await mandatoryfieldutil.identifyControlType();
+console.log(excelData);
+console.log(excelData.get("Customer Name"));
+console.log(excelData.get("Street"));
+    await mandatoryfieldutil.getMandatoryFieldCount(excelData);
+//await page.pause();
+   //await mandatoryfieldutil.identifyControlType();
 });
