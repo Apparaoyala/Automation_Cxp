@@ -9,7 +9,7 @@ export class Customer {
 private readonly newCustomerButton: Locator;
 //private readonly row: Locator;
     
-    //private readonly HomeButton: Locator;
+    
 
     constructor(page: Page) {
 

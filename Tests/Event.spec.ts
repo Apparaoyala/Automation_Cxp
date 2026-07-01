@@ -15,6 +15,7 @@ test('authenticate', async ({ page }) => {
     const login = new Login(page);
     const homePage = new HomePage(page);
     const customer = new Customer(page);
+   ;
     const mandatoryfieldutil = new MandatoryFieldUtil(page);
 
     await page.goto(config.appUrl);
@@ -43,8 +44,6 @@ test('authenticate', async ({ page }) => {
     console.log("Sales New navigation complete");
 
     await customer.Menu1();
-//start customer creation
-/*
     await customer.clickCustomer();
 
     //await page.pause();
@@ -56,17 +55,5 @@ const excelData = ExcelUtil.readExcel(
     'Sheet1'
 );
 
-console.log(excelData);
-console.log(excelData.get("Customer Name"));
-console.log(excelData.get("Street"));
-//await page.pause();
-    await mandatoryfieldutil.getMandatoryFieldCount(excelData);
-
-    await page.waitForTimeout(30000);
-    //await mandatoryfieldutil.handleTextbox()
-//await page.pause();
-   //await mandatoryfieldutil.identifyControlType();
-
-
-   */
+   
 });
