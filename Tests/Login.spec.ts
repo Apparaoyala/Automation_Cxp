@@ -2,6 +2,8 @@ import { test, expect, Page } from '@playwright/test';
 import { Login } from '../pages/Login';
 import { HomePage } from '../pages/HomePage';
 import { Customer } from '../pages/Customer';
+import { Event } from '../pages/Event';
+
 import { MandatoryFieldUtil } from '../Utilities/MandatoryFieldUtil';
 import { TestConfig } from '../Utilities/Test.Config';
 import { ExcelUtil } from '../Utilities/ExcelUtil';
@@ -15,6 +17,7 @@ test('authenticate', async ({ page }) => {
     const login = new Login(page);
     const homePage = new HomePage(page);
     const customer = new Customer(page);
+    const event = new Event(page);
     const mandatoryfieldutil = new MandatoryFieldUtil(page);
 
     await page.goto(config.appUrl);
@@ -43,6 +46,21 @@ test('authenticate', async ({ page }) => {
     console.log("Sales New navigation complete");
 
     await customer.Menu1();
+//event creation 
+
+await event.CreateEvent();
+
+await page.waitForTimeout(3000);
+const excelData = ExcelUtil.readExcel(
+    './Utilities/TestData/Customer.xlsx',
+    'Sheet2'
+);
+
+
+await mandatoryfieldutil.getMandatoryFieldCount(excelData);
+
+await page.waitForTimeout(30000);
+
 //start customer creation
 /*
     await customer.clickCustomer();
