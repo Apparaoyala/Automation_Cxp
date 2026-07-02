@@ -45,7 +45,7 @@ else {
 
         this.page = page;
 
-      
+       console.log("******** MandatoryFieldsEventUtil Loaded ********");
     }
       
       async getMandatoryFieldCount( excelData: Map<string, any>) {
@@ -120,7 +120,8 @@ const value = excelData.get(fieldName);
             "xpath=.//div[contains(@class,'col-md-8') or contains(@class,'col-lg-8')]"
         );
 */
-//change for multiselect dropdown purpose
+
+
 /*
 const controlContainer = label.locator(
     "xpath=parent::div/following-sibling::div[1]"
@@ -186,9 +187,8 @@ switch (controlType) {
     await this.handleDropdown(controlContainer);
     break;
 
-    case "MULTISELECT":
-    await this.handleMultiSelect(controlContainer);
-    break;
+   
+    
 }
     }
 }
@@ -225,29 +225,38 @@ private async findControlContainer(label: Locator): Promise<Locator> {
 }
        
 async identifyControlType(control: Locator): Promise<string> {
-    console.log("====================================");
-console.log("Control HTML");
-console.log(
-    await control.first().evaluate(el => el.outerHTML)
-);
 
-    if (await control.locator('p-multiselect').count() > 0) {
-        return 'MULTISELECT';
-    }
+    console.log("================================");
+    console.log("Inside identifyControlType");
 
-    if (await control.locator('p-dropdown').count() > 0) {
-        return 'DROPDOWN';
+    console.log("Outer HTML:");
+    console.log(await control.evaluate(el => el.outerHTML));
+
+    console.log("Input Count:",
+        await control.locator("input").count());
+
+    console.log("Dropdown Count:",
+        await control.locator("p-dropdown").count());
+
+    console.log("Checkbox Count:",
+        await control.locator('input[type="checkbox"]').count());
+
+    console.log("Textarea Count:",
+        await control.locator("textarea").count());
+
+    if (await control.locator("p-dropdown").count() > 0) {
+        return "DROPDOWN";
     }
 
     if (await control.locator('input[type="checkbox"]').count() > 0) {
-        return 'CHECKBOX';
+        return "CHECKBOX";
     }
 
-    if (await control.locator('input:not([readonly]), textarea').count() > 0) {
-        return 'TEXTBOX';
+    if (await control.locator("input:not([readonly]), textarea").count() > 0) {
+        return "TEXTBOX";
     }
 
-    return 'UNKNOWN';
+    return "UNKNOWN";
 }/*
 async handleTextbox(controlContainer: Locator, value: string) {
 
@@ -271,11 +280,19 @@ async handleTextbox(controlContainer: Locator, value: string) {
 }
 
 async handleDropdown(controlContainer: Locator) {
+    console.log("==============================");
+console.log("Dropdown HTML:");
+console.log(await controlContainer.evaluate(el => el.outerHTML));
 
     const dropdown = controlContainer.locator("p-dropdown");
 
     await dropdown.click();
+await this.page.waitForTimeout(2000);
 
+console.log(
+    "Options Count:",
+    await this.page.locator("li.p-dropdown-item").count()
+);
     const options = this.page.locator("li.p-dropdown-item");
 
     const count = await options.count();
@@ -288,36 +305,7 @@ async handleDropdown(controlContainer: Locator) {
 
     console.log("Selected second dropdown option");
 }
-async handleMultiSelect(controlContainer: Locator) {
 
-    const multiSelect =
-        controlContainer.locator(".p-multiselect");
-
-    await multiSelect.click();
-    console.log("Clicked MultiSelect");
-
-    await this.page
-    .locator(".p-multiselect-panel")
-    .waitFor({
-        state: "visible",
-        timeout: 5000
-    });
-
-console.log("Popup Opened");
-
-    const options = this.page.locator(
-        ".p-multiselect-panel .p-multiselect-item"
-    );
-
-    console.log(
-        "Option Count:",
-        await options.count()
-    );
-
-    await options.nth(1).click();
-   await this.page.keyboard.press("Escape");
-
-}
     }
 
    
