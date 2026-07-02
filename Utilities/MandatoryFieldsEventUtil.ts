@@ -1,7 +1,7 @@
 import { Page, Locator } from '@playwright/test';
 
 
-export class MandatoryFieldUtil {
+export class MandatoryFieldsEventUtil {
 
     private readonly page: Page;
 
@@ -57,10 +57,44 @@ else {
     const count = await mandatoryLabels.count();
 
     console.log("Mandatory Count :", count);
+    //
+    console.log("\n========== MANDATORY FIELDS ==========");
+
+const mandatoryFieldNames: string[] = [];
+
+for (let i = 0; i < count; i++) {
+
+    const label = mandatoryLabels.nth(i);
+    console.log("1");
+console.log(
+    "Label HTML:",
+    await label.evaluate(el => el.outerHTML)
+);
+    const fieldName =
+        (await label.textContent())
+            ?.replace("*", "")
+            .trim() || "";
+
+    mandatoryFieldNames.push(fieldName);
+}
+
+mandatoryFieldNames.forEach((field, index) => {
+    console.log(`${index + 1}. ${field}`);
+});
+
+console.log("\nTotal Mandatory Fields :", mandatoryFieldNames.length);
+console.log("======================================\n");
+
+//
 
     for (let i = 0; i < count; i++) {
 
         const label = mandatoryLabels.nth(i);
+        console.log("2");
+        console.log(
+    "Label HTML:",
+    await label.evaluate(el => el.outerHTML)
+);
 const fieldName =
     (await label.textContent())?.replace("*", "").trim();
 
@@ -70,13 +104,10 @@ if (!fieldName) {
 // Find control
 const value = excelData.get(fieldName);
 
-console.log(fieldName);
-console.log(value);
+
 //30--06-2026
 
-      //  console.log("--------------------------------");
-
-       // console.log("Field :", fieldName);
+     /*
 
         // Get nearest row
         const row = label.locator(
@@ -88,10 +119,34 @@ console.log(value);
         const controlContainer = row.locator(
             "xpath=.//div[contains(@class,'col-md-8') or contains(@class,'col-lg-8')]"
         );
+*/
+//change for multiselect dropdown purpose
+/*
+const controlContainer = label.locator(
+    "xpath=parent::div/following-sibling::div[1]"
+);
+*/
+const controlContainer =
+    await this.findControlContainer(label);
+//
+
+
+
 
         // Detect control type
         const controlType =
             await this.identifyControlType(controlContainer);
+
+//103 to107 is newly added for debug
+// if (count === 1) {
+//     console.log("Control HTML:");
+//     console.log(await controlContainer.first().evaluate(el => el.outerHTML));
+// }
+
+
+
+
+
 
         //console.log("Control Type :", controlType);
 // if (controlType === "CHECKBOX" && value !== undefined) {
@@ -138,9 +193,43 @@ switch (controlType) {
     }
 }
        
+private async findControlContainer(label: Locator): Promise<Locator> {
 
+    const fieldName = await label.textContent();
+
+    console.log("Searching control for :", fieldName);
+
+    const parentDivContainer = label.locator(
+        "xpath=parent::div/following-sibling::div[1]"
+    );
+
+    console.log(
+        "Parent HTML:",
+        await parentDivContainer.evaluate(el => el.outerHTML)
+    );
+
+    if (await parentDivContainer.count() > 0) {
+        return parentDivContainer;
+    }
+
+    const siblingContainer = label.locator(
+        "xpath=following-sibling::div[1]"
+    );
+
+    console.log(
+        "Sibling HTML:",
+        await siblingContainer.evaluate(el => el.outerHTML)
+    );
+
+    return siblingContainer;
+}
        
 async identifyControlType(control: Locator): Promise<string> {
+    console.log("====================================");
+console.log("Control HTML");
+console.log(
+    await control.first().evaluate(el => el.outerHTML)
+);
 
     if (await control.locator('p-multiselect').count() > 0) {
         return 'MULTISELECT';
@@ -202,16 +291,22 @@ async handleDropdown(controlContainer: Locator) {
 async handleMultiSelect(controlContainer: Locator) {
 
     const multiSelect =
-        controlContainer.locator("p-multiselect");
+        controlContainer.locator(".p-multiselect");
 
     await multiSelect.click();
+    console.log("Clicked MultiSelect");
 
     await this.page
-        .locator("ul.p-multiselect-items")
-        .waitFor({ state: "visible" });
+    .locator(".p-multiselect-panel")
+    .waitFor({
+        state: "visible",
+        timeout: 5000
+    });
+
+console.log("Popup Opened");
 
     const options = this.page.locator(
-        "//ul[contains(@class,'p-multiselect-items')]//li"
+        ".p-multiselect-panel .p-multiselect-item"
     );
 
     console.log(
@@ -220,7 +315,7 @@ async handleMultiSelect(controlContainer: Locator) {
     );
 
     await options.nth(1).click();
-    await multiSelect.click();
+   await this.page.keyboard.press("Escape");
 
 }
     }

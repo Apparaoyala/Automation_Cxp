@@ -10,16 +10,15 @@ export class ExcelUtil {
 
         const jsonData = XLSX.utils.sheet_to_json<any>(worksheet);
 
-        console.log("========== JSON DATA ==========");
-        console.log(jsonData);
+    
 
         const dataMap = new Map<string, string>();
 
         jsonData.forEach((row, index) => {
 
-            console.log("Row :", index);
+          //  console.log("Row :", index);
 
-            console.log(row);
+          //  console.log(row);
 
             dataMap.set(row.FieldName, row.Value);
         });

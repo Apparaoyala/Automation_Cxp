@@ -3,7 +3,7 @@ import { Login } from '../pages/Login';
 import { HomePage } from '../pages/HomePage';
 import { Customer } from '../pages/Customer';
 import { Event } from '../pages/Event';
-
+import { MandatoryFieldsEventUtil } from '../Utilities/MandatoryFieldsEventUtil';
 import { MandatoryFieldUtil } from '../Utilities/MandatoryFieldUtil';
 import { TestConfig } from '../Utilities/Test.Config';
 import { ExcelUtil } from '../Utilities/ExcelUtil';
@@ -84,7 +84,7 @@ console.log(excelData.get("Street"));
     //await mandatoryfieldutil.handleTextbox()
 //await page.pause();
    //await mandatoryfieldutil.identifyControlType();
+*/
 
-
-   */
+  
 });
