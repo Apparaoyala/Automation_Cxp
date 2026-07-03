@@ -2,7 +2,9 @@ import { test, expect, Page } from '@playwright/test';
 import { Login } from '../pages/Login';
 import { HomePage } from '../pages/HomePage';
 import { Customer } from '../pages/Customer';
-import { MandatoryFieldUtil } from '../Utilities/MandatoryFieldUtil';
+import { Event } from '../pages/Event';
+import { MandatoryFieldsEventUtil } from '../Utilities/MandatoryFieldsEventUtil';
+//import { MandatoryFieldUtil } from '../Utilities/MandatoryFieldUtil';
 import { TestConfig } from '../Utilities/Test.Config';
 import { ExcelUtil } from '../Utilities/ExcelUtil';
 
@@ -15,8 +17,9 @@ test('authenticate', async ({ page }) => {
     const login = new Login(page);
     const homePage = new HomePage(page);
     const customer = new Customer(page);
-   ;
-    const mandatoryfieldutil = new MandatoryFieldUtil(page);
+    const event = new Event(page);
+    //const mandatoryfieldutil = new MandatoryFieldUtil(page);
+    const mandatoryfieldseventutil = new MandatoryFieldsEventUtil(page);
 
     await page.goto(config.appUrl);
 
@@ -42,8 +45,52 @@ test('authenticate', async ({ page }) => {
     await homePage.navigateToModule("Sales New");
 
     console.log("Sales New navigation complete");
+    
 
     await customer.Menu1();
+//event creation --------------------------------------
+
+await event.CreateEvent();
+
+//await event.CreateEvent();
+
+await page.waitForTimeout(3000);
+
+// ===== DEBUG START =====
+console.log(
+    "Total Labels:",
+    await page.locator("//label").count()
+);
+
+console.log(
+    "Mandatory Spans:",
+    await page.locator("//span[contains(@class,'text-danger')]").count()
+);
+
+const labels = page.locator("//label");
+
+const totalLabels = await labels.count();
+
+for (let i = 0; i < totalLabels; i++) {
+    console.log(
+        `${i + 1}.`,
+        await labels.nth(i).textContent()
+    );
+}
+// ===== DEBUG END =====
+
+const excelData = ExcelUtil.readExcel(
+    './Utilities/TestData/Customer.xlsx',
+    'Sheet2'
+);
+
+await mandatoryfieldseventutil.getMandatoryFieldCount(excelData);
+
+await page.waitForTimeout(30000);
+await page.waitForTimeout(600000);
+
+//start customer creation---------------------------------------
+/*
     await customer.clickCustomer();
 
     //await page.pause();
@@ -55,5 +102,17 @@ const excelData = ExcelUtil.readExcel(
     'Sheet1'
 );
 
-   
+console.log(excelData);
+console.log(excelData.get("Customer Name"));
+console.log(excelData.get("Street"));
+//await page.pause();
+    await mandatoryfieldutil.getMandatoryFieldCount(excelData);
+
+    await page.waitForTimeout(30000);
+    //await mandatoryfieldutil.handleTextbox()
+//await page.pause();
+   //await mandatoryfieldutil.identifyControlType();
+
+*/
+  
 });

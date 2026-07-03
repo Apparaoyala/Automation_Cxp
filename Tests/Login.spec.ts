@@ -48,6 +48,35 @@ test('authenticate', async ({ page }) => {
     
 
     await customer.Menu1();
+
+//start customer creation---------------------------------------
+/*
+    await customer.clickCustomer();
+
+    //await page.pause();
+await page.waitForTimeout(3000);
+    await customer.CustomerBtn();
+await page.waitForTimeout(3000);
+const excelData = ExcelUtil.readExcel(
+    './Utilities/TestData/Customer.xlsx',
+    'Sheet1'
+);
+
+console.log(excelData);
+console.log(excelData.get("Customer Name"));
+console.log(excelData.get("Street"));
+//await page.pause();
+    await mandatoryfieldutil.getMandatoryFieldCount(excelData);
+
+    await page.waitForTimeout(30000);
+    //await mandatoryfieldutil.handleTextbox()
+//await page.pause();
+   //await mandatoryfieldutil.identifyControlType();
+
+*/
+
+
+
 //event creation --------------------------------------
 
 await event.CreateEvent();
@@ -89,30 +118,5 @@ await mandatoryfieldseventutil.getMandatoryFieldCount(excelData);
 await page.waitForTimeout(30000);
 await page.waitForTimeout(600000);
 
-//start customer creation---------------------------------------
-/*
-    await customer.clickCustomer();
-
-    //await page.pause();
-await page.waitForTimeout(3000);
-    await customer.CustomerBtn();
-await page.waitForTimeout(3000);
-const excelData = ExcelUtil.readExcel(
-    './Utilities/TestData/Customer.xlsx',
-    'Sheet1'
-);
-
-console.log(excelData);
-console.log(excelData.get("Customer Name"));
-console.log(excelData.get("Street"));
-//await page.pause();
-    await mandatoryfieldutil.getMandatoryFieldCount(excelData);
-
-    await page.waitForTimeout(30000);
-    //await mandatoryfieldutil.handleTextbox()
-//await page.pause();
-   //await mandatoryfieldutil.identifyControlType();
-
-*/
   
 });
