@@ -83,7 +83,24 @@ await event.CreateEvent();
 
 //await event.CreateEvent();
 
-await page.waitForTimeout(3000);
+
+await page.locator("ngx-spinner .overlay").waitFor({
+    state: "hidden",
+    timeout: 60000
+});
+
+
+console.log(
+    "Labels:",
+    await page.locator("label").count()
+);
+
+console.log(
+    "Mandatory:",
+    await page.locator("label span.text-danger").count()
+);
+await page.screenshot({ path: "createevent.png", fullPage: true });
+
 
 // ===== DEBUG START =====
 console.log(
@@ -91,20 +108,20 @@ console.log(
     await page.locator("//label").count()
 );
 
-console.log(
-    "Mandatory Spans:",
-    await page.locator("//span[contains(@class,'text-danger')]").count()
-);
+// console.log(
+//     "Mandatory Spans:",
+//     await page.locator("//span[contains(@class,'text-danger')]").count()
+// );
 
 const labels = page.locator("//label");
 
 const totalLabels = await labels.count();
 
 for (let i = 0; i < totalLabels; i++) {
-    console.log(
-        `${i + 1}.`,
-        await labels.nth(i).textContent()
-    );
+    // console.log(
+    //     `${i + 1}.`,
+    //     await labels.nth(i).textContent()
+    // );
 }
 // ===== DEBUG END =====
 
@@ -113,6 +130,18 @@ const excelData = ExcelUtil.readExcel(
     'Sheet2'
 );
 
+console.log("Labels Before Waiting:",
+    await page.locator("label").count());
+
+await page.waitForTimeout(5000);
+
+console.log("Labels After 5 Seconds:",
+    await page.locator("label").count());
+
+    await page.locator("ngx-spinner .overlay").waitFor({
+    state: "hidden",
+    timeout: 180000
+});
 await mandatoryfieldseventutil.getMandatoryFieldCount(excelData);
 
 await page.waitForTimeout(30000);

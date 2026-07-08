@@ -49,10 +49,12 @@ else {
     }
       
       async getMandatoryFieldCount( excelData: Map<string, any>) {
+        
 
     const mandatoryLabels = this.page.locator(
         "//label[.//span[contains(@class,'text-danger')]]"
     );
+    
 
     const count = await mandatoryLabels.count();
 
@@ -65,11 +67,7 @@ const mandatoryFieldNames: string[] = [];
 for (let i = 0; i < count; i++) {
 
     const label = mandatoryLabels.nth(i);
-    console.log("1");
-console.log(
-    "Label HTML:",
-    await label.evaluate(el => el.outerHTML)
-);
+
     const fieldName =
         (await label.textContent())
             ?.replace("*", "")
@@ -83,18 +81,14 @@ mandatoryFieldNames.forEach((field, index) => {
 });
 
 console.log("\nTotal Mandatory Fields :", mandatoryFieldNames.length);
-console.log("======================================\n");
+
 
 //
 
     for (let i = 0; i < count; i++) {
 
         const label = mandatoryLabels.nth(i);
-        console.log("2");
-        console.log(
-    "Label HTML:",
-    await label.evaluate(el => el.outerHTML)
-);
+ 
 const fieldName =
     (await label.textContent())?.replace("*", "").trim();
 
@@ -104,7 +98,9 @@ if (!fieldName) {
 // Find control
 const value = excelData.get(fieldName);
 
-
+console.log(
+    `Field = ${fieldName}, Excel Value = ${value}`
+);
 //30--06-2026
 
      /*
@@ -138,35 +134,12 @@ const controlContainer =
         const controlType =
             await this.identifyControlType(controlContainer);
 
-//103 to107 is newly added for debug
-// if (count === 1) {
-//     console.log("Control HTML:");
-//     console.log(await controlContainer.first().evaluate(el => el.outerHTML));
-// }
 
-
-
-
-
-
-        //console.log("Control Type :", controlType);
-// if (controlType === "CHECKBOX" && value !== undefined) {
-
-//     await this.handleCheckbox(
-//         controlContainer,
-//         String(value)
-//     );
-
-// }
 if (value === undefined) {
     continue;
 }
-console.log(
-    "Field:",
-    fieldName,
-    "Control Type:",
-    controlType
-);
+
+
 switch (controlType) {
 
     case "TEXTBOX":
@@ -184,7 +157,10 @@ switch (controlType) {
         break;
 
        case "DROPDOWN":
-    await this.handleDropdown(controlContainer);
+    await this.handleDropdown(
+        controlContainer,
+        String(value)
+    );
     break;
 
    
@@ -203,10 +179,7 @@ private async findControlContainer(label: Locator): Promise<Locator> {
         "xpath=parent::div/following-sibling::div[1]"
     );
 
-    console.log(
-        "Parent HTML:",
-        await parentDivContainer.evaluate(el => el.outerHTML)
-    );
+  
 
     if (await parentDivContainer.count() > 0) {
         return parentDivContainer;
@@ -216,33 +189,13 @@ private async findControlContainer(label: Locator): Promise<Locator> {
         "xpath=following-sibling::div[1]"
     );
 
-    console.log(
-        "Sibling HTML:",
-        await siblingContainer.evaluate(el => el.outerHTML)
-    );
 
     return siblingContainer;
 }
        
 async identifyControlType(control: Locator): Promise<string> {
 
-    console.log("================================");
-    console.log("Inside identifyControlType");
-
-    console.log("Outer HTML:");
-    console.log(await control.evaluate(el => el.outerHTML));
-
-    console.log("Input Count:",
-        await control.locator("input").count());
-
-    console.log("Dropdown Count:",
-        await control.locator("p-dropdown").count());
-
-    console.log("Checkbox Count:",
-        await control.locator('input[type="checkbox"]').count());
-
-    console.log("Textarea Count:",
-        await control.locator("textarea").count());
+   
 
     if (await control.locator("p-dropdown").count() > 0) {
         return "DROPDOWN";
@@ -276,34 +229,33 @@ async handleTextbox(controlContainer: Locator, value: string) {
 
     await textbox.fill(value);
 
-    //console.log("Value entered:", value);
+
+    
 }
 
-async handleDropdown(controlContainer: Locator) {
-    console.log("==============================");
-console.log("Dropdown HTML:");
-console.log(await controlContainer.evaluate(el => el.outerHTML));
-
+async handleDropdown(controlContainer: Locator,value: string) {
+ 
+console.log("Dropdown Value :", value);
+    
     const dropdown = controlContainer.locator("p-dropdown");
 
     await dropdown.click();
 await this.page.waitForTimeout(2000);
 
-console.log(
-    "Options Count:",
-    await this.page.locator("li.p-dropdown-item").count()
-);
+
+
     const options = this.page.locator("li.p-dropdown-item");
 
     const count = await options.count();
 
     if (count < 2) {
         throw new Error("Dropdown has less than 2 options.");
+         await this.page.pause();   // Pause here
+    return;
     }
 
     await options.nth(1).click();   // Index 1 = second option
 
-    console.log("Selected second dropdown option");
 }
 
     }
