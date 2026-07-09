@@ -144,8 +144,7 @@ console.log("Labels After 5 Seconds:",
 });
 await mandatoryfieldseventutil.getMandatoryFieldCount(excelData);
 
-await page.waitForTimeout(30000);
-await page.waitForTimeout(600000);
+await page.pause();
 
   
 });

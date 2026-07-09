@@ -231,8 +231,7 @@ async handleTextbox(controlContainer: Locator, value: string) {
 
 
     
-}
-
+}/*
 async handleDropdown(controlContainer: Locator,value: string) {
  
 console.log("Dropdown Value :", value);
@@ -248,16 +247,62 @@ await this.page.waitForTimeout(2000);
 
     const count = await options.count();
 
-    if (count < 2) {
-        throw new Error("Dropdown has less than 2 options.");
-         await this.page.pause();   // Pause here
-    return;
-    }
+    // if (count < 2) {
+    //     throw new Error("Dropdown has less than 2 options.");
+    //      await this.page.pause();   // Pause here
+    // return;
+    // }
 
     await options.nth(1).click();   // Index 1 = second option
 
 }
 
+*/
+async handleDropdown(controlContainer: Locator, value: string) {
+
+    console.log("Expected Excel Value:", value);
+
+    const dropdown = controlContainer.locator("p-dropdown");
+
+    await dropdown.click();
+
+    await this.page.waitForTimeout(1000);
+
+    const options = this.page.locator("li.p-dropdown-item");
+
+    const count = await options.count();
+
+    console.log("Option Count:", count);
+
+    let optionFound = false;
+
+    for (let i = 0; i < count; i++) {
+
+        const text = (await options.nth(i).innerText()).trim();
+
+        console.log("Option:", text);
+
+        if (text === value.trim()) {
+
+            console.log("Selecting:", text);
+
+            await options.nth(i).click();
+
+            optionFound = true;
+
+            break;
+        }
+    }
+
+    if (!optionFound) {
+
+        console.log(`Option "${value}" not found.`);
+
+        await this.page.keyboard.press("Escape");
+
+    }
+
+}
     }
 
    
