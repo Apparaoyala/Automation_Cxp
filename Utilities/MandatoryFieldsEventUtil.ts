@@ -98,31 +98,10 @@ if (!fieldName) {
 // Find control
 const value = excelData.get(fieldName);
 
-console.log(
-    `Field = ${fieldName}, Excel Value = ${value}`
-);
-//30--06-2026
+// console.log(
+//     `Field = ${fieldName}, Excel Value = ${value}`
+// );
 
-     /*
-
-        // Get nearest row
-        const row = label.locator(
-            //"xpath=ancestor::div[contains(@class,'row')][1]"
-             "xpath=ancestor-or-self::div[contains(@class,'row')][1]"
-        );
-
-// Find control container
-        const controlContainer = row.locator(
-            "xpath=.//div[contains(@class,'col-md-8') or contains(@class,'col-lg-8')]"
-        );
-*/
-
-
-/*
-const controlContainer = label.locator(
-    "xpath=parent::div/following-sibling::div[1]"
-);
-*/
 const controlContainer =
     await this.findControlContainer(label);
 //
@@ -163,7 +142,14 @@ switch (controlType) {
     );
     break;
 
-   
+   case "DATETIME":
+
+    await this.handleDateTime(
+        controlContainer,
+        String(value)
+    );
+
+    break;
     
 }
     }
@@ -173,7 +159,7 @@ private async findControlContainer(label: Locator): Promise<Locator> {
 
     const fieldName = await label.textContent();
 
-    console.log("Searching control for :", fieldName);
+    //console.log("Searching control for :", fieldName);
 
     const parentDivContainer = label.locator(
         "xpath=parent::div/following-sibling::div[1]"
@@ -197,27 +183,25 @@ async identifyControlType(control: Locator): Promise<string> {
 
    
 
-    if (await control.locator("p-dropdown").count() > 0) {
-        return "DROPDOWN";
-    }
+    if (
+    await control.locator("p-dropdown").count() > 0 ||
+    await control.locator("input.p-dropdown-label").count() > 0
+) {
+    return "DROPDOWN";
+}
 
     if (await control.locator('input[type="checkbox"]').count() > 0) {
         return "CHECKBOX";
     }
-
+    if (await control.locator("input[bsdatepicker]").count() > 0) {
+    return "DATETIME";
+    }
     if (await control.locator("input:not([readonly]), textarea").count() > 0) {
         return "TEXTBOX";
     }
 
     return "UNKNOWN";
-}/*
-async handleTextbox(controlContainer: Locator, value: string) {
-
-    const textbox = controlContainer.locator('input');
-
-    await textbox.fill(value);
-
-}*/
+}
 
 async handleTextbox(controlContainer: Locator, value: string) {
 
@@ -226,53 +210,143 @@ async handleTextbox(controlContainer: Locator, value: string) {
     const textbox = controlContainer.locator(
         'input:not([readonly]), textarea'
     );
+//already data fill to the field 
+ const currentValue = (await textbox.inputValue()).trim();
 
+    if (currentValue !== "") {
+
+        console.log("Textbox already has value:", currentValue);
+
+        return;
+    }
+   //already data fill to the field just skip the field
     await textbox.fill(value);
 
 
     
-}/*
-async handleDropdown(controlContainer: Locator,value: string) {
- 
-console.log("Dropdown Value :", value);
-    
-    const dropdown = controlContainer.locator("p-dropdown");
+}
+async handleDateTime(controlContainer: Locator, value: string) {
 
-    await dropdown.click();
-await this.page.waitForTimeout(2000);
+    const parts = value.trim().split(/\s+/);
 
+    const date = parts[0];
 
+    const time = parts.slice(1).join(" ");
 
-    const options = this.page.locator("li.p-dropdown-item");
+    // Open calendar
+    await controlContainer
+        .locator("input[bsdatepicker]")
+        .click();
 
-    const count = await options.count();
+    // Pick date
+    await this.selectDate(date);
 
-    // if (count < 2) {
-    //     throw new Error("Dropdown has less than 2 options.");
-    //      await this.page.pause();   // Pause here
-    // return;
-    // }
+    // Open time picker
+    await controlContainer
+        .locator("span.schedule-icon")
+        .click();
 
-    await options.nth(1).click();   // Index 1 = second option
+    // Pick time
+    await this.selectTime(time);
+}
+async selectDate(date: string) {
+
+    const [, day] = date.split("/");
+
+    await this.page
+        .locator("bs-datepicker-container td span", {
+            hasText: String(Number(day))
+        })
+        .first()
+        .click();
 
 }
+async selectTime(time: string) {
 
-*/
+   time = time.trim();
+
+// remove extra colon before AM/PM if present
+time = time.replace(":", ":",); // (we'll normalize below)
+
+// Convert "10:15: PM" -> "10:15 PM"
+time = time.replace(/:(\s*AM|\s*PM)$/i, " $1");
+
+const match = time.match(/(\d{1,2}:\d{2})\s*(AM|PM)/i);
+
+if (!match) {
+    throw new Error(`Invalid time format: ${time}`);
+}
+
+const clockTime = match[1];
+const period = match[2].toUpperCase();
+
+
+
+    //console.log("Selecting:", clockTime, period);
+
+    // Wait for popup
+    await this.page.locator(".p-overlaypanel-content")
+        .waitFor({ state: "visible" });
+
+    // Select AM / PM
+   await this.page
+    .locator(".p-overlaypanel-content label")
+    .getByText(period, { exact: true })
+    .click();
+
+    // Debug
+    const count = await this.page.locator("span.time-hover").count();
+    //console.log("Time Count:", count);
+
+    for (let i = 0; i < count; i++) {
+
+        const option = this.page.locator("span.time-hover").nth(i);
+        const text = (await option.innerText()).trim();
+
+       // console.log(text);
+
+        if (text === clockTime) {
+
+            await option.scrollIntoViewIfNeeded();
+
+            await option.click({ force: true });
+
+            console.log("Time Selected:", text);
+
+            break;
+        }
+    }
+}
+
 async handleDropdown(controlContainer: Locator, value: string) {
 
-    console.log("Expected Excel Value:", value);
+   // console.log("Expected Excel Value:", value);
 
     const dropdown = controlContainer.locator("p-dropdown");
 
-    await dropdown.click();
+    await controlContainer
+    .locator(".p-dropdown-trigger")
+    .click();
 
-    await this.page.waitForTimeout(1000);
+    await this.page
+    .locator("li.p-dropdown-item")
+    .first()
+    .waitFor({
+        state: "visible",
+        timeout: 15000
+    });
 
-    const options = this.page.locator("li.p-dropdown-item");
+   // const options = this.page.locator("div.p-dropdown-panel:visible li.p-dropdown-item");
+   const options = this.page.locator("li.p-dropdown-item");
+
+await options
+    .filter({ hasText: value })
+    .first()
+    .click();
 
     const count = await options.count();
 
-    console.log("Option Count:", count);
+   // console.log("Option Count:", count);
 
     let optionFound = false;
 
@@ -280,11 +354,15 @@ async handleDropdown(controlContainer: Locator, value: string) {
 
         const text = (await options.nth(i).innerText()).trim();
 
-        console.log("Option:", text);
+       // console.log("Option:", text);
 
-        if (text === value.trim()) {
+        if (
+    text.trim().toLowerCase() ===
+    value.trim().toLowerCase()
+) {
 
             console.log("Selecting:", text);
+            await options.nth(i).scrollIntoViewIfNeeded();
 
             await options.nth(i).click();
 

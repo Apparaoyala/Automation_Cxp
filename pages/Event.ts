@@ -19,6 +19,7 @@ export class Event {
 async CreateEvent() {
 
      await this.Event.click();
+     
     }
 
     
