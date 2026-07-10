@@ -6,20 +6,24 @@ export class Event {
     private readonly Event: Locator;
     
    
-//private readonly CreateEventBtn: Locator;
+private readonly CreateEventBtn: Locator;
 
     constructor(page: Page) {
 
         this.page = page;
 
         this.Event = page.locator('span').filter({ hasText: 'Create Event' }).first()
-       
+       this.CreateEventBtn= page.getByRole('button', { name: 'Create' })
        }
 
 async CreateEvent() {
 
      await this.Event.click();
      
+    }
+
+    async createbtn(){
+        await this.CreateEventBtn.click();
     }
 
     

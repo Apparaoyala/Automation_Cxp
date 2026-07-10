@@ -4,6 +4,7 @@ import { HomePage } from '../pages/HomePage';
 import { Customer } from '../pages/Customer';
 import { Event } from '../pages/Event';
 import { MandatoryFieldsEventUtil } from '../Utilities/MandatoryFieldsEventUtil';
+import { commonActions } from '../Utilities/CommonActions';
 //import { MandatoryFieldUtil } from '../Utilities/MandatoryFieldUtil';
 import { TestConfig } from '../Utilities/Test.Config';
 import { ExcelUtil } from '../Utilities/ExcelUtil';
@@ -18,6 +19,7 @@ test('authenticate', async ({ page }) => {
     const homePage = new HomePage(page);
     const customer = new Customer(page);
     const event = new Event(page);
+    const CommonActions = new commonActions(page);
     //const mandatoryfieldutil = new MandatoryFieldUtil(page);
     const mandatoryfieldseventutil = new MandatoryFieldsEventUtil(page);
 
@@ -45,8 +47,8 @@ test('authenticate', async ({ page }) => {
     await homePage.navigateToModule("Sales New");
 
     console.log("Sales New navigation complete");
-    
-
+    //await page.pause();
+await CommonActions.closeInventoryPopup();
     await customer.Menu1();
 
 //start customer creation---------------------------------------
@@ -81,7 +83,6 @@ console.log(excelData.get("Street"));
 
 await event.CreateEvent();
 
-//await event.CreateEvent();
 
 
 await page.locator("ngx-spinner .overlay").waitFor({
@@ -102,28 +103,7 @@ console.log(
 await page.screenshot({ path: "createevent.png", fullPage: true });
 
 
-// // ===== DEBUG START =====
-// console.log(
-//     "Total Labels:",
-//     await page.locator("//label").count()
-// );
 
-// // console.log(
-// //     "Mandatory Spans:",
-// //     await page.locator("//span[contains(@class,'text-danger')]").count()
-// // );
-
-// const labels = page.locator("//label");
-
-// const totalLabels = await labels.count();
-
-// for (let i = 0; i < totalLabels; i++) {
-//     // console.log(
-//     //     `${i + 1}.`,
-//     //     await labels.nth(i).textContent()
-//     // );
-// }
-// ===== DEBUG END =====
 
 const excelData = ExcelUtil.readExcel(
     './Utilities/TestData/Customer.xlsx',
@@ -145,7 +125,8 @@ console.log("Labels After 5 Seconds:",
 await page.waitForTimeout(2000);
 await mandatoryfieldseventutil.getMandatoryFieldCount(excelData);
 
-await page.pause();
-
+//await page.pause();
+await event.createbtn();
   
+await page.pause();
 });
