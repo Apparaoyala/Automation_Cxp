@@ -14,26 +14,62 @@ export class commonActions{
 
 async closeInventoryPopup() {
 
-    const popup = this.page.locator("div.modal-content");
+    // Wait for spinner to finish (if present)
+    await this.page.locator("ngx-spinner")
+        .waitFor({ state: "hidden", timeout: 30000 })
+        .catch(() => {});
 
-    if (!(await popup.isVisible().catch(() => false))) {
+    const popup = this.page.locator("modal-container[role='dialog']");
+
+    try {
+
+        // Give the popup a chance to appear
+        await popup.waitFor({
+            state: "visible",
+            timeout: 5000
+        });
+
+        console.log("Inventory popup displayed.");
+
+        const closeIcon = popup.locator(".p-sidebar-close-icon");
+
+        await closeIcon.click();
+
+        await popup.waitFor({
+            state: "hidden",
+            timeout: 10000
+        });
+
+        console.log("Inventory popup closed.");
+
+    } catch {
+
         console.log("Inventory popup not displayed.");
-        return;
+
     }
+}
+async debugPopup() {
 
-    console.log("Inventory popup displayed.");
+    console.log("===== POPUP DEBUG =====");
 
-    const closeButton = popup.locator("button:has-text('Close')");
+    console.log(
+        "modal-container:",
+        await this.page.locator("modal-container").count()
+    );
 
-    await closeButton.waitFor({ state: "visible" });
+    console.log(
+        ".modal-content:",
+        await this.page.locator(".modal-content").count()
+    );
 
-    await closeButton.click();
+    console.log(
+        "role=dialog:",
+        await this.page.locator("[role='dialog']").count()
+    );
 
-    console.log("Inventory popup closed.");
-
-    // Wait until popup disappears
-    await popup.waitFor({ state: "hidden" });
-
-    console.log("Popup completely disappeared.");
+    console.log(
+        "body HTML length:",
+        (await this.page.locator("body").innerHTML()).length
+    );
 }
 }

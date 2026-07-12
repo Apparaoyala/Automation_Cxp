@@ -46,7 +46,10 @@ test('authenticate', async ({ page }) => {
 
     await homePage.navigateToModule("Sales New");
 
+
     console.log("Sales New navigation complete");
+
+    await CommonActions.debugPopup();
     //await page.pause();
 await CommonActions.closeInventoryPopup();
     await customer.Menu1();
