@@ -21,7 +21,7 @@ export class HomePage {
 
         await this.HomeButton.click();
     }
-
+/*
     async navigateToModule(moduleName: string) {
 
     const moduleLink = this.page
@@ -34,5 +34,32 @@ export class HomePage {
     });
 
     await moduleLink.click();
+}
+    */
+   async navigateToModule(moduleName: string) {
+
+    const moduleLink = this.page
+        .frameLocator('[name="right"]')
+        .getByRole('link', { name: moduleName });
+
+    await moduleLink.waitFor({
+        state: "visible",
+        timeout: 180000
+    });
+
+    await moduleLink.click();
+
+    // Wait until all loading spinners disappear
+    await this.page.locator("ngx-spinner")
+        .waitFor({
+            state: "hidden",
+            timeout: 60000
+        })
+        .catch(() => {});
+
+    // Small stabilization delay for Angular rendering
+    await this.page.waitForLoadState("networkidle");
+
+    console.log(`${moduleName} page loaded.`);
 }
 }

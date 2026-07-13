@@ -13,7 +13,7 @@ export class commonActions{
 
 
 async closeInventoryPopup() {
-
+    
     // Wait for spinner to finish (if present)
     await this.page.locator("ngx-spinner")
         .waitFor({ state: "hidden", timeout: 30000 })
@@ -48,28 +48,5 @@ async closeInventoryPopup() {
 
     }
 }
-async debugPopup() {
 
-    console.log("===== POPUP DEBUG =====");
-
-    console.log(
-        "modal-container:",
-        await this.page.locator("modal-container").count()
-    );
-
-    console.log(
-        ".modal-content:",
-        await this.page.locator(".modal-content").count()
-    );
-
-    console.log(
-        "role=dialog:",
-        await this.page.locator("[role='dialog']").count()
-    );
-
-    console.log(
-        "body HTML length:",
-        (await this.page.locator("body").innerHTML()).length
-    );
-}
 }
