@@ -1,61 +1,70 @@
 import { Page, Locator } from '@playwright/test';
-
+ 
 export class Customer {
-
+ 
     private readonly page: Page;
     private readonly Customer: Locator;
+    private readonly CustomerSubMenu: Locator;
     private readonly Menu: Locator;
     private readonly customerMenu: Locator;
 private readonly newCustomerButton: Locator;
-//private readonly row: Locator;
-    
-    
-
+private readonly CreateCusBtn: Locator;
+   
+   
+ 
     constructor(page: Page) {
-
+ 
         this.page = page;
-
+ 
         this.Customer = page.locator('span').filter({ hasText: 'Customer' }).first()
         this.Menu =page.getByText('menu', { exact: true }).first();
-       
+       this.CreateCusBtn= page.getByRole('button', { name: 'Create' })
        // this.HomeButton =page.frameLocator('[name="header"]').locator("img[title='Home']");
-
+ 
        this.customerMenu = page.locator(
         //'a[href="#/sales-sub/customer-listing"]'
        // span[normalize-space()='Customer/Potential Customer']
        // page.locator('a[href="#/sales/customerListing"]')
        "//div[@id = 'sidebarMain']//span[text()='Customer' or text()='Customer/Potential Customer']"
+   
+   
     );
+    this.CustomerSubMenu = page.locator("a[href='#/sales/customerListing']");
 this. newCustomerButton =
     page.getByRole('button', { name: 'New Customer' });
     }
-
+ 
     async Menu1() {
-
+ 
     await this.Menu.waitFor({
         state: 'visible',
         timeout: 180000
     });
-
+ 
     await this.Menu.click();
 }
-
-//    async home() {
-//    // await this.HomeButton.waitFor({ state: 'visible', timeout: 60000 });
-//    await this.page.locator('.spinner').waitFor({
-//     state: 'hidden'
-// });
-//     await this.HomeButton.click();
-// }
-
+/*
+   async home() {
+   // await this.HomeButton.waitFor({ state: 'visible', timeout: 60000 });
+   await this.page.locator('.spinner').waitFor({
+    state: 'hidden'
+});
+    await this.HomeButton.click();
+}
+*/
 async clickCustomer() {
-
+ 
     await this.customerMenu.waitFor({
         state: 'visible',
         timeout: 180000
     });
-
+ 
     await this.customerMenu.click();
+    await this.CustomerSubMenu.waitFor({
+    state: "visible"
+});
+ 
+await this.CustomerSubMenu.click();
 }
 async CustomerBtn(){
      await this.newCustomerButton.waitFor({
@@ -63,29 +72,37 @@ async CustomerBtn(){
         timeout: 180000
     });
 await this.newCustomerButton.click();
-
 }
+ 
+async createCusBtn(){
+       await this.CreateCusBtn.click();
+}
+ 
+ 
+ 
+ 
 /*
 async getMandatoryFieldCount() {
-
+ 
     const mandatoryLabels = this.page.locator(
         "//label[.//span[contains(@class,'text-danger')]]"
     );
-
+ 
     const count = await mandatoryLabels.count();
-    
-    
-
+   
+   
+ 
     console.log("Mandatory Count :", count);
-
+ 
     for(let i = 0; i < count; i++) {
-
+ 
         const fieldName = await mandatoryLabels
             .nth(i)
             .textContent();
-
+ 
         console.log(`Field ${i + 1}: ${fieldName}`);
     }
 }*/
-
+ 
 }
+ 

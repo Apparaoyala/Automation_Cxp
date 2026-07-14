@@ -2,6 +2,7 @@ import { test, expect, Page } from '@playwright/test';
 import { Login } from '../pages/Login';
 import { HomePage } from '../pages/HomePage';
 import { Customer } from '../pages/Customer';
+import { commonActions } from '../Utilities/CommonActions';
 import { MandatoryFieldUtil } from '../Utilities/MandatoryFieldUtil';
 import { TestConfig } from '../Utilities/Test.Config';
 import { ExcelUtil } from '../Utilities/ExcelUtil';
@@ -16,7 +17,7 @@ test('authenticate', async ({ page }) => {
     const homePage = new HomePage(page);
     const customer = new Customer(page);
     const mandatoryfieldutil = new MandatoryFieldUtil(page);
-
+const CommonActions = new commonActions(page);
     await page.goto(config.appUrl);
 
     await login.login(
@@ -42,11 +43,13 @@ test('authenticate', async ({ page }) => {
 
     console.log("Sales New navigation complete");
 
+    await CommonActions.closeInventoryPopup();
+     await page.pause();
     await customer.Menu1();
 
     await customer.clickCustomer();
 
-    //await page.pause();
+   await page.pause();
 await page.waitForTimeout(3000);
     await customer.CustomerBtn();
 await page.waitForTimeout(3000);

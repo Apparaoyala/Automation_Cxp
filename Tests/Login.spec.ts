@@ -130,6 +130,6 @@ await mandatoryfieldseventutil.getMandatoryFieldCount(excelData);
 
 //await page.pause();
 await event.createbtn();
-  
+  await CommonActions.closeInventoryPopup();
 await page.pause();
 });
