@@ -339,10 +339,10 @@ async handleDropdown(controlContainer: Locator, value: string) {
    // const options = this.page.locator("div.p-dropdown-panel:visible li.p-dropdown-item");
    const options = this.page.locator("li.p-dropdown-item");
 
-await options
-    .filter({ hasText: value })
-    .first()
-    .click();
+// await options
+//     .filter({ hasText: value })
+//     .first()
+//     .click();
 
     const count = await options.count();
 
@@ -371,7 +371,7 @@ await options
             break;
         }
     }
-
+/*
     if (!optionFound) {
 
         console.log(`Option "${value}" not found.`);
@@ -379,6 +379,29 @@ await options
         await this.page.keyboard.press("Escape");
 
     }
+        */
+       if (!optionFound) {
+
+    console.log(
+        `Option "${value}" not found. Selecting first available option.`
+    );
+
+    if (count > 0) {
+
+        const firstOption = options.first();
+
+        const firstValue = (await firstOption.innerText()).trim();
+
+        console.log(`Selected First Option: ${firstValue}`);
+
+        await firstOption.click();
+
+    } else {
+
+        throw new Error("Dropdown has no options.");
+
+    }
+}
 
 }
     }

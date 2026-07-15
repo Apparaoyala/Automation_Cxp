@@ -26,5 +26,18 @@ async CreateEvent() {
         await this.CreateEventBtn.click();
     }
 
+
+    async getCreatedEventNumber(): Promise<string> {
+
+    const eventNumber = await this.page
+        .locator("//label[text()=' Event # ']//following-sibling::label[2]")
+        .textContent();
+
+    const eventId = eventNumber?.trim() ?? "";
+
+    console.log("Created Event Number :", eventId);
+
+    return eventId;
+}
     
 }
