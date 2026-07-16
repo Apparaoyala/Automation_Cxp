@@ -51,10 +51,10 @@ test('authenticate', async ({ page }) => {
    
 
     //await page.pause();
-await CommonActions.closeInventoryPopup();
-    await customer.Menu1();
+await CommonActions.closeCommonPopup();
+  //  await customer.Menu1();
 
-//start customer creation---------------------------------------
+//---------------------------------------------start customer creation---------------------------------------
 /*
     await customer.clickCustomer();
 
@@ -82,7 +82,9 @@ console.log(excelData.get("Street"));
 
 
 
-//event creation --------------------------------------
+//---------------------------------------------------event creation --------------------------------------
+
+/*
 
 await event.CreateEvent();
 
@@ -135,7 +137,17 @@ const eventNumber = await event.getCreatedEventNumber();
 
 console.log(eventNumber);
 
-//await CommonActions.closeInventoryPopup();
+await CommonActions.closeCommonPopup();
 
+await page.pause();
+
+
+*/
+
+
+//Menu Service
+console.log("Sales Menu service complete");
+await event.openEventDashboard();
+console.log("Sales New navigation complete");
 await page.pause();
 });

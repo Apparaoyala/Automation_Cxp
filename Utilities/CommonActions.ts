@@ -1,4 +1,6 @@
 import { Page, Locator } from '@playwright/test';
+import { Event } from '../pages/Event';
+
 
 export class commonActions{
 
@@ -12,7 +14,7 @@ export class commonActions{
     }
 
 
-async closeInventoryPopup() {
+async closeCommonPopup(){
     
     // Wait for spinner to finish (if present)
     await this.page.locator("ngx-spinner")
@@ -47,6 +49,9 @@ async closeInventoryPopup() {
         console.log("Inventory popup not displayed.");
 
     }
+
+
+  
 }
 
 }

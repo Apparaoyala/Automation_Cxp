@@ -43,7 +43,7 @@ const CommonActions = new commonActions(page);
 
     console.log("Sales New navigation complete");
 
-    await CommonActions.closeInventoryPopup();
+    await CommonActions.closeCommonPopup();
      await page.pause();
     await customer.Menu1();
 

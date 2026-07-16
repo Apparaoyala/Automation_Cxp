@@ -4,7 +4,8 @@ export class Event {
 
     private readonly page: Page;
     private readonly Event: Locator;
-    
+    private readonly clickFilter: Locator;
+   // private readonly EnterEventNum: Locator;
    
 private readonly CreateEventBtn: Locator;
 
@@ -14,6 +15,9 @@ private readonly CreateEventBtn: Locator;
 
         this.Event = page.locator('span').filter({ hasText: 'Create Event' }).first()
        this.CreateEventBtn= page.getByRole('button', { name: 'Create' })
+
+       this.clickFilter=page.getByRole('textbox', { name: 'Event #' })
+//this.EnterEventNum=page.getByRole('textbox', { name: 'Event #' })
        }
 
 async CreateEvent() {
@@ -27,17 +31,65 @@ async CreateEvent() {
     }
 
 
+    async clickFilter1() {
+
+     await this.clickFilter.fill('121');
+     
+    }
+    async enterEventNumber() {
+
+    await this.clickFilter.click(); 
+     
+    }
+    async clickSearch() {
+
+     await this.Event.click();
+     
+    }
+    async openDashboard() {
+
+     await this.Event.click();
+     
+    }
+
     async getCreatedEventNumber(): Promise<string> {
 
-    const eventNumber = await this.page
-        .locator("//label[text()=' Event # ']//following-sibling::label[2]")
-        .textContent();
+    const eventNumberLocator = this.page.locator(
+        "//label[text()=' Event # ']//following-sibling::label[2]"
+    );
 
-    const eventId = eventNumber?.trim() ?? "";
+    await eventNumberLocator.waitFor({
+        state: "visible",
+        timeout: 30000
+    });
 
-    console.log("Created Event Number :", eventId);
+    let eventId = "";
+
+    for (let i = 0; i < 10; i++) {
+
+        eventId = (await eventNumberLocator.textContent())?.trim() ?? "";
+
+        if (eventId !== "") {
+            break;
+        }
+
+        await this.page.waitForTimeout(300);
+    }
+
+    console.log("Created Event Number:", eventId);
 
     return eventId;
+
 }
-    
+
+async openEventDashboard() {
+
+    await this.clickFilter1();
+
+   // await this.enterEventNumber();
+
+   // await this.clickSearch();
+
+   // await this.openDashboard();
+}
 }
