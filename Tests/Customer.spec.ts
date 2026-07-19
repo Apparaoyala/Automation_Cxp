@@ -6,6 +6,8 @@ import { commonActions } from '../Utilities/CommonActions';
 import { MandatoryFieldUtil } from '../Utilities/MandatoryFieldUtil';
 import { TestConfig } from '../Utilities/Test.Config';
 import { ExcelUtil } from '../Utilities/ExcelUtil';
+import {LoginHelper } from '../pages/LoginHelper';
+
 
 const config = new TestConfig();
 
@@ -18,13 +20,16 @@ test('authenticate', async ({ page }) => {
     const customer = new Customer(page);
     const mandatoryfieldutil = new MandatoryFieldUtil(page);
 const CommonActions = new commonActions(page);
-    await page.goto(config.appUrl);
+const loginelper = new LoginHelper();
 
-    await login.login(
-        config.Caterid,
-        config.UserId,
-        config.password
-    );
+    // await page.goto(config.appUrl);
+
+    // await login.login(
+    //     config.Caterid,
+    //     config.UserId,
+    //     config.password
+    // );
+    await LoginHelper.login(page);
 
     await page
         .frameLocator('[name="header"]')

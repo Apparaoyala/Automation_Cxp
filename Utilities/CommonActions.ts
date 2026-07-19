@@ -10,7 +10,7 @@ export class commonActions{
 
         this.page = page;
 
-       console.log("******** Common acctions Loaded ********");
+       console.log("******** Common actions Loaded ********");
     }
 
 
