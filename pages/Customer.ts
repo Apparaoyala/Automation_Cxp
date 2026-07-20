@@ -6,10 +6,12 @@ export class Customer {
     private readonly Customer: Locator;
     private readonly CustomerSubMenu: Locator;
     private readonly Menu: Locator;
-    private readonly customerMenu: Locator;
+    private readonly Clickcustomer: Locator;
 private readonly newCustomerButton: Locator;
 private readonly CreateCusBtn: Locator;
-   
+  private readonly Customer2: Locator;
+ 
+   private readonly duplicatePopupOk :Locator;
    
  
     constructor(page: Page) {
@@ -20,18 +22,21 @@ private readonly CreateCusBtn: Locator;
         this.Menu =page.getByText('menu', { exact: true }).first();
        this.CreateCusBtn= page.getByRole('button', { name: 'Create' })
        // this.HomeButton =page.frameLocator('[name="header"]').locator("img[title='Home']");
- 
-       this.customerMenu = page.locator(
+
+       this.Clickcustomer = page.locator(
         //'a[href="#/sales-sub/customer-listing"]'
        // span[normalize-space()='Customer/Potential Customer']
        // page.locator('a[href="#/sales/customerListing"]')
-       "//div[@id = 'sidebarMain']//span[text()='Customer' or text()='Customer/Potential Customer']"
+       "(//div[@id = 'sidebarMain']//span[text()='Customer' or text()='Customer/Potential Customer'])[1]"
    
    
     );
-    this.CustomerSubMenu = page.locator("a[href='#/sales/customerListing']");
+    this.CustomerSubMenu = page.locator("//a[@href='#/sales/customerListing' and (@aria-expanded='false')]");
+    this.Customer2=page.locator("//a[@href='#/sales/customerListing' and (@aria-expanded='false')]");
 this. newCustomerButton =
     page.getByRole('button', { name: 'New Customer' });
+
+    
     }
  
     async Menu1() {
@@ -54,12 +59,12 @@ this. newCustomerButton =
 */
 async clickCustomer() {
  
-    await this.customerMenu.waitFor({
+    await this.Clickcustomer.waitFor({
         state: 'visible',
         timeout: 180000
     });
  
-    await this.customerMenu.click();
+    await this.Clickcustomer.click();
     await this.CustomerSubMenu.waitFor({
     state: "visible"
 });
@@ -78,7 +83,15 @@ async createCusBtn(){
        await this.CreateCusBtn.click();
 }
  
- 
+ async handleDuplicateCustomerPopup() {
+
+    if (await this.duplicatePopupOk.isVisible()) {
+
+        console.log("Duplicate customer popup displayed");
+
+        await this.duplicatePopupOk.click();
+
+    }
  
  
 /*
@@ -104,5 +117,7 @@ async getMandatoryFieldCount() {
     }
 }*/
  
+
+
 }
- 
+}

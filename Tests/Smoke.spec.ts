@@ -64,8 +64,9 @@ await test.step("Create Customer", async () => {
 
   await customer.clickCustomer();
 
-    //await page.pause();
+    await page.pause();
 await page.waitForTimeout(3000);
+
     await customer.CustomerBtn();
 await page.waitForTimeout(3000);
 const excelData = ExcelUtil.readExcel(

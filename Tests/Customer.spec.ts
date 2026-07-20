@@ -49,12 +49,12 @@ const loginelper = new LoginHelper();
     console.log("Sales New navigation complete");
 
     await CommonActions.closeCommonPopup();
-     await page.pause();
+    // await page.pause();
     await customer.Menu1();
 
     await customer.clickCustomer();
 
-   await page.pause();
+   
 await page.waitForTimeout(3000);
     await customer.CustomerBtn();
 await page.waitForTimeout(3000);
@@ -64,13 +64,15 @@ const excelData = ExcelUtil.readExcel(
 );
 
 console.log(excelData);
-console.log(excelData.get("Customer Name"));
-console.log(excelData.get("Street"));
-//await page.pause();
+
     await mandatoryfieldutil.getMandatoryFieldCount(excelData);
 
     await page.waitForTimeout(30000);
     //await mandatoryfieldutil.handleTextbox()
-//await page.pause();
+
    //await mandatoryfieldutil.identifyControlType();
+
+   await customer.createCusBtn();
+   console.log("Customer created successfully");
+await page.pause();
 });
