@@ -36,7 +36,7 @@ private readonly CreateCusBtn: Locator;
 this. newCustomerButton =
     page.getByRole('button', { name: 'New Customer' });
 
-    
+     this.duplicatePopupOk=page.getByRole('button', { name: 'OK' });
     }
  
     async Menu1() {
@@ -85,14 +85,25 @@ async createCusBtn(){
  
  async handleDuplicateCustomerPopup() {
 
-    if (await this.duplicatePopupOk.isVisible()) {
+      try {
+
+        await this.page.getByRole('button', { name: 'Yes' }).waitFor({
+            state: 'visible',
+            timeout: 3000
+        });
 
         console.log("Duplicate customer popup displayed");
 
-        await this.duplicatePopupOk.click();
+        await this.page.getByRole('button', { name: 'Yes' }).click();
+        console.log(await this.page.viewportSize());
+        await this.page.getByRole('button', { name: 'Yes' }).click();
+
+    } catch {
+
+        console.log("Duplicate customer popup not displayed");
 
     }
- 
+ }
  
 /*
 async getMandatoryFieldCount() {
@@ -119,5 +130,5 @@ async getMandatoryFieldCount() {
  
 
 
-}
+
 }

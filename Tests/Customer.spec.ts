@@ -75,4 +75,7 @@ console.log(excelData);
    await customer.createCusBtn();
    console.log("Customer created successfully");
 await page.pause();
+await customer.handleDuplicateCustomerPopup();
+   console.log(" successfully executed");
+
 });
