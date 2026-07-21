@@ -101,6 +101,6 @@ console.log(excelData1);
 
     await mandatoryFieldsContactUtil.getMandatoryFieldCount1(excelData1);
 await page.pause();
-//await customer.createCusBtn();
+await customer.createCusBtn();
 });
 });

@@ -99,8 +99,8 @@ console.log(value);
 
 // Find control container
         const controlContainer = row.locator(
-            "xpath=.//div[contains(@class,'col-md-8') or contains(@class,'col-lg-8')]"
-        );
+"xpath=.//div[contains(@class,'col-md-8') or contains(@class,'col-lg-8') or contains(@class,'col-md-7')]"
+);
 
         // Detect control type
         const controlType =
@@ -149,6 +149,7 @@ switch (controlType) {
     break;
 }
     }
+    
 }
        
 
@@ -232,7 +233,7 @@ async handleMultiSelect(controlContainer: Locator) {
         await options.count()
     );
 
-    await options.nth(1).click();
+    await options.nth(0).click();
     await multiSelect.click();
 
 }
