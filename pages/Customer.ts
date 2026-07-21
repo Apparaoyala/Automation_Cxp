@@ -74,7 +74,7 @@ await this.CustomerSubMenu.click();
 async CustomerBtn(){
      await this.newCustomerButton.waitFor({
         state: 'visible',
-        timeout: 180000
+        timeout: 240000
     });
 await this.newCustomerButton.click();
 }
@@ -95,7 +95,7 @@ async createCusBtn(){
         console.log("Duplicate customer popup displayed");
 
         await this.page.getByRole('button', { name: 'Yes' }).click();
-        console.log(await this.page.viewportSize());
+       // console.log(await this.page.viewportSize());
         await this.page.getByRole('button', { name: 'Yes' }).click();
 
     } catch {

@@ -7,6 +7,8 @@ import { expect } from '@playwright/test';
 import { commonActions } from '../Utilities/CommonActions';
 import { Customer } from '../pages/Customer';
 import { MandatoryFieldsEventUtil } from '../Utilities/MandatoryFieldsEventUtil';
+import { MandatoryFieldsContactUtil } from '../Utilities/MandatoryFieldsContactUtil';
+
 import { MandatoryFieldUtil } from '../Utilities/MandatoryFieldUtil';
 
 import { ExcelUtil } from '../Utilities/ExcelUtil';
@@ -16,7 +18,7 @@ import { ExcelUtil } from '../Utilities/ExcelUtil';
 
 test('Smoke Test - Login Flow', async ({ page }) => {
 
-    test.setTimeout(180000);
+    test.setTimeout(1800000);
 const config = new TestConfig();
 
     const login = new Login(page);
@@ -26,6 +28,7 @@ const loginelper = new LoginHelper();
     const customer = new Customer(page);
     const mandatoryfieldseventutil = new MandatoryFieldsEventUtil(page);
  const mandatoryfieldutil = new MandatoryFieldUtil(page);
+ const mandatoryFieldsContactUtil = new MandatoryFieldsContactUtil(page);
 
     await test.step("Open Application", async () => {
 
@@ -64,8 +67,8 @@ await test.step("Create Customer", async () => {
 
   await customer.clickCustomer();
 
-    await page.pause();
-await page.waitForTimeout(3000);
+   // await page.pause();
+//await page.waitForTimeout(3000);
 
     await customer.CustomerBtn();
 await page.waitForTimeout(3000);
@@ -74,18 +77,30 @@ const excelData = ExcelUtil.readExcel(
     'Sheet1'
 );
 
-console.log(excelData);
-console.log(excelData.get("Customer Name"));
-console.log(excelData.get("Street"));
+//console.log(excelData);
+
 //await page.pause();
     await mandatoryfieldutil.getMandatoryFieldCount(excelData);
 
-    await page.waitForTimeout(30000);
-    //await mandatoryfieldutil.handleTextbox()
+   await customer.createCusBtn();
+   console.log("Customer created successfully");
 //await page.pause();
-   //await mandatoryfieldutil.identifyControlType();
+await customer.handleDuplicateCustomerPopup();
+   console.log(" successfully executed");
+
+//await page.pause();
 
 });
+await test.step("Create Contact", async () => {
 
+const excelData1= ExcelUtil.readExcel(
+    './Utilities/TestData/Contact.xlsx',
+    'Sheet1'
+);
+console.log(excelData1);
 
+    await mandatoryFieldsContactUtil.getMandatoryFieldCount1(excelData1);
+await page.pause();
+//await customer.createCusBtn();
+});
 });

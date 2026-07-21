@@ -4,6 +4,8 @@ import { HomePage } from '../pages/HomePage';
 import { Customer } from '../pages/Customer';
 import { commonActions } from '../Utilities/CommonActions';
 import { MandatoryFieldUtil } from '../Utilities/MandatoryFieldUtil';
+import { MandatoryFieldsEventUtil } from '../Utilities/MandatoryFieldsEventUtil';
+
 import { TestConfig } from '../Utilities/Test.Config';
 import { ExcelUtil } from '../Utilities/ExcelUtil';
 import {LoginHelper } from '../pages/LoginHelper';
@@ -13,7 +15,7 @@ const config = new TestConfig();
 
 test('authenticate', async ({ page }) => {
 
-    test.setTimeout(180000);
+    test.setTimeout(1800000);
 
     const login = new Login(page);
     const homePage = new HomePage(page);
@@ -21,6 +23,7 @@ test('authenticate', async ({ page }) => {
     const mandatoryfieldutil = new MandatoryFieldUtil(page);
 const CommonActions = new commonActions(page);
 const loginelper = new LoginHelper();
+    const mandatoryfieldseventutil = new MandatoryFieldsEventUtil(page);
 
     // await page.goto(config.appUrl);
 
@@ -67,15 +70,30 @@ console.log(excelData);
 
     await mandatoryfieldutil.getMandatoryFieldCount(excelData);
 
-    await page.waitForTimeout(30000);
+   // await page.waitForTimeout(30000);
     //await mandatoryfieldutil.handleTextbox()
 
    //await mandatoryfieldutil.identifyControlType();
 
    await customer.createCusBtn();
    console.log("Customer created successfully");
-await page.pause();
+//await page.pause();
 await customer.handleDuplicateCustomerPopup();
    console.log(" successfully executed");
+
+
+//await page.pause();
+   //contact
+   const excelData1 = ExcelUtil.readExcel(
+    './Utilities/TestData/Contact.xlsx',
+    'Sheet1'
+);
+console.log(excelData1);
+
+await mandatoryfieldseventutil.getMandatoryFieldCount(excelData1);
+
+    
+    await page.pause();
+
 
 });
