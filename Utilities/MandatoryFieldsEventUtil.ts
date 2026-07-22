@@ -48,7 +48,7 @@ else {
        console.log("******** MandatoryFieldsEventUtil Loaded ********");
     }
       
-      async getMandatoryFieldCount( excelData: Map<string, any>) {
+      async getMandatoryFieldCount(  jsonData: Record<string, any>) {
         
 
     const mandatoryLabels = this.page.locator(
@@ -96,7 +96,7 @@ if (!fieldName) {
     continue;
 }
 // Find control
-const value = excelData.get(fieldName);
+const value = jsonData[fieldName];
 
 // console.log(
 //     `Field = ${fieldName}, Excel Value = ${value}`

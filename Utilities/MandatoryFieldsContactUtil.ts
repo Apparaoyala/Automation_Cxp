@@ -48,7 +48,7 @@ else {
       
     }
       
-      async getMandatoryFieldCount1( excelData: Map<string, any>) {
+      async getMandatoryFieldCount1( jsonData: Record<string, any>) {
         const labels = this.page.locator(
   "//div[@role='tabpanel' and @aria-hidden='false']//label"
 );
@@ -81,7 +81,7 @@ if (!fieldName) {
     continue;
 }
 // Find control
-const value = excelData.get(fieldName);
+const value = jsonData[fieldName];
 
 console.log(fieldName);
 console.log(value);

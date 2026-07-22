@@ -1,4 +1,5 @@
 import { Page, Locator } from '@playwright/test';
+import { Customer } from '../pages/Customer';
 
 
 export class MandatoryFieldUtil {
@@ -48,7 +49,7 @@ else {
       
     }
       
-      async getMandatoryFieldCount( excelData: Map<string, any>) {
+    async getMandatoryFieldCount(jsonData: Record<string, any>) {
 
     const mandatoryLabels = this.page.locator(
         "//label[.//span[contains(@class,'text-danger')]]"
@@ -68,7 +69,8 @@ if (!fieldName) {
     continue;
 }
 // Find control
-const value = excelData.get(fieldName);
+
+const value = jsonData[fieldName];
 
 console.log(fieldName);
 console.log(value);
@@ -83,6 +85,8 @@ console.log(value);
             //"xpath=ancestor::div[contains(@class,'row')][1]"
              "xpath=ancestor-or-self::div[contains(@class,'row')][1]"
         );
+
+
 
 // Find control container
         const controlContainer = row.locator(

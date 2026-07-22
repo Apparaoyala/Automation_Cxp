@@ -8,6 +8,7 @@ import { MandatoryFieldsEventUtil } from '../Utilities/MandatoryFieldsEventUtil'
 
 import { TestConfig } from '../Utilities/Test.Config';
 import { ExcelUtil } from '../Utilities/ExcelUtil';
+import { JsonUtil } from '../Utilities/JsonUtil';
 import {LoginHelper } from '../pages/LoginHelper';
 
 
@@ -67,13 +68,20 @@ const excelData = ExcelUtil.readExcel(
 );
 
 console.log(excelData);
+const customerData = JsonUtil.readJson(
+    './Utilities/TestData/Customer.json'
+);
 
-    await mandatoryfieldutil.getMandatoryFieldCount(excelData);
+console.log(customerData);
 
-   // await page.waitForTimeout(30000);
-    //await mandatoryfieldutil.handleTextbox()
+console.log("Customer Name :", customerData["Customer Name"]);
+console.log("First Name :", customerData["First Name"]);
+console.log("State :", customerData["State"]);
+console.log("Business Units :", customerData["Business Units"]);
 
-   //await mandatoryfieldutil.identifyControlType();
+await mandatoryfieldutil.getMandatoryFieldCount(customerData);
+   
+  
 
    await customer.createCusBtn();
    console.log("Customer created successfully");
@@ -84,13 +92,14 @@ await customer.handleDuplicateCustomerPopup();
 
 //await page.pause();
    //contact
-   const excelData1 = ExcelUtil.readExcel(
-    './Utilities/TestData/Contact.xlsx',
-    'Sheet1'
+  const contactData = JsonUtil.readJson(
+    './Utilities/TestData/Contact.json'
 );
-console.log(excelData1);
 
-await mandatoryfieldseventutil.getMandatoryFieldCount(excelData1);
+
+console.log(contactData);
+
+await mandatoryfieldseventutil.getMandatoryFieldCount(contactData);
 
     
     await page.pause();

@@ -7,8 +7,7 @@ import { MandatoryFieldsEventUtil } from '../Utilities/MandatoryFieldsEventUtil'
 import { commonActions } from '../Utilities/CommonActions';
 //import { MandatoryFieldUtil } from '../Utilities/MandatoryFieldUtil';
 import { TestConfig } from '../Utilities/Test.Config';
-import { ExcelUtil } from '../Utilities/ExcelUtil';
-
+import { JsonUtil } from '../Utilities/JsonUtil';
 const config = new TestConfig();
 
 test('authenticate', async ({ page }) => {
@@ -52,7 +51,7 @@ test('authenticate', async ({ page }) => {
 
     //await page.pause();
 await CommonActions.closeCommonPopup();
-  //  await customer.Menu1();
+   await customer.Menu1();
 
 //---------------------------------------------start customer creation---------------------------------------
 /*
@@ -84,7 +83,7 @@ console.log(excelData.get("Street"));
 
 //---------------------------------------------------event creation --------------------------------------
 
-/*
+
 
 await event.CreateEvent();
 
@@ -110,9 +109,8 @@ await page.screenshot({ path: "createevent.png", fullPage: true });
 
 
 
-const excelData = ExcelUtil.readExcel(
-    './Utilities/TestData/Customer.xlsx',
-    'Sheet2'
+const EventData = JsonUtil.readJson(
+    './Utilities/TestData/Event.json'
 );
 
 // console.log("Labels Before Waiting:",
@@ -128,7 +126,7 @@ console.log("Labels After 5 Seconds:",
     timeout: 180000
 });
 await page.waitForTimeout(2000);
-await mandatoryfieldseventutil.getMandatoryFieldCount(excelData);
+await mandatoryfieldseventutil.getMandatoryFieldCount(EventData);
 
 //await page.pause();
 await event.createbtn();
@@ -142,7 +140,7 @@ await CommonActions.closeCommonPopup();
 await page.pause();
 
 
-*/
+
 
 
 //Menu Service
