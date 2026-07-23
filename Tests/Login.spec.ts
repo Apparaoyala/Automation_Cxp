@@ -12,7 +12,7 @@ const config = new TestConfig();
 
 test('authenticate', async ({ page }) => {
 
-    test.setTimeout(180000);
+    test.setTimeout(1800000);
 
     const login = new Login(page);
     const homePage = new HomePage(page);

@@ -144,6 +144,14 @@ switch (controlType) {
     await this.handleDropdown(controlContainer);
     break;
 
+    case "DATETIME":
+
+    await this.handleDate(
+        controlContainer,
+        String(value)
+    );
+    break;
+
     case "MULTISELECT":
     await this.handleMultiSelect(controlContainer);
     break;
@@ -167,7 +175,9 @@ async identifyControlType(control: Locator): Promise<string> {
     if (await control.locator('input[type="checkbox"]').count() > 0) {
         return 'CHECKBOX';
     }
-
+if (await control.locator("input[bsdatepicker]").count() > 0) {
+    return "DATETIME";
+    }
     if (await control.locator('input:not([readonly]), textarea').count() > 0) {
         return 'TEXTBOX';
     }
@@ -195,6 +205,8 @@ async handleTextbox(controlContainer: Locator, value: string) {
     //console.log("Value entered:", value);
 }
 
+
+
 async handleDropdown(controlContainer: Locator) {
 
     const dropdown = controlContainer.locator("p-dropdown");
@@ -209,10 +221,11 @@ async handleDropdown(controlContainer: Locator) {
         throw new Error("Dropdown has less than 2 options.");
     }
 
-    await options.nth(1).click();   // Index 1 = second option
+    await options.nth(0).click();   // Index 1 = second option
 
     console.log("Selected second dropdown option");
 }
+
 async handleMultiSelect(controlContainer: Locator) {
 
     const multiSelect =
@@ -233,9 +246,36 @@ async handleMultiSelect(controlContainer: Locator) {
         await options.count()
     );
 
-    await options.nth(1).click();
+    await options.nth(0).click();
     await multiSelect.click();
 
+}
+async handleDate(
+    controlContainer: Locator,
+    value: string
+) {
+
+    console.log("Inside Handle Date");
+    console.log("Date Value:", value);
+
+    const [, day] = value.split("/");
+
+    await controlContainer
+        .locator("input[bsdatepicker]")
+        .click();
+
+    await this.page
+        .locator("bs-datepicker-container")
+        .waitFor({ state: "visible" });
+
+    await this.page
+        .locator("bs-datepicker-container td span", {
+            hasText: String(Number(day))
+        })
+        .first()
+        .click();
+
+    console.log("Date Selected :", value);
 }
     }
 

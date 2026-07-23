@@ -4,7 +4,7 @@ import { HomePage } from '../pages/HomePage';
 import { Customer } from '../pages/Customer';
 import { commonActions } from '../Utilities/CommonActions';
 import { MandatoryFieldUtil } from '../Utilities/MandatoryFieldUtil';
-import { MandatoryFieldsEventUtil } from '../Utilities/MandatoryFieldsEventUtil';
+import { MandatoryFieldsContactUtil } from '../Utilities/MandatoryFieldsContactUtil';
 
 import { TestConfig } from '../Utilities/Test.Config';
 import { ExcelUtil } from '../Utilities/ExcelUtil';
@@ -24,7 +24,7 @@ test('authenticate', async ({ page }) => {
     const mandatoryfieldutil = new MandatoryFieldUtil(page);
 const CommonActions = new commonActions(page);
 const loginelper = new LoginHelper();
-    const mandatoryfieldseventutil = new MandatoryFieldsEventUtil(page);
+    const mandatoryFieldsContactUtil = new MandatoryFieldsContactUtil(page);
 
     // await page.goto(config.appUrl);
 
@@ -62,12 +62,7 @@ const loginelper = new LoginHelper();
 await page.waitForTimeout(3000);
     await customer.CustomerBtn();
 await page.waitForTimeout(3000);
-const excelData = ExcelUtil.readExcel(
-    './Utilities/TestData/Customer.xlsx',
-    'Sheet1'
-);
 
-console.log(excelData);
 const customerData = JsonUtil.readJson(
     './Utilities/TestData/Customer.json'
 );
@@ -90,6 +85,11 @@ await customer.handleDuplicateCustomerPopup();
    console.log(" successfully executed");
 
 
+
+
+
+
+
 //await page.pause();
    //contact
   const contactData = JsonUtil.readJson(
@@ -99,8 +99,9 @@ await customer.handleDuplicateCustomerPopup();
 
 console.log(contactData);
 
-await mandatoryfieldseventutil.getMandatoryFieldCount(contactData);
+await mandatoryFieldsContactUtil.getMandatoryFieldCount1(contactData);
 
+await customer.createCusBtn();
     
     await page.pause();
 

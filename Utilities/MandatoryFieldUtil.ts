@@ -223,7 +223,7 @@ async handleMultiSelect(controlContainer: Locator) {
         await options.count()
     );
 
-    await options.nth(1).click();
+    await options.nth(0).click();
     await multiSelect.click();
 
 }

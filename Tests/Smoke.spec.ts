@@ -5,6 +5,8 @@ import {LoginHelper } from '../pages/LoginHelper';
 import { TestConfig } from '../Utilities/Test.Config';
 import { expect } from '@playwright/test';
 import { commonActions } from '../Utilities/CommonActions';
+import { JsonUtil } from '../Utilities/JsonUtil';
+
 import { Customer } from '../pages/Customer';
 import { MandatoryFieldsEventUtil } from '../Utilities/MandatoryFieldsEventUtil';
 import { MandatoryFieldsContactUtil } from '../Utilities/MandatoryFieldsContactUtil';
@@ -72,15 +74,14 @@ await test.step("Create Customer", async () => {
 
     await customer.CustomerBtn();
 await page.waitForTimeout(3000);
-const excelData = ExcelUtil.readExcel(
-    './Utilities/TestData/Customer.xlsx',
-    'Sheet1'
+const customerData = JsonUtil.readJson(
+    './Utilities/TestData/Customer.json'
 );
 
 //console.log(excelData);
 
 //await page.pause();
-    await mandatoryfieldutil.getMandatoryFieldCount(excelData);
+    await mandatoryfieldutil.getMandatoryFieldCount(customerData);
 
    await customer.createCusBtn();
    console.log("Customer created successfully");
@@ -93,13 +94,12 @@ await customer.handleDuplicateCustomerPopup();
 });
 await test.step("Create Contact", async () => {
 
-const excelData1= ExcelUtil.readExcel(
-    './Utilities/TestData/Contact.xlsx',
-    'Sheet1'
+  const contactData = JsonUtil.readJson(
+    './Utilities/TestData/Contact.json'
 );
-console.log(excelData1);
+console.log(contactData);
 
-    await mandatoryFieldsContactUtil.getMandatoryFieldCount1(excelData1);
+    await mandatoryFieldsContactUtil.getMandatoryFieldCount1(contactData);
 await page.pause();
 await customer.createCusBtn();
 });
