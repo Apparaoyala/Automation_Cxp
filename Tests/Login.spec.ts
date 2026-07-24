@@ -49,7 +49,6 @@ test('authenticate', async ({ page }) => {
     console.log("Sales New navigation complete");
    
 
-    //await page.pause();
 await CommonActions.closeCommonPopup();
    await customer.Menu1();
 
@@ -91,7 +90,7 @@ await event.CreateEvent();
 
 await page.locator("ngx-spinner .overlay").waitFor({
     state: "hidden",
-    timeout: 60000
+    timeout: 30000
 });
 
 
@@ -116,7 +115,7 @@ const EventData = JsonUtil.readJson(
 // console.log("Labels Before Waiting:",
 //     await page.locator("label").count());
 
-await page.waitForTimeout(5000);
+await page.waitForTimeout(3000);
 
 console.log("Labels After 5 Seconds:",
     await page.locator("label").count());
@@ -125,7 +124,7 @@ console.log("Labels After 5 Seconds:",
     state: "hidden",
     timeout: 180000
 });
-await page.waitForTimeout(2000);
+await page.waitForTimeout(500);
 await mandatoryfieldseventutil.getMandatoryFieldCount(EventData);
 
 //await page.pause();
