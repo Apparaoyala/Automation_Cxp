@@ -5,6 +5,9 @@ export class Event {
     private readonly page: Page;
     private readonly Event: Locator;
     private readonly clickFilter: Locator;
+    private readonly EventDashBoard: Locator;
+    private readonly ServiceRequest: Locator;
+
    // private readonly EnterEventNum: Locator;
    
 private readonly CreateEventBtn: Locator;
@@ -15,8 +18,10 @@ private readonly CreateEventBtn: Locator;
 
         this.Event = page.locator('span').filter({ hasText: 'Create Event' }).first()
        this.CreateEventBtn= page.getByRole('button', { name: 'Create' })
+       this .EventDashBoard=page.locator('span').filter({ hasText: 'dashboard' }).first()
 
-       this.clickFilter=page.getByRole('textbox', { name: 'Event #' })
+       this.clickFilter=page.getByRole('searchbox', { name: 'Event #' })
+       this.ServiceRequest= page.getByText('Service Request')
 //this.EnterEventNum=page.getByRole('textbox', { name: 'Event #' })
        }
 
@@ -33,13 +38,16 @@ async CreateEvent() {
 
     async clickFilter1() {
 
-     await this.clickFilter.fill('121');
+     await this.clickFilter.fill('3410');
      
     }
     async enterEventNumber() {
 
     await this.clickFilter.click(); 
      
+    }
+   async eventDashBoard(){
+ await this.EventDashBoard.click();
     }
     async clickSearch() {
 
@@ -49,6 +57,12 @@ async CreateEvent() {
     async openDashboard() {
 
      await this.Event.click();
+     
+    }
+
+    async serviceRequest() {
+
+     await this.ServiceRequest.click();
      
     }
 
@@ -83,6 +97,7 @@ async CreateEvent() {
 }
 
 async openEventDashboard() {
+     console.log("openEventDashboard");
 
     await this.clickFilter1();
 
