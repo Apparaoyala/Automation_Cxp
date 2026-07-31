@@ -73,8 +73,10 @@ await test.step("Menu", async () => {
 
 await page.pause();
 
-await event.serviceRequest();
+//await event.serviceRequest();
 console.log("Service reques click")
+await event.openMenuService();
+console.log("Service request click")
 
 });
 

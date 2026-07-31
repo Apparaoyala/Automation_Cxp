@@ -7,9 +7,10 @@ export class Event {
     private readonly clickFilter: Locator;
     private readonly EventDashBoard: Locator;
     private readonly ServiceRequest: Locator;
-
+     private readonly menuHeader: Locator;
+    // private readonly headerText: Locator;
    // private readonly EnterEventNum: Locator;
-   
+   //private readonly menuCard: Locator;
 private readonly CreateEventBtn: Locator;
 
     constructor(page: Page) {
@@ -22,7 +23,13 @@ private readonly CreateEventBtn: Locator;
 
        this.clickFilter=page.getByRole('searchbox', { name: 'Event #' })
        this.ServiceRequest= page.getByText('Service Request')
+       this.menuHeader= this.page.locator('.header-fs', {
+        hasText: 'Menu'
+    });
+   
+
 //this.EnterEventNum=page.getByRole('textbox', { name: 'Event #' })
+
        }
 
 async CreateEvent() {
@@ -63,6 +70,7 @@ async CreateEvent() {
     async serviceRequest() {
 
      await this.ServiceRequest.click();
+     
      
     }
 
@@ -107,4 +115,43 @@ async openEventDashboard() {
 
    // await this.openDashboard();
 }
+async openMenuService() {
+
+    const headerText = await this.menuHeader.textContent();
+
+    console.log(headerText);
+
+
+    const menuCard = this.page.locator('.card').filter({
+    has: this.page.getByText('Menu -')
+});
+// Step 3: If Menu is New
+    if (headerText?.includes('New')) {
+
+        console.log("Menu is New");
+
+        // Find Menu Card
+       
+
+        // Click Service Request inside Menu card
+        await menuCard.getByText('Service Request').click();
+
+    }
+    // Step 4: If Menu is Prog
+    else if (headerText?.includes('Prog')) {
+
+        console.log("Menu is In Progress");
+        await menuCard.getByText('Service Request').click();
+        // Future logic
+    }
+    // Step 5: If Menu is None
+    else {
+
+        console.log("Menu Service Not Available");
+
+    }
+
+
+}
+
 }
