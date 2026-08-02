@@ -136,7 +136,7 @@ console.log(eventNumber);
 
 await CommonActions.closeCommonPopup();
 
-await page.pause();
+//await page.pause();
 
 
 
@@ -144,7 +144,31 @@ await page.pause();
 
 //Menu Service
 console.log("Sales Menu service complete");
-await event.openEventDashboard();
-console.log("Sales New navigation complete");
+await event.openMenuService();
+console.log("Open MEnu service");
+
+await event.searchandAdd();
+console.log("search and add clikc");
+await event.filterICon();
+console.log("filter working");
+await event.goButton();
+console.log("go button working");
+console.log(
+  await page.locator('div.p-checkbox.p-component')
+            .locator('div')
+            .count()
+);
+//await page.pause();
+await event.itemSelectBox();
+console.log("items are select");
+await event.saveBtn();
+console.log("save working");
+//await page.pause();
+await event.closeBtn();
+await event.finalizeBtn();
+await event.serviceCloseBtn();
+await event.menuServiceStatus();
+
+await event.AllServiceStatuses();
 await page.pause();
 });
