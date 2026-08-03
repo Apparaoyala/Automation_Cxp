@@ -12,7 +12,7 @@ private readonly CreateCusBtn: Locator;
   private readonly Customer2: Locator;
  
    private readonly duplicatePopupOk :Locator;
-   
+   private readonly EventIcon :Locator;
  
     constructor(page: Page) {
  
@@ -37,6 +37,10 @@ this. newCustomerButton =
     page.getByRole('button', { name: 'New Customer' });
 
      this.duplicatePopupOk=page.getByRole('button', { name: 'OK' });
+
+     this.EventIcon= page.locator(
+  "//span[contains(@class,'material-symbols-outlined') and normalize-space()='event']"
+);
     }
  
     async Menu1() {
@@ -82,7 +86,9 @@ await this.newCustomerButton.click();
 async createCusBtn(){
        await this.CreateCusBtn.click();
 }
- 
+ async eventIcon(){
+       await this.EventIcon.click();
+}
  async handleDuplicateCustomerPopup() {
 
       try {
