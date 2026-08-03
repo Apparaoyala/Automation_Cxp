@@ -6,6 +6,7 @@ import { TestConfig } from '../Utilities/Test.Config';
 import { expect } from '@playwright/test';
 import { commonActions } from '../Utilities/CommonActions';
 import { JsonUtil } from '../Utilities/JsonUtil';
+import { Event } from '../pages/Event';
 
 import { Customer } from '../pages/Customer';
 import { MandatoryFieldsEventUtil } from '../Utilities/MandatoryFieldsEventUtil';
@@ -22,7 +23,7 @@ test('Smoke Test - Login Flow', async ({ page }) => {
 
     test.setTimeout(1800000);
 const config = new TestConfig();
-
+ const event = new Event(page);
     const login = new Login(page);
     const homePage = new HomePage(page);
     const CommonActions = new commonActions(page);
@@ -100,9 +101,96 @@ await test.step("Create Contact", async () => {
 console.log(contactData);
 
     await mandatoryFieldsContactUtil.getMandatoryFieldCount1(contactData);
-//await page.pause();
 await customer.createCusBtn();
+await customer.eventIcon();
+
+
 });
+
+
+           //newly added code for event----------------------------------
+
+await page.locator("ngx-spinner .overlay").waitFor({
+    state: "hidden",
+    timeout: 30000
+});
+
+
+
+console.log(
+    "Mandatory:",
+    await page.locator("label span.text-danger").count()
+);
+await page.screenshot({ path: "createevent.png", fullPage: true });
+
+
+
+
+const EventData = JsonUtil.readJson(
+    './Utilities/TestData/Event.json'
+);
+
+// console.log("Labels Before Waiting:",
+//     await page.locator("label").count());
+
+await page.waitForTimeout(3000);
+
+console.log("Labels After 5 Seconds:",
+    await page.locator("label").count());
+
+    await page.locator("ngx-spinner .overlay").waitFor({
+    state: "hidden",
+    timeout: 180000
+});
+await page.waitForTimeout(500);
+await mandatoryfieldseventutil.getMandatoryFieldCount(EventData);
+
+//await page.pause();
+await event.createbtn();
+
+const eventNumber = await event.getCreatedEventNumber();
+
+console.log(eventNumber);
+
+await CommonActions.closeCommonPopup();
+
+
+
+
+//Menu Service
+console.log("Sales Menu service complete");
+await event.openMenuService();
+console.log("Open MEnu service");
+
+await event.searchandAdd();
+console.log("search and add clikc");
+await event.filterICon();
+console.log("filter working");
+await event.goButton();
+console.log("go button working");
+console.log(
+  await page.locator('div.p-checkbox.p-component')
+            .locator('div')
+            .count()
+);
+await event.itemSelectBox();
+console.log("items are select");
+await event.saveBtn();
+console.log("save working");
+await event.closeBtn();
+await event.finalizeBtn();
+await event.serviceCloseBtn();
+await event.menuServiceStatus();
+
+await event.AllServiceStatuses();
+await event.openAlcService();
+
+await event.AlcServiceStatus();
+
+
+await page.pause();
+
+
 
 
 
