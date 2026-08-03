@@ -163,6 +163,7 @@ switch (controlType) {
 
        
 async identifyControlType(control: Locator): Promise<string> {
+    
 
     if (await control.locator('p-multiselect').count() > 0) {
         return 'MULTISELECT';
