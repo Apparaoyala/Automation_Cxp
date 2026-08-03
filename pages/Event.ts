@@ -8,6 +8,7 @@ export class Event {
     private readonly EventDashBoard: Locator;
     private readonly ServiceRequest: Locator;
      private readonly menuHeader: Locator;
+      private readonly alcHeader: Locator;
      private readonly serviceHeaders:Locator;
     // private readonly headerText: Locator;
    // private readonly EnterEventNum: Locator;
@@ -43,6 +44,11 @@ private readonly ServiceCloseBtn:Locator;
        this.ServiceRequest= page.getByText('Service Request')
        this.menuHeader= this.page.locator('.header-fs', {
         hasText: 'Menu'
+    }
+    
+);
+this.alcHeader= this.page.locator('.header-fs', {
+        hasText: 'Alcohol'     
     });
    
 
@@ -182,7 +188,21 @@ else {
 
 }
 }
+ async AlcServiceStatus(){
+    const statusText = await this.alcHeader.textContent();
 
+console.log(statusText);
+if (statusText?.includes('Sent')) {
+
+    console.log("✅ Alc Service Sent");
+
+}
+else {
+
+    console.log("❌ Alc Service Not Sent");
+
+}
+}
 
 
 
@@ -297,5 +317,126 @@ async AllServiceStatuses() {
         );
     }
 }
+
+//alc service
+
+async openAlcService() {
+
+    const headerText = await this.alcHeader.textContent();
+
+    console.log(headerText);
+
+    const alcCard = this.page.locator('.card').filter({
+    has: this.page.getByText('Alcohol  -')
+});
+const serviceIcon =
+alcCard.locator('.service-request .icon-circle').first();
+console.log(await alcCard.locator('.icon-circle').count());
+// Step 3: If Alc is New
+    if (headerText?.includes('New')) {
+
+        console.log("Alc is New");
+
+       await serviceIcon.click();
+    }
+    // Step 4: If Alc is Prog
+    else if (headerText?.includes('Prog')) {
+
+        console.log("Alc is In Progress");
+         await serviceIcon.click();
+        // Future logic
+    }
+    // Step 5: If Menu is None
+    else {
+
+        console.log("Alc Service Not Available");
+
+    }
+
+await this.SearchandAdd.click();
+await this.FilterICon.click();
+
+const checkbox = this.page
+  .locator('div')
+  .filter({
+      has: this.page.getByText(
+          'Show Items Mapped to Menu Items for this Event'
+      )
+  })
+  .locator('.p-checkbox');
+  console.log(await checkbox.count());
+
+if (await checkbox.isChecked()) {
+
+    console.log('Checkbox is checked. Unchecking...');
+
+    await checkbox.uncheck();
+
+} else {
+
+    console.log('Checkbox already unchecked. Skipping...');
+
+}
+await this.GoButton.click();
+
+// Select All
+const selectAll = this.page.locator(
+    'p-checkbox[inputid="binary"] .p-checkbox'
+);
+
+await selectAll.click();
+
+// Qty Inputs
+const qtyInputs = this.page.locator(
+    'input[id^="qts_"]'
+);
+
+const count = await qtyInputs.count();
+
+for (let i = 0; i < count; i++) {
+
+    await qtyInputs.nth(i).fill('25');
+}
+await this.SaveBtn.click();
+
+await this.CloseBtn.click();
+
+await this.FinalizeBtn.click();
+
+ await this.ServiceCloseBtn.click();
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

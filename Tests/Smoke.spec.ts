@@ -100,7 +100,7 @@ await test.step("Create Contact", async () => {
 console.log(contactData);
 
     await mandatoryFieldsContactUtil.getMandatoryFieldCount1(contactData);
-await page.pause();
+//await page.pause();
 await customer.createCusBtn();
 });
 

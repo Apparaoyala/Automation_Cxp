@@ -158,17 +158,21 @@ console.log(
             .locator('div')
             .count()
 );
-//await page.pause();
 await event.itemSelectBox();
 console.log("items are select");
 await event.saveBtn();
 console.log("save working");
-//await page.pause();
 await event.closeBtn();
 await event.finalizeBtn();
 await event.serviceCloseBtn();
 await event.menuServiceStatus();
 
 await event.AllServiceStatuses();
+await event.openAlcService();
+
+await event.AlcServiceStatus();
 await page.pause();
+
+
+
 });
