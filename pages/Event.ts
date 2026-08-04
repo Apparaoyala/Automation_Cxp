@@ -9,6 +9,7 @@ export class Event {
     private readonly ServiceRequest: Locator;
      private readonly menuHeader: Locator;
       private readonly alcHeader: Locator;
+       private readonly EquipHeader: Locator;
      private readonly serviceHeaders:Locator;
     // private readonly headerText: Locator;
    // private readonly EnterEventNum: Locator;
@@ -49,6 +50,9 @@ private readonly ServiceCloseBtn:Locator;
 );
 this.alcHeader= this.page.locator('.header-fs', {
         hasText: 'Alcohol'     
+    });
+   this.EquipHeader= this.page.locator('.header-fs', {
+        hasText: 'Equipment'     
     });
    
 
@@ -354,29 +358,20 @@ console.log(await alcCard.locator('.icon-circle').count());
     }
 
 await this.SearchandAdd.click();
+
 await this.FilterICon.click();
 
-const checkbox = this.page
-  .locator('div')
-  .filter({
-      has: this.page.getByText(
-          'Show Items Mapped to Menu Items for this Event'
-      )
-  })
-  .locator('.p-checkbox');
-  console.log(await checkbox.count());
+try {
 
-if (await checkbox.isChecked()) {
+    await this.page.locator("//div[@role='region']//div[@class = 'p-checkbox-box p-highlight']").click();
 
-    console.log('Checkbox is checked. Unchecking...');
+    console.log("Unchecked");
 
-    await checkbox.uncheck();
+} catch (e) {
 
-} else {
-
-    console.log('Checkbox already unchecked. Skipping...');
-
+    console.log("Click Failed:", e);
 }
+
 await this.GoButton.click();
 
 // Select All
@@ -408,7 +403,17 @@ await this.FinalizeBtn.click();
 }
 
 
+async EquipServiceStatuses() {
 
+
+
+
+
+
+
+
+
+}
 
 
 

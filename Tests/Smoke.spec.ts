@@ -102,7 +102,7 @@ console.log(contactData);
 
     await mandatoryFieldsContactUtil.getMandatoryFieldCount1(contactData);
 
-await page.pause();
+
 await customer.createCusBtn();
 await customer.eventIcon();
 
@@ -147,7 +147,7 @@ console.log("Labels After 5 Seconds:",
 await page.waitForTimeout(500);
 await mandatoryfieldseventutil.getMandatoryFieldCount(EventData);
 
-//await page.pause();
+
 await event.createbtn();
 
 const eventNumber = await event.getCreatedEventNumber();
@@ -184,6 +184,9 @@ await event.finalizeBtn();
 await event.serviceCloseBtn();
 await event.menuServiceStatus();
 
+
+
+//Alc Service
 await event.AllServiceStatuses();
 await event.openAlcService();
 
@@ -193,6 +196,8 @@ await event.AlcServiceStatus();
 await page.pause();
 
 
+
+//Equipment service
 
 
 
