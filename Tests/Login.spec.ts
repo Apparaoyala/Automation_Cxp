@@ -145,11 +145,6 @@ await event.filterICon();
 console.log("filter working");
 await event.goButton();
 console.log("go button working");
-console.log(
-  await page.locator('div.p-checkbox.p-component')
-            .locator('div')
-            .count()
-);
 await event.itemSelectBox();
 console.log("items are select");
 await event.saveBtn();
@@ -163,8 +158,9 @@ await event.AllServiceStatuses();
 await event.openAlcService();
 
 await event.AlcServiceStatus();
+
+await event.EquipService();
+
 await page.pause();
-
-
 
 });

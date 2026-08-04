@@ -8,8 +8,8 @@ export class Event {
     private readonly EventDashBoard: Locator;
     private readonly ServiceRequest: Locator;
      private readonly menuHeader: Locator;
-      private readonly alcHeader: Locator;
-       private readonly EquipHeader: Locator;
+     
+      
      private readonly serviceHeaders:Locator;
     // private readonly headerText: Locator;
    // private readonly EnterEventNum: Locator;
@@ -19,17 +19,28 @@ private readonly CreateEventBtn: Locator;
 //menu service
 
 private readonly SearchandAdd:Locator;
-
 private readonly FilterICon:Locator;
-
 private readonly GoButton:Locator;
 private readonly ItemSelectBox:Locator;
 private readonly SaveBtn:Locator;
 private readonly CloseBtn:Locator;
 private readonly FinalizeBtn:Locator;
+private readonly ReserveBtn:Locator;
 private readonly ServiceCloseBtn:Locator;
 
+//Alc service
 
+ private readonly alcHeader: Locator;
+
+//equip service
+
+  private readonly EquipHeader: Locator;
+
+  private readonly OkButton:Locator;
+
+  //scheduling service
+
+  private readonly SchHeader: Locator;
 
 
 
@@ -55,6 +66,9 @@ this.alcHeader= this.page.locator('.header-fs', {
         hasText: 'Equipment'     
     });
    
+    this.EquipHeader= this.page.locator('.header-fs', {
+        hasText: 'Scheduling'     
+    });
 
 //menu servie
 
@@ -66,12 +80,19 @@ this.ItemSelectBox=page.locator('.p-checkbox-box');
 this.SaveBtn=page.getByRole('button', { name: ' Save ' }).last()
 this.CloseBtn=page.getByRole('button', { name: ' Close ' }).last()
 this.FinalizeBtn=page.getByRole('button', { name: 'Finalize' })
+this.ReserveBtn=page.getByRole('button', { name: 'Reserve' })
 this.ServiceCloseBtn=page.getByRole('button', { name: ' Close ' }).first()
 
 this.serviceHeaders= page.locator(
   "//div[contains(@class,'header-fs') and contains(text(),'-')]"
 );
-       }
+       
+this.OkButton = page.getByRole('button', {
+    name: 'Ok'
+});
+
+
+}
 
 async CreateEvent() {
 
@@ -292,15 +313,12 @@ console.log(await menuCard.locator('.icon-circle').count());
 
 
 }
+
+
+
 async AllServiceStatuses() {
 
-
-
-
  const count = await this.serviceHeaders.count();
-
-    
-
 
     const headers =
         await this.serviceHeaders.allTextContents();
@@ -402,21 +420,189 @@ await this.FinalizeBtn.click();
 
 }
 
+//Equipment service
 
-async EquipServiceStatuses() {
+async EquipService() {
+    
+
+    const headerText = await this.EquipHeader.textContent();
+
+    console.log(headerText);
+
+    const EqpCard = this.page.locator('.card').filter({
+    has: this.page.getByText('Equipment  -')
+});
+const serviceIcon =
+EqpCard.locator('.service-request .icon-circle').first();
+console.log(await EqpCard.locator('.icon-circle').count());
+// Step 3: If Eqp is New
+    if (headerText?.includes('New')) {
+
+        console.log("Eqp is New");
+
+       await serviceIcon.click();
+    }
+    // Step 4: If Eqp is Prog
+    else if (headerText?.includes('Prog')) {
+
+        console.log("Eqp is In Progress");
+         await serviceIcon.click();
+        // Future logic
+    }
+    // Step 5: If Eqp is None
+    else {
+
+        console.log("Eqp Service Not Available");
+
+    }
+
+await this.SearchandAdd.click();
+
+await this.FilterICon.click();
+
+try {
+
+    await this.page.locator("//div[@role='region']//div[@class = 'p-checkbox-box p-highlight']").click();
+
+    console.log("Unchecked");
+
+} catch (e) {
+
+    console.log("Click Failed:", e);
+}
+
+await this.GoButton.click();
+
+// Select All
+const selectAll = this.page.locator(
+    'p-checkbox[inputid="binary"] .p-checkbox'
+);
+
+await selectAll.click();
+
+// just dbug
+
+const qtyInputs = this.page.locator(
+  'input[id^="eqp_"]'
+);
+
+const count = await qtyInputs.count();
+
+for(let i = 0; i < count; i++){
+
+   await qtyInputs.nth(i).fill('20');
+}
 
 
 
 
+await this.SaveBtn.click();
 
+if (await this.OkButton.isVisible()) {
 
+    await this.OkButton.click();
 
+    console.log("Inventory Alert Accepted");
+}
+
+await this.CloseBtn.click();
+
+// Reserve button optional
+try {
+
+    if (await this.ReserveBtn.isVisible()) {
+
+        console.log("Reserve Button Displayed");
+
+        await this.ReserveBtn.click();
+
+        await this.OkButton.click();
+
+        console.log("Stock Reserved");
+    }
+
+} catch {
+
+    console.log("Reserve Button Not Displayed");
+
+}
+
+await this.FinalizeBtn.click();
+
+ await this.ServiceCloseBtn.click();
 
 
 }
 
 
+async openSchService() {
 
+    const headerText = await this.SchHeader.textContent();
+
+    console.log(headerText);
+
+    const schCard = this.page.locator('.card').filter({
+    has: this.page.getByText('Scheduling  -')
+});
+const serviceIcon =
+schCard.locator('.service-request .icon-circle').first();
+console.log(await schCard.locator('.icon-circle').count());
+// Step 3: If Alc is New
+    if (headerText?.includes('New')) {
+
+        console.log("Sch is New");
+
+       await serviceIcon.click();
+    }
+    // Step 4: If Alc is Prog
+    else if (headerText?.includes('Prog')) {
+
+        console.log("Sch is In Progress");
+         await serviceIcon.click();
+        // Future logic
+    }
+    // Step 5: If Sch is None
+    else {
+
+        console.log("Sch Service Not Available");
+
+    }
+
+const qtyInputs2 = this.page.locator("//tbody/tr/td[2]/input");
+
+for (let i = 0; i < 5; i++) {
+
+    await qtyInputs2.nth(i).fill("1");
+}
+
+
+// Select All
+const selectAll = this.page.locator(
+    'p-checkbox[inputid="binary"] .p-checkbox'
+);
+
+await selectAll.click();
+
+// Qty Inputs
+const qtyInputs = this.page.locator(
+    'input[id^="qts_"]'
+);
+
+const count = await qtyInputs.count();
+
+for (let i = 0; i < count; i++) {
+
+    await qtyInputs.nth(i).fill('25');
+}
+await this.SaveBtn.click();
+
+await this.CloseBtn.click();
+
+await this.FinalizeBtn.click();
+
+ await this.ServiceCloseBtn.click();
+
+}
 
 
 
