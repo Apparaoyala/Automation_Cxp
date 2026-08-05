@@ -3,6 +3,8 @@ import { Login } from '../pages/Login';
 import { HomePage } from '../pages/HomePage';
 import { Customer } from '../pages/Customer';
 import { Event } from '../pages/Event';
+import { Services } from '../pages/Services';
+import { Estimate } from '../pages/Estimate';
 import { MandatoryFieldsEventUtil } from '../Utilities/MandatoryFieldsEventUtil';
 import { commonActions } from '../Utilities/CommonActions';
 //import { MandatoryFieldUtil } from '../Utilities/MandatoryFieldUtil';
@@ -18,6 +20,8 @@ test('authenticate', async ({ page }) => {
     const homePage = new HomePage(page);
     const customer = new Customer(page);
     const event = new Event(page);
+    const estimate = new Estimate(page);
+    const services = new Services(page);
     const CommonActions = new commonActions(page);
     //const mandatoryfieldutil = new MandatoryFieldUtil(page);
     const mandatoryfieldseventutil = new MandatoryFieldsEventUtil(page);
@@ -50,7 +54,7 @@ test('authenticate', async ({ page }) => {
    
 
 await CommonActions.closeCommonPopup();
-   await customer.Menu1();
+   // await customer.Menu1();
 
 //---------------------------------------------start customer creation---------------------------------------
 /*
@@ -74,7 +78,7 @@ await page.waitForTimeout(3000);
 
 //---------------------------------------------------event creation --------------------------------------
 
-
+/*
 
 await event.CreateEvent();
 
@@ -130,37 +134,52 @@ await CommonActions.closeCommonPopup();
 
 //await page.pause();
 
+*/
+
+//just for deoced purpose
 
 
 
 
+await event.EventFilter();
+
+console.log("Event dashBoard is displayed");
+
+/*
 //Menu Service
-console.log("Sales Menu service complete");
-await event.openMenuService();
+console.log("Sales Menu service ");
+await services.openMenuService();
 console.log("Open MEnu service");
 
-await event.searchandAdd();
+await services.searchandAdd();
 console.log("search and add clikc");
-await event.filterICon();
+await services.filterICon();
 console.log("filter working");
-await event.goButton();
+await services.goButton();
 console.log("go button working");
-await event.itemSelectBox();
+await services.itemSelectBox();
 console.log("items are select");
-await event.saveBtn();
+await services.saveBtn();
 console.log("save working");
-await event.closeBtn();
-await event.finalizeBtn();
-await event.serviceCloseBtn();
-await event.menuServiceStatus();
+await services.closeBtn();
+await services.finalizeBtn();
+await services.serviceCloseBtn();
+await services.menuServiceStatus();
 
-await event.AllServiceStatuses();
-await event.openAlcService();
+await services.AllServiceStatuses();
+await services.openAlcService();
 
-await event.AlcServiceStatus();
+await services.AlcServiceStatus();
 
-await event.EquipService();
+await services.EquipService();
 
+
+
+await services.openSchService();
+
+*/
+
+await estimate.EstimateService();
+await estimate.EstimateValues();
 await page.pause();
-
 });

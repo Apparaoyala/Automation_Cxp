@@ -7,7 +7,7 @@ import { expect } from '@playwright/test';
 import { commonActions } from '../Utilities/CommonActions';
 import { JsonUtil } from '../Utilities/JsonUtil';
 import { Event } from '../pages/Event';
-
+import { Services } from '../pages/Services';
 import { Customer } from '../pages/Customer';
 import { MandatoryFieldsEventUtil } from '../Utilities/MandatoryFieldsEventUtil';
 import { MandatoryFieldsContactUtil } from '../Utilities/MandatoryFieldsContactUtil';
@@ -24,6 +24,7 @@ test('Smoke Test - Login Flow', async ({ page }) => {
     test.setTimeout(1800000);
 const config = new TestConfig();
  const event = new Event(page);
+ const services = new Services(page);
     const login = new Login(page);
     const homePage = new HomePage(page);
     const CommonActions = new commonActions(page);
@@ -161,43 +162,46 @@ await CommonActions.closeCommonPopup();
 
 //Menu Service
 console.log("Sales Menu service complete");
-await event.openMenuService();
+await services.openMenuService();
 console.log("Open MEnu service");
 
-await event.searchandAdd();
+await services.searchandAdd();
 console.log("search and add clikc");
-await event.filterICon();
+await services.filterICon();
 console.log("filter working");
-await event.goButton();
+await services.goButton();
 console.log("go button working");
 console.log(
   await page.locator('div.p-checkbox.p-component')
             .locator('div')
             .count()
 );
-await event.itemSelectBox();
+await services.itemSelectBox();
 console.log("items are select");
-await event.saveBtn();
+await services.saveBtn();
 console.log("save working");
-await event.closeBtn();
-await event.finalizeBtn();
-await event.serviceCloseBtn();
-await event.menuServiceStatus();
+await services.closeBtn();
+await services.finalizeBtn();
+await services.serviceCloseBtn();
+await services.menuServiceStatus();
 
 
 
 //Alc Service
-await event.AllServiceStatuses();
-await event.openAlcService();
+await services.AllServiceStatuses();
+await services.openAlcService();
 
-await event.AlcServiceStatus();
+await services.AlcServiceStatus();
+
+await services.EquipService();
 
 
+await services.openSchService();
 await page.pause();
 
 
 
-//Equipment service
+
 
 
 
