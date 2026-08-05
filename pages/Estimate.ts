@@ -85,7 +85,15 @@ suggestedPrice.trim() === ""
 
 
 
+console.log(
+  "Opening:",
+  sectionName
+);
 
+console.log(
+  "Value:",
+  value
+);
 await this.page.locator(
     "//label[contains(text(),'Subtotal')]/following::input[1]"
 ).first().fill(value);
@@ -93,15 +101,66 @@ await this.page.locator(
 await this.page.locator('button').filter({
     hasText: 'Save'
 }).first().click();
-
+console.log(
+  "Saved:",
+  sectionName
+);
 
 }
+
+
 }
 
 
     
 
-   
+   async TotalEstimate() {
+
+    await this.page.locator(
+  "//button[contains(.,'Total Estimate')]"
+).first().click();
+
+
+const dropdowns = this.page.locator(".p-dropdown");
+
+const count1 = await dropdowns.count();
+
+console.log("Dropdown Count:", count1);
+
+for(let i = 1; i < count1; i += 4){
+
+    console.log(`Selecting dropdown ${i}`);
+
+    await dropdowns.nth(i).click();
+
+    const options = this.page.locator(
+      "li[role='option']"
+    );
+
+    const optionCount = await options.count();
+
+   if(optionCount > 0){
+
+    await options.first().click();
+
+    console.log(
+      `Selected value for dropdown ${i}`
+    );
+}
+}
+
+
+await this.page.locator('button').filter({
+    hasText: 'Save'
+}).first().click();
+
+
+await this.page.locator('button').filter({
+    hasText: 'Close'
+}).first().click();
+
+    
+   }
 
 }
 

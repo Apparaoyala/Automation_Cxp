@@ -85,6 +85,11 @@ await this.newCustomerButton.click();
  
 async createCusBtn(){
        await this.CreateCusBtn.click();
+       console.log("Customer created successfully");
+
+await this.page.waitForLoadState('networkidle');
+
+await this.page.waitForTimeout(2000);
 }
  async eventIcon(){
        await this.EventIcon.click();

@@ -9,6 +9,7 @@ import { JsonUtil } from '../Utilities/JsonUtil';
 import { Event } from '../pages/Event';
 import { Services } from '../pages/Services';
 import { Customer } from '../pages/Customer';
+import { Estimate } from '../pages/Estimate';
 import { MandatoryFieldsEventUtil } from '../Utilities/MandatoryFieldsEventUtil';
 import { MandatoryFieldsContactUtil } from '../Utilities/MandatoryFieldsContactUtil';
 
@@ -25,6 +26,7 @@ test('Smoke Test - Login Flow', async ({ page }) => {
 const config = new TestConfig();
  const event = new Event(page);
  const services = new Services(page);
+ const estimate = new Estimate(page);
     const login = new Login(page);
     const homePage = new HomePage(page);
     const CommonActions = new commonActions(page);
@@ -94,7 +96,11 @@ await customer.handleDuplicateCustomerPopup();
 //await page.pause();
 
 });
+
+
 await test.step("Create Contact", async () => {
+    
+    
 
   const contactData = JsonUtil.readJson(
     './Utilities/TestData/Contact.json'
@@ -184,8 +190,8 @@ await services.closeBtn();
 await services.finalizeBtn();
 await services.serviceCloseBtn();
 await services.menuServiceStatus();
-
-
+//Sch Service
+await services.openSchService();
 
 //Alc Service
 await services.AllServiceStatuses();
@@ -195,9 +201,15 @@ await services.AlcServiceStatus();
 
 await services.EquipService();
 
-
-await services.openSchService();
+console.log("Equp working");
+await estimate.EstimateService();
+console.log("Estimate service working");
+await estimate.EstimateValues();
+console.log("Estimate values working");
+await estimate.TotalEstimate();
+console.log("Total Estimate values working");
 await page.pause();
+
 
 
 

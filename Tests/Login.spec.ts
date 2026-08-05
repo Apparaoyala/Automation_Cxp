@@ -54,7 +54,7 @@ test('authenticate', async ({ page }) => {
    
 
 await CommonActions.closeCommonPopup();
-   // await customer.Menu1();
+   await customer.Menu1();
 
 //---------------------------------------------start customer creation---------------------------------------
 /*
@@ -78,7 +78,7 @@ await page.waitForTimeout(3000);
 
 //---------------------------------------------------event creation --------------------------------------
 
-/*
+
 
 await event.CreateEvent();
 
@@ -134,18 +134,18 @@ await CommonActions.closeCommonPopup();
 
 //await page.pause();
 
-*/
+
 
 //just for deoced purpose
 
 
-
+/*
 
 await event.EventFilter();
 
 console.log("Event dashBoard is displayed");
+*/
 
-/*
 //Menu Service
 console.log("Sales Menu service ");
 await services.openMenuService();
@@ -177,9 +177,11 @@ await services.EquipService();
 
 await services.openSchService();
 
-*/
+
 
 await estimate.EstimateService();
 await estimate.EstimateValues();
+
+await estimate.TotalEstimate();
 await page.pause();
 });
