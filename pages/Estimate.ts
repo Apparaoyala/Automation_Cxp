@@ -147,7 +147,17 @@ for(let i = 1; i < count1; i += 4){
       `Selected value for dropdown ${i}`
     );
 }
+ const estimateTotal = await this.page
+        .locator("//label[contains(text(),'Saved Price')]/following::input[1]")
+        .inputValue();
+
+    console.log("Estimate Total:", estimateTotal);
+
+    return estimateTotal;
 }
+
+
+
 
 
 await this.page.locator('button').filter({

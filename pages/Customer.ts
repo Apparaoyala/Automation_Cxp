@@ -85,13 +85,15 @@ await this.newCustomerButton.click();
  
 async createCusBtn(){
        await this.CreateCusBtn.click();
-       console.log("Customer created successfully");
+await this.page.waitForTimeout(5000);
 
-await this.page.waitForLoadState('networkidle');
+    console.log(this.page.url());
 
-await this.page.waitForTimeout(2000);
 }
- async eventIcon(){
+async createContactBtn(){
+       await this.CreateCusBtn.click();
+}
+ async createEventIcon(){
        await this.EventIcon.click();
 }
  async handleDuplicateCustomerPopup() {

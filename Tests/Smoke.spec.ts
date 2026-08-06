@@ -10,12 +10,14 @@ import { Event } from '../pages/Event';
 import { Services } from '../pages/Services';
 import { Customer } from '../pages/Customer';
 import { Estimate } from '../pages/Estimate';
+import { BillWorksheet } from '../pages/BillWorksheet';
 import { MandatoryFieldsEventUtil } from '../Utilities/MandatoryFieldsEventUtil';
 import { MandatoryFieldsContactUtil } from '../Utilities/MandatoryFieldsContactUtil';
 
 import { MandatoryFieldUtil } from '../Utilities/MandatoryFieldUtil';
 
 import { ExcelUtil } from '../Utilities/ExcelUtil';
+import { Contact } from '../pages/Contact';
 
 
 
@@ -23,18 +25,20 @@ import { ExcelUtil } from '../Utilities/ExcelUtil';
 test('Smoke Test - Login Flow', async ({ page }) => {
 
     test.setTimeout(1800000);
-const config = new TestConfig();
- const event = new Event(page);
- const services = new Services(page);
- const estimate = new Estimate(page);
+    const config = new TestConfig();
+    const event = new Event(page);
+    const billworksheet = new BillWorksheet(page);
+    const services = new Services(page);
+    const estimate = new Estimate(page);
     const login = new Login(page);
     const homePage = new HomePage(page);
     const CommonActions = new commonActions(page);
-const loginelper = new LoginHelper();
+    const loginelper = new LoginHelper();
     const customer = new Customer(page);
+    const contact = new Contact(page);
     const mandatoryfieldseventutil = new MandatoryFieldsEventUtil(page);
- const mandatoryfieldutil = new MandatoryFieldUtil(page);
- const mandatoryFieldsContactUtil = new MandatoryFieldsContactUtil(page);
+    const mandatoryfieldutil = new MandatoryFieldUtil(page);
+    const mandatoryFieldsContactUtil = new MandatoryFieldsContactUtil(page);
 
     await test.step("Open Application", async () => {
 
@@ -42,12 +46,10 @@ const loginelper = new LoginHelper();
 
     });
 
-
     await test.step("Login into Application", async () => {
 
         await LoginHelper.login(page);
     });
-
 
     await test.step("Navigate to Sales New Module", async () => {
 
@@ -66,34 +68,23 @@ await CommonActions.closeCommonPopup();
 
 });
 
-
-
 await test.step("Create Customer", async () => {
- await customer.Menu1();
-
-  await customer.clickCustomer();
-
-   // await page.pause();
-//await page.waitForTimeout(3000);
+    await customer.Menu1();
+    await customer.clickCustomer();
 
     await customer.CustomerBtn();
-await page.waitForTimeout(3000);
-const customerData = JsonUtil.readJson(
+    await page.waitForTimeout(3000);
+     const customerData = JsonUtil.readJson(
     './Utilities/TestData/Customer.json'
-);
+    );
 
-//console.log(excelData);
-
-//await page.pause();
     await mandatoryfieldutil.getMandatoryFieldCount(customerData);
 
    await customer.createCusBtn();
    console.log("Customer created successfully");
-//await page.pause();
-await customer.handleDuplicateCustomerPopup();
+   await customer.handleDuplicateCustomerPopup();
    console.log(" successfully executed");
 
-//await page.pause();
 
 });
 
@@ -104,27 +95,24 @@ await test.step("Create Contact", async () => {
 
   const contactData = JsonUtil.readJson(
     './Utilities/TestData/Contact.json'
-);
-console.log(contactData);
+  );
+  console.log(contactData);
 
     await mandatoryFieldsContactUtil.getMandatoryFieldCount1(contactData);
 
 
-await customer.createCusBtn();
-await customer.eventIcon();
+    await contact.createContactBtn();
+
+    await contact.createEventIcon();
 
 
 });
 
-
-           //newly added code for event----------------------------------
-
-await page.locator("ngx-spinner .overlay").waitFor({
+await test.step("Create Event", async () => {
+    await page.locator("ngx-spinner .overlay").waitFor({
     state: "hidden",
     timeout: 30000
 });
-
-
 
 console.log(
     "Mandatory:",
@@ -133,14 +121,10 @@ console.log(
 await page.screenshot({ path: "createevent.png", fullPage: true });
 
 
-
-
 const EventData = JsonUtil.readJson(
     './Utilities/TestData/Event.json'
 );
 
-// console.log("Labels Before Waiting:",
-//     await page.locator("label").count());
 
 await page.waitForTimeout(3000);
 
@@ -163,10 +147,11 @@ console.log(eventNumber);
 
 await CommonActions.closeCommonPopup();
 
+});
 
 
-
-//Menu Service
+await test.step("Servicess", async () => {
+    //Menu Service
 console.log("Sales Menu service complete");
 await services.openMenuService();
 console.log("Open MEnu service");
@@ -202,20 +187,30 @@ await services.AlcServiceStatus();
 await services.EquipService();
 
 console.log("Equp working");
-await estimate.EstimateService();
+});
+
+await test.step("EstimateService", async () => {
+
+    await estimate.EstimateService();
 console.log("Estimate service working");
 await estimate.EstimateValues();
 console.log("Estimate values working");
 await estimate.TotalEstimate();
 console.log("Total Estimate values working");
+});
+
+
+
+await test.step("BillService", async () => {
+
+await billworksheet.openbillService();
+await billworksheet.BillProcess();
+const estimateTotal = await estimate.TotalEstimate();
+
+await billworksheet.BillValue(estimateTotal);
+
+});
 await page.pause();
-
-
-
-
-
-
-
 
 
 });
