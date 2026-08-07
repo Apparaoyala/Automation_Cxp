@@ -1,4 +1,4 @@
-import { Page, Locator } from '@playwright/test';
+import { Page, Locator,expect} from '@playwright/test';
 export class Contact{
 
  private readonly page: Page;
@@ -18,6 +18,16 @@ async createContactBtn(){
        await this.CreateCusBtn.click();
 }
 async createEventIcon(){
+      
        await this.EventIcon.click();
 }
+async waitForContactScreen() {await expect.poll(async () => {
+
+        return await this.page.locator(
+            "//div[@role='tabpanel' and @aria-hidden='false']//label[.//span[contains(@class,'text-danger')]]"
+        ).count();
+
+    }, {
+        timeout: 20000
+    }).toBeGreaterThan(10);}
 }

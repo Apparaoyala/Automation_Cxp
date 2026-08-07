@@ -114,64 +114,51 @@ console.log(
 
     
 
-   async TotalEstimate() {
+   async TotalEstimate(): Promise<string> {
 
     await this.page.locator(
-  "//button[contains(.,'Total Estimate')]"
-).first().click();
+        "//button[contains(.,'Total Estimate')]"
+    ).first().click();
 
+    const dropdowns = this.page.locator(".p-dropdown");
 
-const dropdowns = this.page.locator(".p-dropdown");
+    const count1 = await dropdowns.count();
 
-const count1 = await dropdowns.count();
+    console.log("Dropdown Count:", count1);
 
-console.log("Dropdown Count:", count1);
+    for (let i = 1; i < count1; i += 4) {
 
-for(let i = 1; i < count1; i += 4){
+        console.log(`Selecting dropdown ${i}`);
 
-    console.log(`Selecting dropdown ${i}`);
+        await dropdowns.nth(i).click();
 
-    await dropdowns.nth(i).click();
+        const options = this.page.locator("li[role='option']");
 
-    const options = this.page.locator(
-      "li[role='option']"
-    );
+        const optionCount = await options.count();
 
-    const optionCount = await options.count();
+        if (optionCount > 0) {
 
-   if(optionCount > 0){
+            await options.first().click();
 
-    await options.first().click();
+            console.log(`Selected value for dropdown ${i}`);
+        }
+    }
 
-    console.log(
-      `Selected value for dropdown ${i}`
-    );
-}
- const estimateTotal = await this.page
+    const estimateTotal = await this.page
         .locator("//label[contains(text(),'Saved Price')]/following::input[1]")
         .inputValue();
 
     console.log("Estimate Total:", estimateTotal);
 
+    await this.page.locator('button').filter({
+        hasText: 'Save'
+    }).first().click();
+
+    await this.page.locator('button').filter({
+        hasText: 'Close'
+    }).first().click();
+
     return estimateTotal;
 }
-
-
-
-
-
-await this.page.locator('button').filter({
-    hasText: 'Save'
-}).first().click();
-
-
-await this.page.locator('button').filter({
-    hasText: 'Close'
-}).first().click();
-
-    
-   }
-
 }
-
 

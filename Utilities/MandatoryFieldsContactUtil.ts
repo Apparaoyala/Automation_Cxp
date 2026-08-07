@@ -49,6 +49,23 @@ else {
     }
       
       async getMandatoryFieldCount1( jsonData: Record<string, any>) {
+
+
+
+         // 🔍 Debug start
+    console.log(
+        "Visible Panels:",
+        await this.page.locator(
+            "//div[@role='tabpanel' and @aria-hidden='false']"
+        ).count()
+    );
+
+    console.log(
+        "Mandatory Count:",
+        await this.page.locator(
+            "//div[@role='tabpanel' and @aria-hidden='false']//label[.//span[contains(@class,'text-danger')]]"
+        ).count()
+    );
         const labels = this.page.locator(
   "//div[@role='tabpanel' and @aria-hidden='false']//label"
 );
@@ -73,23 +90,15 @@ const row1 = label.locator(
     'xpath=ancestor::div[contains(@class,"row")][1]'
 );
 
-console.log("================================");
-console.log("FIELD :", fieldName);
-console.log(await row1.innerHTML());
-console.log("================================");
 if (!fieldName) {
     continue;
 }
 // Find control
 const value = jsonData[fieldName];
 
-console.log(fieldName);
-console.log(value);
+// console.log(fieldName);
+// console.log(value);
 //30--06-2026
-
-      //  console.log("--------------------------------");
-
-       // console.log("Field :", fieldName);
 
         // Get nearest row
         const row = label.locator(
@@ -118,12 +127,7 @@ console.log(value);
 if (value === undefined) {
     continue;
 }
-console.log(
-    "Field:",
-    fieldName,
-    "Control Type:",
-    controlType
-);
+
 switch (controlType) {
 
     case "TEXTBOX":

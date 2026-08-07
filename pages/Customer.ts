@@ -85,9 +85,6 @@ await this.newCustomerButton.click();
  
 async createCusBtn(){
        await this.CreateCusBtn.click();
-await this.page.waitForTimeout(5000);
-
-    console.log(this.page.url());
 
 }
 async createContactBtn(){

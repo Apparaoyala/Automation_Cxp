@@ -72,15 +72,10 @@ if (!fieldName) {
 
 const value = jsonData[fieldName];
 
-console.log(fieldName);
-console.log(value);
+
 //30--06-2026
 
-      //  console.log("--------------------------------");
-
-       // console.log("Field :", fieldName);
-
-        // Get nearest row
+    
         const row = label.locator(
             //"xpath=ancestor::div[contains(@class,'row')][1]"
              "xpath=ancestor-or-self::div[contains(@class,'row')][1]"
@@ -109,12 +104,12 @@ console.log(value);
 if (value === undefined) {
     continue;
 }
-console.log(
-    "Field:",
-    fieldName,
-    "Control Type:",
-    controlType
-);
+// console.log(
+//     "Field:",
+//     fieldName,
+//     "Control Type:",
+//     controlType
+// );
 switch (controlType) {
 
     case "TEXTBOX":

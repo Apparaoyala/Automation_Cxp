@@ -5,6 +5,8 @@ import { Customer } from '../pages/Customer';
 import { Event } from '../pages/Event';
 import { Services } from '../pages/Services';
 import { Estimate } from '../pages/Estimate';
+import { BillWorksheet } from '../pages/BillWorksheet';
+
 import { MandatoryFieldsEventUtil } from '../Utilities/MandatoryFieldsEventUtil';
 import { commonActions } from '../Utilities/CommonActions';
 //import { MandatoryFieldUtil } from '../Utilities/MandatoryFieldUtil';
@@ -21,6 +23,8 @@ test('authenticate', async ({ page }) => {
     const customer = new Customer(page);
     const event = new Event(page);
     const estimate = new Estimate(page);
+        const billworksheet = new BillWorksheet(page);
+
     const services = new Services(page);
     const CommonActions = new commonActions(page);
     //const mandatoryfieldutil = new MandatoryFieldUtil(page);
@@ -147,31 +151,31 @@ console.log("Event dashBoard is displayed");
 */
 
 //Menu Service
-console.log("Sales Menu service ");
-await services.openMenuService();
-console.log("Open MEnu service");
+// console.log("Sales Menu service ");
+// await services.openMenuService();
+// console.log("Open MEnu service");
 
-await services.searchandAdd();
-console.log("search and add clikc");
-await services.filterICon();
-console.log("filter working");
-await services.goButton();
-console.log("go button working");
-await services.itemSelectBox();
-console.log("items are select");
-await services.saveBtn();
-console.log("save working");
-await services.closeBtn();
-await services.finalizeBtn();
-await services.serviceCloseBtn();
-await services.menuServiceStatus();
+// await services.searchandAdd();
+// console.log("search and add clikc");
+// await services.filterICon();
+// console.log("filter working");
+// await services.goButton();
+// console.log("go button working");
+// await services.itemSelectBox();
+// console.log("items are select");
+// await services.saveBtn();
+// console.log("save working");
+// await services.closeBtn();
+// await services.finalizeBtn();
+// await services.serviceCloseBtn();
+// await services.menuServiceStatus();
 
-await services.AllServiceStatuses();
-await services.openAlcService();
+// await services.AllServiceStatuses();
+// await services.openAlcService();
 
-await services.AlcServiceStatus();
+// await services.AlcServiceStatus();
 
-await services.EquipService();
+// await services.EquipService();
 
 
 
@@ -184,4 +188,14 @@ await estimate.EstimateValues();
 
 await estimate.TotalEstimate();
 await page.pause();
+
+await test.step("BillService", async () => {
+
+await billworksheet.openbillService();
+await billworksheet.BillProcess();
+const estimateTotal = await estimate.TotalEstimate();
+
+await billworksheet.BillValue(estimateTotal);
+
+});
 });

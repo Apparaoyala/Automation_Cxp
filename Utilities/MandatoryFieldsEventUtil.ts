@@ -98,9 +98,7 @@ if (!fieldName) {
 // Find control
 const value = jsonData[fieldName];
 
-// console.log(
-//     `Field = ${fieldName}, Excel Value = ${value}`
-// );
+
 
 const controlContainer =
     await this.findControlContainer(label);
@@ -159,7 +157,7 @@ private async findControlContainer(label: Locator): Promise<Locator> {
 
     const fieldName = await label.textContent();
 
-    //console.log("Searching control for :", fieldName);
+    
 
     const parentDivContainer = label.locator(
         "xpath=parent::div/following-sibling::div[1]"
@@ -205,7 +203,7 @@ async identifyControlType(control: Locator): Promise<string> {
 
 async handleTextbox(controlContainer: Locator, value: string) {
 
-    //console.log("Entering value:", value);
+    
 
     const textbox = controlContainer.locator(
         'input:not([readonly]), textarea'
@@ -282,7 +280,7 @@ const period = match[2].toUpperCase();
 
 
 
-    //console.log("Selecting:", clockTime, period);
+    
 
     // Wait for popup
     await this.page.locator(".p-overlaypanel-content")
@@ -296,14 +294,14 @@ const period = match[2].toUpperCase();
 
     // Debug
     const count = await this.page.locator("span.time-hover").count();
-    //console.log("Time Count:", count);
+   
 
     for (let i = 0; i < count; i++) {
 
         const option = this.page.locator("span.time-hover").nth(i);
         const text = (await option.innerText()).trim();
 
-       // console.log(text);
+    
 
         if (text === clockTime) {
 
@@ -320,7 +318,7 @@ const period = match[2].toUpperCase();
 
 async handleDropdown(controlContainer: Locator, value: string) {
 
-   // console.log("Expected Excel Value:", value);
+   
 
     const dropdown = controlContainer.locator("p-dropdown");
 
@@ -346,15 +344,12 @@ async handleDropdown(controlContainer: Locator, value: string) {
 
     const count = await options.count();
 
-   // console.log("Option Count:", count);
 
     let optionFound = false;
 
     for (let i = 0; i < count; i++) {
 
         const text = (await options.nth(i).innerText()).trim();
-
-       // console.log("Option:", text);
 
         if (
     text.trim().toLowerCase() ===
