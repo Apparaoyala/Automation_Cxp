@@ -153,39 +153,39 @@ await CommonActions.closeCommonPopup();
 
 await test.step("Servicess", async () => {
     //Menu Service
-// console.log("Sales Menu service complete");
-// await services.openMenuService();
-// console.log("Open MEnu service");
+console.log("Sales Menu service complete");
+await services.openMenuService();
+console.log("Open MEnu service");
 
-// await services.searchandAdd();
-// console.log("search and add clikc");
-// await services.filterICon();
-// console.log("filter working");
-// await services.goButton();
-// console.log("go button working");
-// console.log(
-//   await page.locator('div.p-checkbox.p-component')
-//             .locator('div')
-//             .count()
-// );
-// await services.itemSelectBox();
-// console.log("items are select");
-// await services.saveBtn();
-// console.log("save working");
-// await services.closeBtn();
-// await services.finalizeBtn();
-// await services.serviceCloseBtn();
-// await services.menuServiceStatus();
+await services.searchandAdd();
+console.log("search and add clikc");
+await services.filterICon();
+console.log("filter working");
+await services.goButton();
+console.log("go button working");
+console.log(
+  await page.locator('div.p-checkbox.p-component')
+            .locator('div')
+            .count()
+);
+await services.itemSelectBox();
+console.log("items are select");
+await services.saveBtn();
+console.log("save working");
+await services.closeBtn();
+await services.finalizeBtn();
+await services.serviceCloseBtn();
+await services.menuServiceStatus();
 //Sch Service
 await services.openSchService();
 
 //Alc Service
-// await services.AllServiceStatuses();
-// await services.openAlcService();
+await services.AllServiceStatuses();
+await services.openAlcService();
 
-// await services.AlcServiceStatus();
+await services.AlcServiceStatus();
 
-// await services.EquipService();
+await services.EquipService();
 
 console.log("Equp working");
 });

@@ -50,6 +50,8 @@ test('authenticate', async ({ page }) => {
     await customer.Menu1();
 //event creation --------------------------------------
 
+
+
 await event.CreateEvent();
 
 //await event.CreateEvent();

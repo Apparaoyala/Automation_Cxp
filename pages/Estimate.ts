@@ -144,11 +144,26 @@ console.log(
         }
     }
 
-    const estimateTotal = await this.page
-        .locator("//label[contains(text(),'Saved Price')]/following::input[1]")
+    const savedPrices = this.page.locator(
+    "input[name='savedPrice']"
+).last();
+const count2 = await savedPrices.count();
+let estimateTotal = "";
+
+for(let i = 0; i < count2; i++){
+
+    const value = await savedPrices
+        .nth(i)
         .inputValue();
 
-    console.log("Estimate Total:", estimateTotal);
+    if(value.trim() !== ""){
+
+        estimateTotal = value;
+        break;
+    }
+}
+
+console.log("Estimate Total:", estimateTotal);
 
     await this.page.locator('button').filter({
         hasText: 'Save'

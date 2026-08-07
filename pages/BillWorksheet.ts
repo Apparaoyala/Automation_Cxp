@@ -63,11 +63,15 @@ async BillProcess() {
 
 }
 async BillValue(estimateTotal: string) {
+    console.log('BillValue method');
 
     const grandTotal = await this.page
-        .locator("//label[contains(text(),'Grand Total')]/following::input[1]")
-        .inputValue();
+.locator(
+"//span[contains(.,'Grand Total')]/following-sibling::input"
+)
+.inputValue();
 
+console.log(grandTotal);
     const estimateValue = parseFloat(
         estimateTotal.replace(/,/g, "")
     );
