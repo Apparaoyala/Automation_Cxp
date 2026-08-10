@@ -111,30 +111,100 @@ async filterICon() {
 async goButton() {
 
      await this.GoButton.click();
+     await this.page.screenshot({
+  path: "after-go.png",
+  fullPage: true
+});
+
+const rows = this.page.locator("tbody tr");
+
+console.log("Rows:", await rows.count());
+
+const firstRow = rows.first();
+
+console.log(await firstRow.innerHTML());
     }
 async itemSelectBox() {
 
-    const count = await this.ItemSelectBox.count();
+    const checkboxes = this.page.locator(
+        "tbody tr p-checkbox"
+    );
 
-    let selected = 0;
+    const count = await checkboxes.count();
 
-    for (let i = 0; i < count; i++) {
+    console.log("Checkboxes:", count);
 
-        const checkbox = this.ItemSelectBox.nth(i);
+    const limit = Math.min(count, 5);
 
-        if (await checkbox.isVisible()) {
+    for (let i = 0; i < limit; i++) {
 
-            await checkbox.click();
+        await checkboxes
+            .nth(i)
+            .locator(".p-checkbox-box")
+            .click({ force: true });
 
-            selected++;
-
-            if (selected === 10) {
-                break;
-            }
-        }
+        console.log(`Clicked checkbox ${i}`);
     }
+}
+async processServiceRows() {
 
-    console.log(`Selected ${selected} items`);
+  const menuRows = this.page.locator(
+    "tbody tr:has(p-dropdown[id^='mennu_'])"
+);
+
+console.log(
+    "Menu Rows:",
+    await menuRows.count()
+);
+
+    const rowCount = await menuRows.count();
+
+    for(let i=0; i<rowCount; i++) {
+
+        const row = menuRows.nth(i);
+
+        const menuValue = await row
+            .locator("p-dropdown[id^='mennu_'] .p-dropdown-label")
+            .textContent();
+
+        if(menuValue?.trim() === "- Select -") {
+
+            // Open Menu Dropdown
+            await row
+                .locator("p-dropdown[id^='mennu_'] .p-dropdown-trigger")
+                .click();
+
+            await this.page
+                .locator("li.p-dropdown-item")
+                .nth(2)
+                .click();
+        }
+
+        const courseValue = await row
+            .locator("p-dropdown[id^='cours_'] .p-dropdown-label")
+            .textContent();
+
+        if(courseValue?.trim() === "- Select -") {
+
+            await row
+                .locator("p-dropdown[id^='cours_'] .p-dropdown-trigger")
+                .click();
+
+            await this.page
+                .locator("li.p-dropdown-item")
+                .nth(2)
+                .click();
+        } else{
+            
+         // Checkbox
+        await row
+            .locator("div.p-checkbox-box")
+            .click({ force: true });
+    
+        }
+
+       
+    } 
 }
 async saveBtn() {
 
@@ -150,6 +220,8 @@ async closeBtn() {
 async finalizeBtn() {
 
      await this.FinalizeBtn.click();
+
+
     }
 async serviceCloseBtn() {
 
@@ -497,9 +569,81 @@ await this.FinalizeBtn.click();
 }
 
 
+//constraints
+async isServiceConstraintDisplayed(): Promise<boolean> {
+
+    const constraintTitle = this.page.getByText(
+        "Service Constraints",
+        { exact: true }
+    );
+
+    try {
+        await constraintTitle.waitFor({
+            state: "visible",
+            timeout: 5000
+        });
+
+        console.log("Service Constraint displayed");
+        return true;
+
+    } catch {
+
+        console.log("Service Constraint not displayed");
+        return false;
+    }
+}
 
 
+async serviceConstraintSaveBtn() {
 
+    const sidebar = this.page.locator("p-sidebar").filter({
+        hasText: "Service Constraints"
+    });
+
+
+    await sidebar
+        .getByRole("button", { name: "Save" })
+        .click();
+
+    console.log("Service Constraint Save clicked");
+}
+
+
+async processFinalizeWorkflow() {
+
+    await this.finalizeBtn();
+
+    // Case 1: Constraint
+    if (await this.isServiceConstraintDisplayed()) {
+
+        console.log("Service Constraint detected");
+
+        await this.serviceConstraintSaveBtn();
+
+        //await this.goToApprovalAndReturnToMenuService();
+
+        await this.finalizeBtn();
+    }
+
+    // // Case 2: Info
+    // if (await this.isInfoDisplayed()) {
+
+    //     console.log("Info screen detected");
+
+    //     const infoData = JsonUtil.readJson(
+    //         "./Utilities/TestData/Info.json"
+    //     );
+
+    //     await this.mandatoryFieldsInfoUtil
+    //         .fillMandatoryFields(infoData);
+
+    //     await this.infoSaveBtn();
+
+    //     console.log("Info saved");
+    // }
+
+    console.log("Finalize workflow completed");
+}
 
 
 }

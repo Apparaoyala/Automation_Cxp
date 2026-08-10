@@ -1,7 +1,7 @@
 import { Page, Locator } from '@playwright/test';
 
 
-export class MandatoryFieldsEventUtil {
+export class MandatoryFieldInfoUtil {
 
     private readonly page: Page;
 
@@ -42,7 +42,7 @@ else {
 
         this.page = page;
 
-       console.log("******** MandatoryFieldsEventUtil Loaded ********");
+       console.log("******** MandatoryFieldInfoUtil Loaded ********");
     }
       
       async getMandatoryFieldCount(jsonData: Record<string, any>) {

@@ -82,7 +82,7 @@ await page.waitForTimeout(3000);
 
 //---------------------------------------------------event creation --------------------------------------
 
-
+/*
 
 await event.CreateEvent();
 
@@ -142,34 +142,39 @@ await CommonActions.closeCommonPopup();
 
 //just for deoced purpose
 
+*/
 
-/*
 
 await event.EventFilter();
 
 console.log("Event dashBoard is displayed");
-*/
+
 
 //Menu Service
-// console.log("Sales Menu service ");
-// await services.openMenuService();
-// console.log("Open MEnu service");
+console.log("Sales Menu service ");
+await services.openMenuService();
+console.log("Open MEnu service");
 
-// await services.searchandAdd();
-// console.log("search and add clikc");
-// await services.filterICon();
-// console.log("filter working");
-// await services.goButton();
-// console.log("go button working");
-// await services.itemSelectBox();
-// console.log("items are select");
-// await services.saveBtn();
-// console.log("save working");
-// await services.closeBtn();
-// await services.finalizeBtn();
-// await services.serviceCloseBtn();
-// await services.menuServiceStatus();
+await services.searchandAdd();
+console.log("search and add clikc");
+await services.filterICon();
+console.log("filter working");
+await services.goButton();
+console.log("go button working");
+//await services.itemSelectBox();
+console.log("items are select");
 
+await services.processServiceRows()
+console.log("items menu and course are  select");
+await services.saveBtn();
+console.log("save working");
+await services.closeBtn();
+await services.processFinalizeWorkflow();
+
+
+await services.serviceCloseBtn();
+await services.menuServiceStatus();
+await page.pause();
 // await services.AllServiceStatuses();
 // await services.openAlcService();
 
@@ -177,7 +182,7 @@ console.log("Event dashBoard is displayed");
 
 // await services.EquipService();
 
-
+/*
 
 await services.openSchService();
 
@@ -199,4 +204,5 @@ await billworksheet.BillValue(estimateTotal);
 
 
 });
+*/
 });

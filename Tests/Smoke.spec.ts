@@ -137,6 +137,8 @@ console.log("Labels After 5 Seconds:",
     timeout: 180000
 });
 await page.waitForTimeout(500);
+
+
 await mandatoryfieldseventutil.getMandatoryFieldCount(EventData);
 
 
