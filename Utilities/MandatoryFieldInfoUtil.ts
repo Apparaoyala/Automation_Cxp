@@ -50,38 +50,6 @@ else {
 
     // Handle Business Unit First
 
-    const buValue = jsonData["Business Unit"];
-
-    if (buValue) {
-
-        const buLabel = this.page.locator(
-            "//label[contains(normalize-space(),'Business Unit')]"
-        );
-
-        const buContainer =
-            await this.findControlContainer(buLabel);
-
-        await this.handleDropdown(
-            buContainer,
-            String(buValue)
-        );
-
-        console.log(
-            "Business Unit Selected:",
-            buValue
-        );
-
-        // Wait for screen refresh
-    
-        await this.page.locator("ngx-spinner .overlay")
-            .waitFor({
-                state: "hidden",
-                timeout: 30000
-            });
-        
-    }
-
-    // STEP 2: Read Mandatory Fields AFTER BU
 
     const mandatoryLabels = this.page.locator(
         "//label[.//span[contains(@class,'text-danger')]]"
@@ -161,101 +129,241 @@ else {
 
         switch (controlType) {
 
-            case "TEXTBOX":
+    case "TEXTBOX":
 
-                await this.handleTextbox(
-                    controlContainer,
-                    String(value)
-                );
+        await this.handleTextbox(
+            controlContainer,
+            String(value)
+        );
 
-                break;
+        break;
 
-            case "CHECKBOX":
 
-                await this.handleCheckbox(
-                    controlContainer,
-                    String(value)
-                );
+    case "CHECKBOX":
 
-                break;
+        await this.handleCheckbox(
+            controlContainer,
+            String(value)
+        );
 
-            case "DROPDOWN":
+        break;
 
-                await this.handleDropdown(
-                    controlContainer,
-                    String(value)
-                );
 
-                break;
+    case "DROPDOWN":
 
-            case "DATETIME":
+        await this.handleDropdown(
+            controlContainer,
+            String(value)
+        );
 
-                await this.handleDateTime(
-                    controlContainer,
-                    String(value)
-                );
+        break;
 
-                break;
 
-            default:
+    case "MULTISELECT":
 
-                console.log(
-                    `Unknown Control Type: ${fieldName}`
-                );
+        await this.handleMultiSelect(
+            controlContainer,
+            String(value)
+        );
 
-                break;
-        }
+        break;
+
+
+    case "DATETIME":
+
+        await this.handleDateTime(
+            controlContainer,
+            String(value)
+        );
+
+        break;
+
+
+    default:
+
+        console.log(
+            `Unknown Control Type: ${fieldName}`
+        );
+
+        break;
+}
     }
 }
        
-private async findControlContainer(label: Locator): Promise<Locator> {
+private async findControlContainer(
+    label: Locator
+): Promise<Locator> {
 
-    const fieldName = await label.textContent();
-
-    
-
-    const parentDivContainer = label.locator(
-        "xpath=parent::div/following-sibling::div[1]"
+    // First: check the element immediately after label
+    const directSibling = label.locator(
+        "xpath=following-sibling::*[1]"
     );
 
-  
+    if (await directSibling.count() > 0) {
+
+        console.log(
+            "Direct sibling found:",
+            await directSibling.evaluate(
+                el => el.tagName
+            )
+        );
+
+        return directSibling;
+    }
+
+    // Second: check the parent structure
+    const parentDivContainer = label.locator(
+        "xpath=parent::div/following-sibling::*[1]"
+    );
 
     if (await parentDivContainer.count() > 0) {
         return parentDivContainer;
     }
 
-    const siblingContainer = label.locator(
-        "xpath=following-sibling::div[1]"
-    );
-
-
-    return siblingContainer;
+    return label.locator("xpath=..");
 }
        
-async identifyControlType(control: Locator): Promise<string> {
+async identifyControlType(
+    control: Locator
+): Promise<string> {
 
-   
-
+    // MULTISELECT
     if (
-    await control.locator("p-dropdown").count() > 0 ||
-    await control.locator("input.p-dropdown-label").count() > 0
-) {
-    return "DROPDOWN";
-}
+        await control.locator("p-multiselect").count() > 0 ||
+        await control.evaluate(
+            el => el.tagName.toLowerCase() === "p-multiselect"
+        ).catch(() => false)
+    ) {
+        return "MULTISELECT";
+    }
 
-    if (await control.locator('input[type="checkbox"]').count() > 0) {
+    // DROPDOWN
+    if (
+        await control.locator("p-dropdown").count() > 0 ||
+        await control.evaluate(
+            el => el.tagName.toLowerCase() === "p-dropdown"
+        ).catch(() => false)
+    ) {
+        return "DROPDOWN";
+    }
+
+    // CHECKBOX
+    if (
+        await control.locator(
+            'input[type="checkbox"]'
+        ).count() > 0
+    ) {
         return "CHECKBOX";
     }
-    if (await control.locator("input[bsdatepicker]").count() > 0) {
-    return "DATETIME";
+
+    // DATE
+    if (
+        await control.locator(
+            "input[bsdatepicker]"
+        ).count() > 0
+    ) {
+        return "DATETIME";
     }
-    if (await control.locator("input:not([readonly]), textarea").count() > 0) {
+
+    // TEXTBOX
+    if (
+        await control.locator(
+            "input:not([readonly]), textarea"
+        ).count() > 0
+    ) {
         return "TEXTBOX";
     }
 
     return "UNKNOWN";
 }
+async handleMultiSelect(
+    controlContainer: Locator,
+    value: string
+) {
 
+    console.log("========== MULTISELECT START ==========");
+
+    console.log("Value received:", value);
+
+    // controlContainer is already <p-multiselect>
+    const multiSelect = controlContainer;
+
+    console.log(
+        "MultiSelect count:",
+        await multiSelect.count()
+    );
+
+    await multiSelect
+        .locator(".p-multiselect-trigger")
+        .click();
+
+    console.log("MultiSelect opened");
+
+    const options = this.page.locator(
+        ".p-multiselect-panel:visible li.p-multiselect-item"
+    );
+
+    await options.first().waitFor({
+        state: "visible",
+        timeout: 15000
+    });
+
+    console.log(
+        "Options count:",
+        await options.count()
+    );
+
+    const values = value
+        .split(",")
+        .map(v => v.trim())
+        .filter(Boolean);
+
+    console.log(
+        "Values to select:",
+        values
+    );
+
+    for (const expectedValue of values) {
+
+        console.log(
+            "Looking for:",
+            expectedValue
+        );
+
+        const option = options
+            .filter({
+                hasText: expectedValue
+            })
+            .first();
+
+        console.log(
+            "Option count:",
+            await option.count()
+        );
+
+        if (await option.count() > 0) {
+
+            await option.click();
+
+            console.log(
+                "Selected:",
+                expectedValue
+            );
+
+        } else {
+
+            throw new Error(
+                `MultiSelect option "${expectedValue}" not found`
+            );
+        }
+    }
+
+    await this.page.keyboard.press("Escape");
+
+    console.log(
+        "========== MULTISELECT COMPLETE =========="
+    );
+}
 async handleTextbox(controlContainer: Locator, value: string) {
 
     
@@ -371,48 +479,47 @@ const period = match[2].toUpperCase();
     }
 }
 
-async handleDropdown(controlContainer: Locator, value: string) {
-
-   
-
-    const dropdown = controlContainer.locator("p-dropdown");
+async handleDropdown(
+    controlContainer: Locator,
+    value: string
+) {
 
     await controlContainer
-    .locator(".p-dropdown-trigger")
-    .click();
+        .locator(".p-dropdown-trigger")
+        .click();
 
-    await this.page
-    .locator("li.p-dropdown-item")
-    .first()
-    .waitFor({
+    const options = this.page.locator(
+        ".p-dropdown-panel:visible li.p-dropdown-item"
+    );
+
+    await options.first().waitFor({
         state: "visible",
         timeout: 15000
     });
 
-   // const options = this.page.locator("div.p-dropdown-panel:visible li.p-dropdown-item");
-   const options = this.page.locator("li.p-dropdown-item");
-
-// await options
-//     .filter({ hasText: value })
-//     .first()
-//     .click();
-
     const count = await options.count();
-
 
     let optionFound = false;
 
     for (let i = 0; i < count; i++) {
 
-        const text = (await options.nth(i).innerText()).trim();
+        const text = (
+            await options.nth(i).innerText()
+        ).trim();
 
         if (
-    text.trim().toLowerCase() ===
-    value.trim().toLowerCase()
-) {
+            text.toLowerCase() ===
+            value.trim().toLowerCase()
+        ) {
 
-            console.log("Selecting:", text);
-            await options.nth(i).scrollIntoViewIfNeeded();
+            console.log(
+                "Selecting:",
+                text
+            );
+
+            await options
+                .nth(i)
+                .scrollIntoViewIfNeeded();
 
             await options.nth(i).click();
 
@@ -421,38 +528,34 @@ async handleDropdown(controlContainer: Locator, value: string) {
             break;
         }
     }
-/*
+
     if (!optionFound) {
 
-        console.log(`Option "${value}" not found.`);
+        console.log(
+            `Option "${value}" not found. Selecting first available option.`
+        );
 
-        await this.page.keyboard.press("Escape");
+        if (count > 0) {
 
+            const firstOption = options.first();
+
+            const firstValue = (
+                await firstOption.innerText()
+            ).trim();
+
+            console.log(
+                `Selected First Option: ${firstValue}`
+            );
+
+            await firstOption.click();
+
+        } else {
+
+            throw new Error(
+                "Dropdown has no options."
+            );
+        }
     }
-        */
-       if (!optionFound) {
-
-    console.log(
-        `Option "${value}" not found. Selecting first available option.`
-    );
-
-    if (count > 0) {
-
-        const firstOption = options.first();
-
-        const firstValue = (await firstOption.innerText()).trim();
-
-        console.log(`Selected First Option: ${firstValue}`);
-
-        await firstOption.click();
-
-    } else {
-
-        throw new Error("Dropdown has no options.");
-
-    }
-}
-
 }
     }
 

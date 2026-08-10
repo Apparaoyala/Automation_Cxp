@@ -130,8 +130,11 @@ switch (controlType) {
     await this.handleDropdown(controlContainer);
     break;
 
-    case "MULTISELECT":
-    await this.handleMultiSelect(controlContainer);
+   case "MULTISELECT":
+    await this.handleMultiSelect(
+        controlContainer,
+        value
+    );
     break;
 }
     }
@@ -141,31 +144,39 @@ switch (controlType) {
        
 async identifyControlType(control: Locator): Promise<string> {
 
-    if (await control.locator('p-multiselect').count() > 0) {
-        return 'MULTISELECT';
+    if (
+        await control.locator("p-multiselect").count() > 0
+    ) {
+        return "MULTISELECT";
     }
 
-    if (await control.locator('p-dropdown').count() > 0) {
-        return 'DROPDOWN';
+    if (
+        await control.locator("p-dropdown").count() > 0 ||
+        await control.locator("input.p-dropdown-label").count() > 0
+    ) {
+        return "DROPDOWN";
     }
 
-    if (await control.locator('input[type="checkbox"]').count() > 0) {
-        return 'CHECKBOX';
+    if (
+        await control.locator('input[type="checkbox"]').count() > 0
+    ) {
+        return "CHECKBOX";
     }
 
-    if (await control.locator('input:not([readonly]), textarea').count() > 0) {
-        return 'TEXTBOX';
+    if (
+        await control.locator("input[bsdatepicker]").count() > 0
+    ) {
+        return "DATETIME";
     }
 
-    return 'UNKNOWN';
-}/*
-async handleTextbox(controlContainer: Locator, value: string) {
+    if (
+        await control.locator("input:not([readonly]), textarea").count() > 0
+    ) {
+        return "TEXTBOX";
+    }
 
-    const textbox = controlContainer.locator('input');
-
-    await textbox.fill(value);
-
-}*/
+    return "UNKNOWN";
+}
 
 async handleTextbox(controlContainer: Locator, value: string) {
 
@@ -198,29 +209,63 @@ async handleDropdown(controlContainer: Locator) {
 
     console.log("Selected second dropdown option");
 }
-async handleMultiSelect(controlContainer: Locator) {
+async handleMultiSelect(controlContainer: Locator,value: any){
 
-    const multiSelect =
-        controlContainer.locator("p-multiselect");
+    const values: string[] = Array.isArray(value)
+        ? value.map(String)
+        : [String(value)];
 
-    await multiSelect.click();
+    const multiSelect = controlContainer.locator("p-multiselect");
 
-    await this.page
-        .locator("ul.p-multiselect-items")
-        .waitFor({ state: "visible" });
+    await multiSelect
+        .locator(".p-multiselect-trigger")
+        .click();
 
     const options = this.page.locator(
-        "//ul[contains(@class,'p-multiselect-items')]//li"
+        "li.p-multiselect-item"
     );
 
-    console.log(
-        "Option Count:",
-        await options.count()
-    );
+    const optionCount = await options.count();
 
-    await options.nth(0).click();
-    await multiSelect.click();
+    for (const expectedValue of values) {
 
+        let found = false;
+
+        for (let i = 0; i < optionCount; i++) {
+
+            const option = options.nth(i);
+
+            const text = (
+                await option.innerText()
+            ).trim();
+
+            if (
+                text.toLowerCase() ===
+                expectedValue.trim().toLowerCase()
+            ) {
+
+                console.log(
+                    `Selecting MultiSelect: ${text}`
+                );
+
+                await option.click();
+
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+            console.log(
+                `MultiSelect option "${expectedValue}" not found`
+            );
+        }
+    }
+
+    // Close popup
+    await multiSelect
+        .locator(".p-multiselect-trigger")
+        .click();
 }
     }
 

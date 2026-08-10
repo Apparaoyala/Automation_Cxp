@@ -1,4 +1,6 @@
 import { Page, Locator } from '@playwright/test';
+import { JsonUtil } from '../Utilities/JsonUtil';
+import { MandatoryFieldInfoUtil } from '../Utilities/MandatoryFieldInfoUtil';
 
 export class Services {
 
@@ -36,6 +38,9 @@ private readonly ServiceCloseBtn:Locator;
   //scheduling service
 
   private readonly SchHeader: Locator;
+
+  //finalize
+  private mandatoryFieldInfoUtil: MandatoryFieldInfoUtil;
 
  constructor(page: Page) {
 
@@ -80,7 +85,8 @@ this.OkButton = page.getByRole('button', {
 
 
 
-
+ this.mandatoryFieldInfoUtil =
+            new MandatoryFieldInfoUtil(page);
 
 
  }
@@ -122,7 +128,7 @@ console.log("Rows:", await rows.count());
 
 const firstRow = rows.first();
 
-console.log(await firstRow.innerHTML());
+
     }
 async itemSelectBox() {
 
@@ -159,7 +165,7 @@ console.log(
 
     const rowCount = await menuRows.count();
 
-    for(let i=0; i<rowCount; i++) {
+    for(let i=0; i<1; i++) {
 
         const row = menuRows.nth(i);
 
@@ -569,6 +575,10 @@ await this.FinalizeBtn.click();
 }
 
 
+
+
+
+
 //constraints
 async isServiceConstraintDisplayed(): Promise<boolean> {
 
@@ -592,10 +602,21 @@ async isServiceConstraintDisplayed(): Promise<boolean> {
         return false;
     }
 }
+async infoSaveBtn() {
+
+    const saveButton = this.page
+        .getByRole('button', { name: 'Save' })
+        .last();
+
+    await saveButton.click();
+
+    console.log("Info Save button clicked");
+}
 
 
 async serviceConstraintSaveBtn() {
 
+console.log("Service Constraint");
     const sidebar = this.page.locator("p-sidebar").filter({
         hasText: "Service Constraints"
     });
@@ -607,43 +628,120 @@ async serviceConstraintSaveBtn() {
 
     console.log("Service Constraint Save clicked");
 }
+async isInfoDisplayed(): Promise<boolean> {
 
+    const infoHeader = this.page.locator(
+        "p",
+        { hasText: "Info for Event" }
+    ).first();
 
+    try {
+
+        await infoHeader.waitFor({
+            state: "visible",
+            timeout: 5000
+        });
+
+        console.log("Info screen detected");
+
+        return true;
+
+    } catch {
+
+        console.log("Info screen not detected");
+
+        return false;
+    }
+}
+async handleInfo() {
+   const infoData = JsonUtil.readJson(
+       "./Utilities/TestData/Info.json"
+   );
+
+   await this.mandatoryFieldInfoUtil
+       .getMandatoryFieldCount(infoData);
+
+   await this.infoSaveBtn();
+}
 async processFinalizeWorkflow() {
 
+    // Step 1: Click Finalize
     await this.finalizeBtn();
 
-    // Case 1: Constraint
-    if (await this.isServiceConstraintDisplayed()) {
+    // Step 2: Check Constraint
+    const constraintDisplayed =
+        await this.isServiceConstraintDisplayed();
+
+    if (constraintDisplayed) {
 
         console.log("Service Constraint detected");
 
         await this.serviceConstraintSaveBtn();
 
-        //await this.goToApprovalAndReturnToMenuService();
+        console.log(
+            "Constraint saved."
+        );
 
-        await this.finalizeBtn();
+        // Constraint can lead to Info
+        // So check Info AFTER saving Constraint
+        if (await this.isInfoDisplayed()) {
+
+            console.log(
+                "Info screen displayed after Constraint."
+            );
+
+            const infoData = JsonUtil.readJson(
+                "./Utilities/TestData/Info.json"
+            );
+
+            await this.mandatoryFieldInfoUtil
+                .getMandatoryFieldCount(infoData);
+
+            await this.infoSaveBtn();
+
+            console.log(
+                "Info saved. Event moved to Pending."
+            );
+
+        } else {
+
+            console.log(
+                "No Info after Constraint. Event moved to Pending."
+            );
+        }
+
+    } else {
+
+        // No Constraint
+        // Check whether Info appears directly
+        if (await this.isInfoDisplayed()) {
+
+            console.log(
+                "Info screen displayed directly."
+            );
+
+            const infoData = JsonUtil.readJson(
+                "./Utilities/TestData/Info.json"
+            );
+
+            await this.mandatoryFieldInfoUtil
+                .getMandatoryFieldCount(infoData);
+
+            await this.infoSaveBtn();
+
+            console.log(
+                "Info saved. Event moved to Pending."
+            );
+
+        } else {
+
+            console.log(
+                "No Constraint and no Info. Finalize completed."
+            );
+        }
     }
-
-    // // Case 2: Info
-    // if (await this.isInfoDisplayed()) {
-
-    //     console.log("Info screen detected");
-
-    //     const infoData = JsonUtil.readJson(
-    //         "./Utilities/TestData/Info.json"
-    //     );
-
-    //     await this.mandatoryFieldsInfoUtil
-    //         .fillMandatoryFields(infoData);
-
-    //     await this.infoSaveBtn();
-
-    //     console.log("Info saved");
-    // }
 
     console.log("Finalize workflow completed");
 }
-
 
 }

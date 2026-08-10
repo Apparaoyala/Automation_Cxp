@@ -46,7 +46,7 @@ test('authenticate', async ({ page }) => {
         path: 'playwright/.auth/user.json'
     });
 
-    console.log("login success");
+   
 
     await homePage.clickHome();
 
@@ -164,11 +164,14 @@ console.log("go button working");
 //await services.itemSelectBox();
 console.log("items are select");
 
-await services.processServiceRows()
+await services.processServiceRows();
+
 console.log("items menu and course are  select");
 await services.saveBtn();
 console.log("save working");
 await services.closeBtn();
+
+
 await services.processFinalizeWorkflow();
 
 

@@ -34,7 +34,7 @@ private readonly DashBoard: Locator;
 async EventFilter(){
 
 //await this.EventList.click();
- await this.clickFilter.fill('3727');
+ await this.clickFilter.fill('3717');
  await this.page.waitForTimeout(500);
 await this.DashBoard.click();
 }

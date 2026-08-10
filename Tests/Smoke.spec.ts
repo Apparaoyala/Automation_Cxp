@@ -161,21 +161,23 @@ console.log("Open MEnu service");
 
 await services.searchandAdd();
 console.log("search and add clikc");
+
+
 await services.filterICon();
 console.log("filter working");
 await services.goButton();
 console.log("go button working");
-console.log(
-  await page.locator('div.p-checkbox.p-component')
-            .locator('div')
-            .count()
-);
-await services.itemSelectBox();
-console.log("items are select");
+
+
+//await services.itemSelectBox();
+await services.processServiceRows();
+
+console.log("items menu and course are  select");
 await services.saveBtn();
 console.log("save working");
 await services.closeBtn();
-await services.finalizeBtn();
+await services.processFinalizeWorkflow();
+
 await services.serviceCloseBtn();
 await services.menuServiceStatus();
 //Sch Service
