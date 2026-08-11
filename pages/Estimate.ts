@@ -175,5 +175,47 @@ console.log("Estimate Total:", estimateTotal);
 
     return estimateTotal;
 }
+
+
+//estimatelite
+async handleEstimateScreen() {
+
+   const header = await this.page
+        .locator("h3 span")
+        .textContent();
+
+    console.log("Estimate Header:", header);
+
+    if (header?.trim().includes("Estimates Lite")) {
+
+        console.log("Estimates Lite screen detected");
+
+        await this.page
+            .locator("p-checkbox[inputid='approved'] .p-checkbox-box").first()
+            .click();
+
+        console.log("Checkbox selected");
+
+        await this.page
+            .getByRole("button", { name: "Save" })
+            .click();
+
+        console.log("Save clicked");
+
+        await this.page
+            .getByRole("button", { name: /close/i })
+            .click();
+
+        console.log("Close clicked");
+    }
+    else {
+
+        console.log("Normal Estimate screen detected");
+
+        // Existing Estimate flow
+        await this.EstimateValues();
+        await this.TotalEstimate();
+    }
+}
 }
 

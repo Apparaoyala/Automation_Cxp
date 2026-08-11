@@ -85,7 +85,7 @@ await this.newCustomerButton.click();
  
 async createCusBtn(){
        await this.CreateCusBtn.click();
-
+  console.log("Customer created successfully");
 }
 async createContactBtn(){
        await this.CreateCusBtn.click();
@@ -113,6 +113,7 @@ async createContactBtn(){
         console.log("Duplicate customer popup not displayed");
 
     }
+       console.log(" successfully executed");
  }
  
 /*

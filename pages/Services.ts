@@ -105,6 +105,7 @@ async serviceRequest() {
 
  async searchandAdd() {
 
+    console.log("search and add clikc");
      await this.SearchandAdd.click();
      
      
@@ -113,6 +114,7 @@ async serviceRequest() {
 async filterICon() {
 
      await this.FilterICon.click();
+     console.log("filter working");
     }
 async goButton() {
 
@@ -128,7 +130,7 @@ console.log("Rows:", await rows.count());
 
 const firstRow = rows.first();
 
-
+console.log("go button working");
     }
 async itemSelectBox() {
 
@@ -211,10 +213,12 @@ console.log(
 
        
     } 
+    console.log("items menu and course are  select");
 }
 async saveBtn() {
 
      await this.SaveBtn.click();
+     console.log("save working");
     }
 
 async closeBtn() {
@@ -264,6 +268,8 @@ else {
 }
 }
 async openMenuService() {
+
+    console.log("Open MEnu service");
 
     const headerText = await this.menuHeader.textContent();
 
@@ -522,7 +528,7 @@ await this.FinalizeBtn.click();
 
  await this.ServiceCloseBtn.click();
 
-
+console.log("Equp working");
 }
 
 

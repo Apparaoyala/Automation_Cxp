@@ -6,6 +6,8 @@ import { TestConfig } from '../Utilities/Test.Config';
 import { expect } from '@playwright/test';
 import { commonActions } from '../Utilities/CommonActions';
 import { JsonUtil } from '../Utilities/JsonUtil';
+import { ChangeRequests } from '../pages/ChangeRequests';
+
 import { Event } from '../pages/Event';
 import { Services } from '../pages/Services';
 import { Customer } from '../pages/Customer';
@@ -56,6 +58,8 @@ for (let i = 0; i < customers.length; i++) {
     const login = new Login(page);
     const homePage = new HomePage(page);
     const CommonActions = new commonActions(page);
+     const changeRequests = new ChangeRequests(page);
+
     const loginelper = new LoginHelper();
     const customer = new Customer(page);
     const contact = new Contact(page);
@@ -102,9 +106,9 @@ await test.step("Create Customer", async () => {
     await mandatoryfieldutil.getMandatoryFieldCount(customerData);
 
    await customer.createCusBtn();
-   console.log("Customer created successfully");
+ 
    await customer.handleDuplicateCustomerPopup();
-   console.log(" successfully executed");
+
 
 
 });
@@ -132,15 +136,6 @@ await test.step("Create Event", async () => {
     state: "hidden",
     timeout: 30000
 });
-
-console.log(
-    "Mandatory:",
-    await page.locator("label span.text-danger").count()
-);
-await page.screenshot({ path: "createevent.png", fullPage: true });
-
-
-
 
 
 await page.waitForTimeout(3000);
@@ -170,27 +165,25 @@ await CommonActions.closeCommonPopup();
 
 
 await test.step("Servicess", async () => {
+   
     //Menu Service
-console.log("Sales Menu service complete");
+
 await services.openMenuService();
-console.log("Open MEnu service");
 
 await services.searchandAdd();
-console.log("search and add clikc");
-
 
 await services.filterICon();
-console.log("filter working");
+
 await services.goButton();
-console.log("go button working");
 
 
 //await services.itemSelectBox();
+
 await services.processServiceRows();
 
-console.log("items menu and course are  select");
+
 await services.saveBtn();
-console.log("save working");
+
 await services.closeBtn();
 await services.processFinalizeWorkflow();
 
@@ -207,31 +200,30 @@ await services.AlcServiceStatus();
 
 await services.EquipService();
 
-console.log("Equp working");
-});
 
+});
+await test.step("ChangeRequest", async () => {
+await changeRequests.MenuChangeRequest();
+await changeRequests.MChangeRequest();
+await changeRequests.addEditItems();
+});
 await test.step("EstimateService", async () => {
 
     await estimate.EstimateService();
-console.log("Estimate service working");
-await estimate.EstimateValues();
-console.log("Estimate values working");
-await estimate.TotalEstimate();
-console.log("Total Estimate values working");
+    await estimate.handleEstimateScreen();
 });
-
-
 
 await test.step("BillService", async () => {
 
 await billworksheet.openbillService();
 await billworksheet.BillProcess();
-const estimateTotal = await estimate.TotalEstimate();
 
-await billworksheet.BillValue(estimateTotal);
+//const estimateTotal = await estimate.TotalEstimate();
+
+//await billworksheet.BillValue(estimateTotal);
 
 });
-await page.pause();
+
         
 
 });

@@ -59,7 +59,9 @@ async BillProcess() {
 
      await this.GenarateBill.click();
 
-
+await this.page
+            .getByRole("button", { name: /close/i })
+            .click();
 
 }
 async BillValue(estimateTotal: string) {
