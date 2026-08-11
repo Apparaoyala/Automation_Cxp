@@ -1,4 +1,8 @@
-{
+
+
+
+[
+  {
   "Business Unit": "Test",
   "Event Manager": "donglee",
   "Event Type": "Bar Only",
@@ -6,12 +10,12 @@
   "First Call Time": "",
   "Revenue Stream": "",
   "Customer": "sofiya1",
-  "Begin Time": "8/17/2026 01:00 AM",
+  "Begin Time": "8/30/2026 01:00 AM",
   "Status": "Definite",
   "County": "Duarty",
   "Billing Customer": "",
   "Account Executive": "s,sk1",
-  "End Time": "8/17/2026 10:30 PM",
+  "End Time": "8/30/2026 10:30 PM",
   "Event Name": "Wedding",
   "Proposal Status": "On Hold",
   "Event Theme": "Tasting",
@@ -42,3 +46,49 @@
   "Name": "121 Wacker",
   "Referral Type": "other"
 }
+,
+{
+  "Business Unit": "Test",
+  "Event Manager": "donglee",
+  "Event Type": "Bar Only",
+  "Platter Type": "Drop-off with pick-up",
+  "First Call Time": "",
+  "Revenue Stream": "",
+  "Customer": "sofiya1",
+  "Begin Time": "8/31/2026 01:00 AM",
+  "Status": "Definite",
+  "County": "Duarty",
+  "Billing Customer": "",
+  "Account Executive": "s,sk1",
+  "End Time": "8/31/2026 10:30 PM",
+  "Event Name": "Wedding",
+  "Proposal Status": "On Hold",
+  "Event Theme": "Tasting",
+  "Discount Percentage": "",
+  "Adult Count": "25",
+  "Staff Count": "26",
+  "Estimated $/Person": "27",
+  "Band Count": "28",
+  "Kids Count": "29",
+  "Misc Count": "30",
+  "Contact Name": "121 Wacker",
+  "Zip": "",
+  "Suite": "",
+  "Entrance": "",
+  "State": "Colorado",
+  "Phone": "",
+  "Street": "white street",
+  "Zip+4": "",
+  "City": "",
+  "Location Information_Name": "121 Wacker",
+  "Work Phone": "",
+  "Email": "apparao@gmail.com",
+  "Home Phone": "",
+  "Fax": "",
+  "Contact Information_Name": "121 Wacker",
+  "Comments": "",
+  "Delivery Charges": "12",
+  "Name": "121 Wacker",
+  "Referral Type": "other"
+}
+]

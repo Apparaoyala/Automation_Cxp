@@ -19,10 +19,33 @@ import { MandatoryFieldUtil } from '../Utilities/MandatoryFieldUtil';
 import { ExcelUtil } from '../Utilities/ExcelUtil';
 import { Contact } from '../pages/Contact';
 
+const customers = JsonUtil.readJson(
+    './Utilities/TestData/Customer.json'
+    );
+    const contacts = JsonUtil.readJson(
+    './Utilities/TestData/Contact.json'
+  );
+  const Events = JsonUtil.readJson(
+    './Utilities/TestData/Event.json'
+);
+if (
+    customers.length !== contacts.length ||
+    customers.length !== Events.length
+) {
+    throw new Error(
+        "Customer, Contact and Event record count mismatch"
+    );
+}
 
+for (let i = 0; i < customers.length; i++) {
 
+    const customerData = customers[i];
+    const contactData = contacts[i];
+    const eventData = Events[i];
 
-test('Smoke Test - Login Flow', async ({ page }) => {
+    test(
+        `Smoke Run ${i + 1}`,
+        async ({ page }) =>{
 
     test.setTimeout(1800000);
     const config = new TestConfig();
@@ -74,9 +97,7 @@ await test.step("Create Customer", async () => {
 
     await customer.CustomerBtn();
     await page.waitForTimeout(3000);
-     const customerData = JsonUtil.readJson(
-    './Utilities/TestData/Customer.json'
-    );
+     
 
     await mandatoryfieldutil.getMandatoryFieldCount(customerData);
 
@@ -94,10 +115,7 @@ await test.step("Create Contact", async () => {
     
   await contact.waitForContactScreen();
 
-  const contactData = JsonUtil.readJson(
-    './Utilities/TestData/Contact.json'
-  );
-  console.log(contactData);
+  
 
     await mandatoryFieldsContactUtil.getMandatoryFieldCount1(contactData);
 
@@ -122,9 +140,7 @@ console.log(
 await page.screenshot({ path: "createevent.png", fullPage: true });
 
 
-const EventData = JsonUtil.readJson(
-    './Utilities/TestData/Event.json'
-);
+
 
 
 await page.waitForTimeout(3000);
@@ -139,7 +155,7 @@ console.log("Labels After 5 Seconds:",
 await page.waitForTimeout(500);
 
 
-await mandatoryfieldseventutil.getMandatoryFieldCount(EventData);
+await mandatoryfieldseventutil.getMandatoryFieldCount(eventData);
 
 
 await event.createbtn();
@@ -216,6 +232,7 @@ await billworksheet.BillValue(estimateTotal);
 
 });
 await page.pause();
-
+        
 
 });
+}
