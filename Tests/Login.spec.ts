@@ -63,7 +63,7 @@ await CommonActions.closeCommonPopup();
 
 //---------------------------------------------------event creation --------------------------------------
 
-/*
+
 
 await event.CreateEvent();
 
@@ -109,8 +109,8 @@ const eventNumber = await event.getCreatedEventNumber();
 console.log(eventNumber);
 
 await CommonActions.closeCommonPopup();
-*/
-await event.EventFilter();
+
+//await event.EventFilter();
 
 //console.log("Event dashBoard is displayed");
 
@@ -139,7 +139,7 @@ await services.processFinalizeWorkflow();
 
 await services.serviceCloseBtn();
 await services.menuServiceStatus();
-/*
+
  await services.AllServiceStatuses();
  await services.openAlcService();
 
@@ -149,15 +149,15 @@ await services.menuServiceStatus();
 
 
 
-await services.openSchService();
-*/
-await changeRequests.MenuChangeRequest();
-await changeRequests.MChangeRequest();
-await changeRequests.addEditItems();
+//await services.openSchService();
+
+
 
 await estimate.EstimateService();
 await estimate.handleEstimateScreen();
-
+await changeRequests.MenuChangeRequest();
+await changeRequests.MChangeRequest();
+await changeRequests.addEditItems();
 await test.step("BillService", async () => {
 
 await billworksheet.openbillService();

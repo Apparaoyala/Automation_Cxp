@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 
 dotenv.config();
-
+    
 export class TestConfig {
 
     appUrl = process.env.APP_URL!;

@@ -39,22 +39,11 @@ async MenuChangeRequest() {
     ) {
 
         console.log("Menu is Sent");
-
-        const changeRequestIcon =
-            this.page.locator(
-                "div.icon-circle:has(i.fa-exchange)"
-            );
-
-        await changeRequestIcon.waitFor({
-            state: "visible"
-        });
-
-        await changeRequestIcon.click();
-
-        console.log(
-            "Change Request icon clicked"
-        );
-
+const menuCard = this.page.locator(".card").filter({
+    has: this.page.getByText("Menu")
+});
+        await menuCard.locator("i.fa-exchange").click();
+        
     } else {
 
         console.log(
@@ -80,14 +69,17 @@ async addEditItems(qty: string = "10") {
             name: "Add/Edit Items"
         })
         .click();
-
+console.log("qty field");
     const qtyField = this.page
         .locator("tbody tr")
         .first()
         .locator("td")
         .nth(5)
         .locator("input");
-
+console.log(await qtyField.isVisible());
+console.log(await qtyField.isEnabled());
+console.log(await qtyField.isEditable());
+console.log(await qtyField.inputValue());
     await qtyField.clear();
     await qtyField.fill(qty);
 

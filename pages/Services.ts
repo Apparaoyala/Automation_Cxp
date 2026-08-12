@@ -411,7 +411,7 @@ await this.SaveBtn.click();
 
 await this.CloseBtn.click();
 
-await this.FinalizeBtn.click();
+await this.processFinalizeWorkflow();
 
  await this.ServiceCloseBtn.click();
 
@@ -524,7 +524,7 @@ try {
 
 }
 
-await this.FinalizeBtn.click();
+await this.processFinalizeWorkflow();
 
  await this.ServiceCloseBtn.click();
 
