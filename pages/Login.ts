@@ -27,6 +27,7 @@ export class Login {
         await this.Caterid.fill(cater);
         await this.Userid.fill(users);
         await this.password.fill(passwords);
+        console.log("Password Length:", process.env.PASSWORD?.length);
 console.log("Username entered:", await this.Userid.inputValue());
     console.log("Password length entered:", (await this.password.inputValue()).length);
 
