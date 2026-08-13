@@ -51,6 +51,10 @@ for (let i = 0; i < customers.length; i++) {
 
     test.setTimeout(1800000);
     const config = new TestConfig();
+    console.log("APP_URL =", process.env.APP_URL);
+console.log("CONFIG_URL =", config.appUrl);
+
+
     const event = new Event(page);
     const billworksheet = new BillWorksheet(page);
     const services = new Services(page);
