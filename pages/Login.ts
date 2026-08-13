@@ -22,10 +22,14 @@ export class Login {
     }
 
     async login(cater: string, users: string, passwords: string) {
-
+ console.log("User:", process.env.USER_ID);
+    console.log("Password Length:", process.env.PASSWORD?.length);
         await this.Caterid.fill(cater);
         await this.Userid.fill(users);
         await this.password.fill(passwords);
+console.log("Username entered:", await this.Userid.inputValue());
+    console.log("Password length entered:", (await this.password.inputValue()).length);
+
         await this.loginButton.click();
        // await this.HomeButton.click();
 

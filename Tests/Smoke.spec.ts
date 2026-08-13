@@ -76,6 +76,7 @@ for (let i = 0; i < customers.length; i++) {
     await test.step("Login into Application", async () => {
 
         await LoginHelper.login(page);
+        
     });
 
     await test.step("Navigate to Sales New Module", async () => {
