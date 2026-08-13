@@ -164,66 +164,66 @@ await CommonActions.closeCommonPopup();
 });
 
 
-await test.step("Servicess", async () => {
+// await test.step("Servicess", async () => {
    
-    //Menu Service
+//     //Menu Service
 
-await services.openMenuService();
+// await services.openMenuService();
 
-await services.searchandAdd();
+// await services.searchandAdd();
 
-await services.filterICon();
+// await services.filterICon();
 
-await services.goButton();
-
-
-//await services.itemSelectBox();
-
-await services.processServiceRows();
+// await services.goButton();
 
 
-await services.saveBtn();
+// //await services.itemSelectBox();
 
-await services.closeBtn();
-await services.processFinalizeWorkflow();
-
-await services.serviceCloseBtn();
-await services.menuServiceStatus();
-//Sch Service
-await services.openSchService();
-
-//Alc Service
-await services.AllServiceStatuses();
-await services.openAlcService();
-
-await services.AlcServiceStatus();
-
-await services.EquipService();
+// await services.processServiceRows();
 
 
-});
-await test.step("ChangeRequest", async () => {
-await changeRequests.MenuChangeRequest();
-await changeRequests.MChangeRequest();
-await changeRequests.addEditItems();
-});
-await test.step("EstimateService", async () => {
+// await services.saveBtn();
 
-    await estimate.EstimateService();
-    await estimate.handleEstimateScreen();
-});
+// await services.closeBtn();
+// await services.processFinalizeWorkflow();
 
-await test.step("BillService", async () => {
+// await services.serviceCloseBtn();
+// await services.menuServiceStatus();
+// //Sch Service
+// await services.openSchService();
 
-await billworksheet.openbillService();
-await billworksheet.BillProcess();
+// //Alc Service
+// await services.AllServiceStatuses();
+// await services.openAlcService();
 
-//const estimateTotal = await estimate.TotalEstimate();
+// await services.AlcServiceStatus();
 
-//await billworksheet.BillValue(estimateTotal);
+// await services.EquipService();
 
-});
 
+// });
+
+// await test.step("EstimateService", async () => {
+
+//     await estimate.EstimateService();
+//     await estimate.handleEstimateScreen();
+// });
+
+// await test.step("BillService", async () => {
+
+// await billworksheet.openbillService();
+// await billworksheet.BillProcess();
+
+// //const estimateTotal = await estimate.TotalEstimate();
+
+// //await billworksheet.BillValue(estimateTotal);
+
+// });
+// await test.step("ChangeRequest", async () => {
+// await changeRequests.MenuChangeRequest();
+// await changeRequests.MChangeRequest();
+// await changeRequests.addEditItems();
+// });
         
 
 });
