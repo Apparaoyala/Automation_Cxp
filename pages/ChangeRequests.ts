@@ -74,7 +74,7 @@ console.log("qty field");
         .locator("tbody tr")
         .first()
         .locator("td")
-        .nth(5)
+        .nth(6)
         .locator("input");
 console.log(await qtyField.isVisible());
 console.log(await qtyField.isEnabled());

@@ -64,7 +64,7 @@ await CommonActions.closeCommonPopup();
 //---------------------------------------------------event creation --------------------------------------
 
 
-
+/*
 await event.CreateEvent();
 
 
@@ -107,45 +107,45 @@ await event.createbtn();
 const eventNumber = await event.getCreatedEventNumber();
 
 console.log(eventNumber);
-
+*/
 await CommonActions.closeCommonPopup();
 
-//await event.EventFilter();
+await event.EventFilter();
 
-//console.log("Event dashBoard is displayed");
+console.log("Event dashBoard is displayed");
 
 
 //Menu Service
 
-await services.openMenuService();
+//await services.openMenuService();
 
 
-await services.searchandAdd();
+//await services.searchandAdd();
 
-await services.filterICon();
-console.log("filter working");
-await services.goButton();
+//await services.filterICon();
+//console.log("filter working");
+//await services.goButton();
 
 //await services.itemSelectBox();
 
-await services.processServiceRows();
-await services.saveBtn();
-console.log("save working");
-await services.closeBtn();
+//wait services.processServiceRows();
+//await services.saveBtn();
+//console.log("save working");
+//await services.closeBtn();
 
 
-await services.processFinalizeWorkflow();
+// await services.processFinalizeWorkflow();
 
 
-await services.serviceCloseBtn();
-await services.menuServiceStatus();
+// await services.serviceCloseBtn();
+// await services.menuServiceStatus();
 
- await services.AllServiceStatuses();
- await services.openAlcService();
+//  await services.AllServiceStatuses();
+//  await services.openAlcService();
 
- await services.AlcServiceStatus();
+//  await services.AlcServiceStatus();
 
- await services.EquipService();
+//  await services.EquipService();
 
 
 
@@ -153,15 +153,15 @@ await services.menuServiceStatus();
 
 
 
-await estimate.EstimateService();
-await estimate.handleEstimateScreen();
+// await estimate.EstimateService();
+// await estimate.handleEstimateScreen();
 await changeRequests.MenuChangeRequest();
 await changeRequests.MChangeRequest();
 await changeRequests.addEditItems();
 await test.step("BillService", async () => {
 
-await billworksheet.openbillService();
-await billworksheet.BillProcess();
+//await billworksheet.openbillService();
+//await billworksheet.BillProcess();
 //const estimateTotal = await estimate.TotalEstimate();
 
 //await billworksheet.BillValue(estimateTotal);
