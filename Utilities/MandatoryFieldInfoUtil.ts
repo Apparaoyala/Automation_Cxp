@@ -415,12 +415,13 @@ async selectDate(date: string) {
     const [, day] = date.split("/");
 
     await this.page
-        .locator("bs-datepicker-container td span", {
+        .locator(
+            "bs-datepicker-container td span:not(.is-other-month)"
+        )
+        .filter({
             hasText: String(Number(day))
         })
-        .first()
         .click();
-
 }
 async selectTime(time: string) {
 

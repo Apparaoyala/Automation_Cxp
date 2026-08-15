@@ -6,6 +6,7 @@ import { TestConfig } from '../Utilities/Test.Config';
 import { expect } from '@playwright/test';
 import { commonActions } from '../Utilities/CommonActions';
 import { JsonUtil } from '../Utilities/JsonUtil';
+import { Approvals } from '../pages/Approval';
 import { ChangeRequests } from '../pages/ChangeRequests';
 
 import { Event } from '../pages/Event';
@@ -45,8 +46,7 @@ for (let i = 0; i < customers.length; i++) {
     const contactData = contacts[i];
     const eventData = Events[i];
 
-    test(
-        `Smoke Run ${i + 1}`,
+    test(`Smoke Run ${i + 1}`,
         async ({ page }) =>{
 
     test.setTimeout(1800000);
@@ -54,10 +54,11 @@ for (let i = 0; i < customers.length; i++) {
     console.log("APP_URL =", process.env.APP_URL);
 console.log("CONFIG_URL =", config.appUrl);
 
-
+let eventNumber: string;
     const event = new Event(page);
     const billworksheet = new BillWorksheet(page);
     const services = new Services(page);
+    const approval = new Approvals(page);
     const estimate = new Estimate(page);
     const login = new Login(page);
     const homePage = new HomePage(page);
@@ -70,6 +71,7 @@ console.log("CONFIG_URL =", config.appUrl);
     const mandatoryfieldseventutil = new MandatoryFieldsEventUtil(page);
     const mandatoryfieldutil = new MandatoryFieldUtil(page);
     const mandatoryFieldsContactUtil = new MandatoryFieldsContactUtil(page);
+
 
     await test.step("Open Application", async () => {
 
@@ -160,10 +162,10 @@ await mandatoryfieldseventutil.getMandatoryFieldCount(eventData);
 
 await event.createbtn();
 
-const eventNumber = await event.getCreatedEventNumber();
+ eventNumber = await event.getCreatedEventNumber();
 
 console.log(eventNumber);
-
+//await approval.Approvals(eventNumber);
 await CommonActions.closeCommonPopup();
 
 });
@@ -195,7 +197,8 @@ await services.processFinalizeWorkflow();
 await services.serviceCloseBtn();
 await services.menuServiceStatus();
 //Sch Service
-//await services.openSchService();
+await services.openSchService();
+await services.Schedulingsave();
 
 //Alc Service
 await services.AllServiceStatuses();
@@ -214,8 +217,12 @@ await test.step("EstimateService", async () => {
     await estimate.handleEstimateScreen();
 });
 
-await test.step("BillService", async () => {
+await test.step("ApprovalsService", async () => {
+    
+  await approval.Approvals(eventNumber);
 
+});
+await test.step("BillService", async () => {
 await billworksheet.openbillService();
 await billworksheet.BillProcess();
 
@@ -232,4 +239,6 @@ await changeRequests.addEditItems();
         
 
 });
+
+
 }

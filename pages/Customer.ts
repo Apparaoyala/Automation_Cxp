@@ -4,9 +4,9 @@ export class Customer {
  
     private readonly page: Page;
     private readonly Customer: Locator;
-    private readonly CustomerSubMenu: Locator;
-    private readonly Menu: Locator;
     private readonly Clickcustomer: Locator;
+    private readonly hamburgerMenu: Locator;
+    private readonly clickCustomerDropDown: Locator;
 private readonly newCustomerButton: Locator;
 private readonly CreateCusBtn: Locator;
   private readonly Customer2: Locator;
@@ -19,19 +19,17 @@ private readonly CreateCusBtn: Locator;
         this.page = page;
  
         this.Customer = page.locator('span').filter({ hasText: 'Customer' }).first()
-        this.Menu =page.getByText('menu', { exact: true }).first();
+        this.hamburgerMenu =page.getByText('menu', { exact: true }).first();
        this.CreateCusBtn= page.getByRole('button', { name: 'Create' })
        // this.HomeButton =page.frameLocator('[name="header"]').locator("img[title='Home']");
 
-       this.Clickcustomer = page.locator(
-        //'a[href="#/sales-sub/customer-listing"]'
-       // span[normalize-space()='Customer/Potential Customer']
-       // page.locator('a[href="#/sales/customerListing"]')
+       this.clickCustomerDropDown = page.locator(
+        
        "(//div[@id = 'sidebarMain']//span[text()='Customer' or text()='Customer/Potential Customer'])[1]"
    
    
     );
-    this.CustomerSubMenu = page.locator("//a[@href='#/sales/customerListing' and (@aria-expanded='false')]");
+    this.Clickcustomer = page.locator("//a[@href='#/sales/customerListing' and (@aria-expanded='false')]");
     this.Customer2=page.locator("//a[@href='#/sales/customerListing' and (@aria-expanded='false')]");
 this. newCustomerButton =
     page.getByRole('button', { name: 'New Customer' });
@@ -45,12 +43,12 @@ this. newCustomerButton =
  
     async Menu1() {
  
-    await this.Menu.waitFor({
+    await this.hamburgerMenu.waitFor({
         state: 'visible',
         timeout: 180000
     });
  
-    await this.Menu.click();
+    await this.hamburgerMenu.click();
 }
 /*
    async home() {
@@ -63,17 +61,17 @@ this. newCustomerButton =
 */
 async clickCustomer() {
  
-    await this.Clickcustomer.waitFor({
+    await this.clickCustomerDropDown.waitFor({
         state: 'visible',
         timeout: 180000
     });
  
-    await this.Clickcustomer.click();
-    await this.CustomerSubMenu.waitFor({
+    await this.clickCustomerDropDown.click();
+    await this.Clickcustomer.waitFor({
     state: "visible"
 });
  
-await this.CustomerSubMenu.click();
+await this.Clickcustomer.click();
 }
 async CustomerBtn(){
      await this.newCustomerButton.waitFor({

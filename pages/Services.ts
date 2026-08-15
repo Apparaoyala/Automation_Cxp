@@ -572,13 +572,46 @@ for (let i = 0; i < 5; i++) {
     await qtyInputs2.nth(i).fill("1");
 }
 
-await this.SaveBtn.click();
+}
+async Schedulingsave() {
 
-await this.FinalizeBtn.click();
+    await this.SaveBtn.click();
+    if (await this.isInfoDisplayed()) {
+
+            console.log(
+                "Info screen displayed after Constraint."
+            );
+
+            const infoData = JsonUtil.readJson(
+                "./Utilities/TestData/Info.json"
+            );
+
+            await this.mandatoryFieldInfoUtil
+                .getMandatoryFieldCount(infoData);
+
+            await this.infoSaveBtn();
+
+            console.log(
+                "Info saved. Event moved to Pending."
+            );
+
+        }
+
+await this.processFinalizeWorkflow();
+
 
  await this.ServiceCloseBtn.click();
-
 }
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -672,8 +705,8 @@ async handleInfo() {
 async processFinalizeWorkflow() {
 
     // Step 1: Click Finalize
-    await this.finalizeBtn();
-
+    
+await this.FinalizeBtn.click();
     // Step 2: Check Constraint
     const constraintDisplayed =
         await this.isServiceConstraintDisplayed();

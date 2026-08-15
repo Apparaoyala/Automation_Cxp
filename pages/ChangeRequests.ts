@@ -1,4 +1,6 @@
 import { Page, Locator } from '@playwright/test';
+import { Approvals } from '../pages/Approval';
+
 
 export class ChangeRequests {
 
@@ -10,6 +12,8 @@ private readonly OrderDropdownclick:Locator;
 private readonly AddItems:Locator;
 
     constructor(page: Page) {
+            const approval = new Approvals(page);
+
 
         this.page = page;
         
@@ -44,7 +48,17 @@ const menuCard = this.page.locator(".card").filter({
 });
         await menuCard.locator("i.fa-exchange").click();
         
-    } else {
+    }
+    if (
+        headerText?.toLowerCase().includes("pend")
+    ) {
+
+    //await approval.Approvals(eventNumber);
+    
+    }
+    
+    
+    else {
 
         console.log(
             "Menu Service Not Available"
@@ -62,28 +76,39 @@ async MChangeRequest(){
         .fill('test');
 
 }
-async addEditItems(qty: string = "10") {
+async addEditItems() {
 
     await this.page
         .getByRole("button", {
             name: "Add/Edit Items"
         })
         .click();
-console.log("qty field");
-    const qtyField = this.page
-        .locator("tbody tr")
-        .first()
-        .locator("td")
-        .nth(6)
-        .locator("input");
+const headers = await this. page.locator("thead th").allTextContents();
+
+const qtyIndex = headers.findIndex(
+  h => h.trim() === "Qty"
+);
+
+if (qtyIndex === -1) {
+  throw new Error("Qty column not found");
+}
+
+const qtyField = this.page
+  .locator("tbody tr")
+  .first()
+  .locator("td")
+  .nth(qtyIndex)
+  .locator("input");
+
+await qtyField.fill("5");
 console.log(await qtyField.isVisible());
 console.log(await qtyField.isEnabled());
 console.log(await qtyField.isEditable());
 console.log(await qtyField.inputValue());
-    await qtyField.clear();
-    await qtyField.fill(qty);
+   // await qtyField.clear();
+   // await qtyField.fill(qty);
 
-    console.log(`Qty entered: ${qty}`);
+   // console.log(`Qty entered: ${qty}`);
 
     await this.page
         .getByRole("button", {
