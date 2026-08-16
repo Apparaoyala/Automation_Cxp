@@ -34,9 +34,13 @@ private readonly DashBoard: Locator;
 async EventFilter(){
 
 //await this.EventList.click();
- await this.clickFilter.fill('3843');
+ await this.clickFilter.fill('3749');
  await this.page.waitForTimeout(500);
-await this.DashBoard.click();
+
+await this.page
+  .locator(".p-sidebar-close-icon.pi.pi-times")
+  .click();
+  await this.DashBoard.click();
 }
 
 async CreateEvent() {
@@ -46,7 +50,17 @@ async CreateEvent() {
     }
 
     async createbtn(){
+
+
         await this.CreateEventBtn.click();
+        const eventConstraints = this.page.getByText("Event Constraints");
+
+if (await eventConstraints.isVisible()) {
+    console.log("Event Constraints popup displayed");
+
+    await this.page.getByRole('button', { name: 'Create' }).click();
+    console.log("Event Constraints popup not displayed");
+}
     }
 
 

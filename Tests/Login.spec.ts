@@ -7,7 +7,7 @@ import { ChangeRequests } from '../pages/ChangeRequests';
 import { Services } from '../pages/Services';
 import { Estimate } from '../pages/Estimate';
 import { BillWorksheet } from '../pages/BillWorksheet';
-
+import { Approvals } from '../pages/Approval';
 import { MandatoryFieldsEventUtil } from '../Utilities/MandatoryFieldsEventUtil';
 import { commonActions } from '../Utilities/CommonActions';
 //import { MandatoryFieldUtil } from '../Utilities/MandatoryFieldUtil';
@@ -29,7 +29,7 @@ test('authenticate', async ({ page }) => {
     const services = new Services(page);
     const CommonActions = new commonActions(page);
     const mandatoryfieldseventutil = new MandatoryFieldsEventUtil(page);
-
+ const approval = new Approvals(page);
     await page.goto(config.appUrl);
 
     await login.login(
@@ -63,7 +63,7 @@ await CommonActions.closeCommonPopup();
 
 //---------------------------------------------------event creation --------------------------------------
 
-
+/*
 
 await event.CreateEvent();
 
@@ -107,15 +107,16 @@ await event.createbtn();
 const eventNumber = await event.getCreatedEventNumber();
 
 console.log(eventNumber);
-
+*/
 await CommonActions.closeCommonPopup();
 
-// await test.step("EventFilter", async () => {
+await test.step("EventFilter", async () => {
  await event.EventFilter();
 
-// console.log("Event dashBoard is displayed");
+console.log("Event dashBoard is displayed");
 
-// });
+});
+/*
 //Menu Service
 await test.step("MEnu", async () => {
 await services.openMenuService();
@@ -152,11 +153,12 @@ await services.Schedulingsave();
 
  await estimate.EstimateService();
  await estimate.handleEstimateScreen();
+*/
+
 await changeRequests.MenuChangeRequest();
 await changeRequests.MChangeRequest();
 //await page.pause();
 await changeRequests.addEditItems();
-
 
 
 
@@ -173,5 +175,6 @@ await test.step("BillService", async () => {
 
 
 });
+
 
 });

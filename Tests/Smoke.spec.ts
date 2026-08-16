@@ -170,7 +170,11 @@ await CommonActions.closeCommonPopup();
 
 });
 
+await test.step("ApprovalsService", async () => {
+    
+  await approval.Approvals(eventNumber);
 
+});
 await test.step("Servicess", async () => {
    
     //Menu Service
@@ -217,11 +221,7 @@ await test.step("EstimateService", async () => {
     await estimate.handleEstimateScreen();
 });
 
-await test.step("ApprovalsService", async () => {
-    
-  await approval.Approvals(eventNumber);
 
-});
 await test.step("BillService", async () => {
 await billworksheet.openbillService();
 await billworksheet.BillProcess();
@@ -229,6 +229,11 @@ await billworksheet.BillProcess();
 //const estimateTotal = await estimate.TotalEstimate();
 
 //await billworksheet.BillValue(estimateTotal);
+
+});
+await test.step("ApprovalsService", async () => {
+    
+  await approval.Approvals(eventNumber);
 
 });
 await test.step("ChangeRequest", async () => {

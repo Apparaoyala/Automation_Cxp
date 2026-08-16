@@ -84,18 +84,14 @@ await this.Approval.click();
 const pendingLinks =this. page.locator(
   'span.editid.cursor-pointer'
 );
+const count = await pendingLinks.count()
+console.log(count);
 
-const count = await pendingLinks.count();
+while (await pendingLinks.count() > 0) {
 
-for (let i = 0; i < count; i++) {
-
-    await pendingLinks.nth(i).click();
-
-    // Approval screen open
+    await pendingLinks.first().click();
 
     await this.save.click();
-
-    // Wait page reload
 
     await this.page.waitForLoadState('networkidle');
 }

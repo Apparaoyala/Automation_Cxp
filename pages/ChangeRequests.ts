@@ -83,32 +83,14 @@ async addEditItems() {
             name: "Add/Edit Items"
         })
         .click();
-const headers = await this. page.locator("thead th").allTextContents();
-
-const qtyIndex = headers.findIndex(
-  h => h.trim() === "Qty"
+const searchInputs = this.page.locator(
+    'tbody tr:first-child input[type="search"]'
 );
 
-if (qtyIndex === -1) {
-  throw new Error("Qty column not found");
-}
-
-const qtyField = this.page
-  .locator("tbody tr")
-  .first()
-  .locator("td")
-  .nth(qtyIndex)
-  .locator("input");
-
-await qtyField.fill("5");
-console.log(await qtyField.isVisible());
-console.log(await qtyField.isEnabled());
-console.log(await qtyField.isEditable());
-console.log(await qtyField.inputValue());
-   // await qtyField.clear();
-   // await qtyField.fill(qty);
-
-   // console.log(`Qty entered: ${qty}`);
+console.log(
+    await searchInputs.count()
+);
+await searchInputs.nth(0).fill("22");
 
     await this.page
         .getByRole("button", {
