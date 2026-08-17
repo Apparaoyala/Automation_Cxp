@@ -55,34 +55,37 @@ async closeCommonPopup(){
 }
 async closeUnacknowledgedpopup() {
 
-    const pages = this.page.context().pages();
+    for (let i = 0; i < 10; i++) {
 
-    for (const p of pages) {
+        const pages = this.page.context().pages();
 
-        const title = await p.title();
+        console.log("Pages Count:", pages.length);
 
-        if (title.includes("Unacknowledged Change Requests")) {
+        if (pages.length > 1) {
 
-            console.log("Popup Window Found");
+            const childPage = pages[1];
 
-         const closeBtn = p
-    .frameLocator('frame[name="right"]')
-    .getByRole('button', { name: 'Close' });
+            console.log(
+                "Child Window:",
+                await childPage.title()
+            );
 
-await closeBtn.waitFor({
-    state: 'visible',
-    timeout: 10000
-});
+            await childPage.waitForLoadState();
 
-await closeBtn.click();
+            await childPage
+                .frameLocator('frame[name="right"]')
+                .getByRole('button', { name: 'Close' })
+                .click();
 
             console.log("Popup Closed");
 
             return;
         }
+
+        await this.page.waitForTimeout(1000);
     }
 
-    console.log("Popup Not Displayed");
+    console.log("No child window appeared");
 }
 async closeKitchenPopup2() {
 console.log(
