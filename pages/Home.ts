@@ -56,6 +56,8 @@ export class Home {
       .rightFrame()
       .locator(this.kitchenMenu)
       .click();
+
+      
   }
 
   async navigateToAccounting() {

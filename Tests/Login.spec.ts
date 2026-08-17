@@ -185,12 +185,17 @@ await test.step("BillService", async () => {
 
 await test.step("KitchenService", async () => {
 
-await page.pause();
 await home.navigateToKitchen();
+
+await page.pause();
+ await CommonActions.closeUnacknowledgedpopup();
+
 console.log("its kitchen screen")
- await CommonActions.closeCommonPopup();
+
 
 
 });
 
+
+await page.pause();
 });
