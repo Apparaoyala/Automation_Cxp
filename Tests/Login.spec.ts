@@ -6,6 +6,8 @@ import { Event } from '../pages/Event';
 import { ChangeRequests } from '../pages/ChangeRequests';
 import { Services } from '../pages/Services';
 import { Estimate } from '../pages/Estimate';
+import { Home } from '../pages/Home';
+import { FrameManager } from '../Utilities/FrameManager';
 import { BillWorksheet } from '../pages/BillWorksheet';
 import { Approvals } from '../pages/Approval';
 import { MandatoryFieldsEventUtil } from '../Utilities/MandatoryFieldsEventUtil';
@@ -23,6 +25,7 @@ test('authenticate', async ({ page }) => {
     const homePage = new HomePage(page);
     const customer = new Customer(page);
     const event = new Event(page);
+     const home = new Home(page);
     const estimate = new Estimate(page);
         const billworksheet = new BillWorksheet(page);
  const changeRequests = new ChangeRequests(page);
@@ -48,22 +51,24 @@ test('authenticate', async ({ page }) => {
 
    
 
-    await homePage.clickHome();
+    //await homePage.clickHome();
+
+/*
 
 
-    await homePage.navigateToModule("Sales New");
+//     await homePage.navigateToModule("Sales New");
 
 
-    console.log("Sales New navigation complete");
+//     console.log("Sales New navigation complete");
    
 
-await CommonActions.closeCommonPopup();
-   await customer.Menu1();
+// await CommonActions.closeCommonPopup();
+//    await customer.Menu1();
 
 
 //---------------------------------------------------event creation --------------------------------------
 
-/*
+
 
 await event.CreateEvent();
 
@@ -107,16 +112,16 @@ await event.createbtn();
 const eventNumber = await event.getCreatedEventNumber();
 
 console.log(eventNumber);
-*/
-await CommonActions.closeCommonPopup();
 
-await test.step("EventFilter", async () => {
- await event.EventFilter();
+//await CommonActions.closeCommonPopup();
 
-console.log("Event dashBoard is displayed");
+// await test.step("EventFilter", async () => {
+//  await event.EventFilter();
 
-});
-/*
+// console.log("Event dashBoard is displayed");
+
+// });
+
 //Menu Service
 await test.step("MEnu", async () => {
 await services.openMenuService();
@@ -153,7 +158,7 @@ await services.Schedulingsave();
 
  await estimate.EstimateService();
  await estimate.handleEstimateScreen();
-*/
+
 
 await changeRequests.MenuChangeRequest();
 await changeRequests.MChangeRequest();
@@ -176,5 +181,16 @@ await test.step("BillService", async () => {
 
 });
 
+*/
+
+await test.step("KitchenService", async () => {
+
+await page.pause();
+await home.navigateToKitchen();
+console.log("its kitchen screen")
+ await CommonActions.closeCommonPopup();
+
+
+});
 
 });

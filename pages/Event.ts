@@ -53,7 +53,18 @@ async CreateEvent() {
 
 
         await this.CreateEventBtn.click();
-        const eventConstraints = this.page.getByText("Event Constraints");
+       
+    }
+
+
+    async clickFilter1() {
+
+     await this.clickFilter.fill('3410');
+     
+    }
+        async Constraints() {
+
+     const eventConstraints = this.page.getByText("Event Constraints");
 
 if (await eventConstraints.isVisible()) {
     console.log("Event Constraints popup displayed");
@@ -61,12 +72,6 @@ if (await eventConstraints.isVisible()) {
     await this.page.getByRole('button', { name: 'Create' }).click();
     console.log("Event Constraints popup not displayed");
 }
-    }
-
-
-    async clickFilter1() {
-
-     await this.clickFilter.fill('3410');
      
     }
     async enterEventNumber() {

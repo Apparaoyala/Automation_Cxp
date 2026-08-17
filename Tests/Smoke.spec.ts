@@ -161,6 +161,7 @@ await mandatoryfieldseventutil.getMandatoryFieldCount(eventData);
 
 
 await event.createbtn();
+await event.Constraints()
 
  eventNumber = await event.getCreatedEventNumber();
 
