@@ -3,6 +3,7 @@ import { Login } from '../pages/Login';
 import { HomePage } from '../pages/HomePage';
 import { Customer } from '../pages/Customer';
 import { Event } from '../pages/Event';
+import { KitchenService } from '../pages/Kitchen';
 import { ChangeRequests } from '../pages/ChangeRequests';
 import { Services } from '../pages/Services';
 import { Estimate } from '../pages/Estimate';
@@ -11,10 +12,11 @@ import { FrameManager } from '../Utilities/FrameManager';
 import { BillWorksheet } from '../pages/BillWorksheet';
 import { Approvals } from '../pages/Approval';
 import { MandatoryFieldsEventUtil } from '../Utilities/MandatoryFieldsEventUtil';
-import { commonActions } from '../Utilities/CommonActions';
+import { CommonActions } from '../Utilities/CommonActions';
 //import { MandatoryFieldUtil } from '../Utilities/MandatoryFieldUtil';
 import { TestConfig } from '../Utilities/Test.Config';
 import { JsonUtil } from '../Utilities/JsonUtil';
+
 const config = new TestConfig();
 
 test('authenticate', async ({ page }) => {
@@ -26,11 +28,12 @@ test('authenticate', async ({ page }) => {
     const customer = new Customer(page);
     const event = new Event(page);
      const home = new Home(page);
+      const kitchen=new KitchenService(page)
     const estimate = new Estimate(page);
         const billworksheet = new BillWorksheet(page);
  const changeRequests = new ChangeRequests(page);
     const services = new Services(page);
-    const CommonActions = new commonActions(page);
+    const commonActions = new CommonActions(page);
     const mandatoryfieldseventutil = new MandatoryFieldsEventUtil(page);
  const approval = new Approvals(page);
     await page.goto(config.appUrl);
@@ -51,7 +54,7 @@ test('authenticate', async ({ page }) => {
 
    
 
-    //await homePage.clickHome();
+    await homePage.clickHome();
 
 /*
 
@@ -188,19 +191,29 @@ await test.step("KitchenService", async () => {
 await home.navigateToKitchen();
 
 
-await CommonActions.closeUnacknowledgedpopup();
+await commonActions.closeUnacknowledgedpopup();
 
 console.log("its kitchen screen")
 
-await home.navigateToAccounting();
-await CommonActions.closeUnacknowledgedpopup();
+
 });
 
+await test.step("kitchenfilter",async()=>{
+
+await kitchen.Filter();
+
+await commonActions.childwindow();
+
+console.log("its kitchen screen Filter is working");
+
+await commonActions.closeUnacknowledgedpopup();
+
+
+await kitchen.kitchenservice();
 
 await page.pause();
-await test.step("KitchenService", async () => {
-
-
 });
+
+
 
 });

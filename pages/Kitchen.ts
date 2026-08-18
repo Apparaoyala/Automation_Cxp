@@ -1,45 +1,128 @@
-import { Page, Locator } from '@playwright/test';
+import { Page, Locator,expect } from '@playwright/test';
 import { FrameManager } from '../Utilities/FrameManager';
-export class Kitchen {
+import { CommonActions } from '../Utilities/CommonActions';
+import { Home } from '../pages/Home';
+export class KitchenService {
 
  private readonly page: Page;
 
+private readonly filter: Locator;
+private readonly CisNum: Locator;
+ private readonly Applybtn: Locator;
     private readonly sent: Locator;
     private readonly Accept: Locator;
+      private readonly AcceptStatus: Locator;
+      private readonly QuantificationLink: Locator;
     private readonly GatherAll: Locator;
-    private readonly QuntifyAl: Locator;
-    private readonly CloseBtn: Locator;
-    private readonly Ack: Locator;
+    private readonly QuntifyAll: Locator;
+     private readonly CloseBtn: Locator;
+    // private readonly Ack: Locator;
     private readonly Bill: Locator;
-    private readonly ChangeReq: Locator;
-    private readonly ChangeReqEditIcon: Locator;
-    private readonly ChangeReqAccept: Locator;
-    
-
-
+     private readonly ChangeReq: Locator;
+     private readonly ChangeReqEditIcon: Locator;
+    // private readonly ChangeReqAccept: Locator;
+    private readonly commonActions: CommonActions;
+private readonly home: Home;
 constructor(page: Page) {
-
+    
         this.page = page;
+       
+
+
+this.filter=page.frameLocator('frame[name="header"]').getByRole('link', { name: 'Filter', exact: true });
+this.CisNum=page.frameLocator('frame[name="right"]').locator('#cisnumber');
+this.Applybtn=page.frameLocator('frame[name="right"]').locator('#apply_label');
+this.sent=this.page.frameLocator('frame[name="right"]').getByRole('link', { name: 'Sent' });
+this.AcceptStatus=this.page.frameLocator('frame[name="right"]').getByRole('link', { name: 'Accpt', exact: true});
+this.Bill=this.page.frameLocator('frame[name="right"]').getByRole('link', { name: 'Bill', exact: true});
+this.Accept=this.page.frameLocator('frame[name="right"]').locator('#acceptBtn_label');
+this.ChangeReq=page.frameLocator('frame[name="header"]').getByRole('link', { name: 'Change Requests', exact: true });
+this.QuantificationLink=page.frameLocator('frame[name="header"]').getByRole('link', { name: 'Quantification', exact: true });
+
+this.ChangeReqEditIcon=page.frameLocator('frame[name="view"]').getByAltText('edit').first();
+this.QuntifyAll=page.frameLocator('frame[name="header"]').getByAltText('Save prep item quantities as per maintenance').first();
+this.GatherAll=page.frameLocator('frame[name="header"]').getByAltText('Add all prep items to the gather list').first();
+
+this.CloseBtn=this.page.frameLocator('frame[name="view"]').locator('#dijit_form_Button_0');
 const frameManager = new FrameManager(page);
-
-               this.Kitchen= page.getByRole('button', { name: 'Event Listing' });
-             this.Kitchen = page.locator('span').filter({ hasText: 'Create Event' }).first();
-
-
-
+this.commonActions = new CommonActions(page);
+this.home = new Home(page);
 
 }
 
 
 async CreateEvent() {
 
-     await this.Kitchen.click();
+   //this.Kitchen= page.getByRole('button', { name: 'Event Listing' });
+         //   this.Kitchen = page.locator('span').filter({ hasText: 'Create Event' }).first();
      
+
+         
     }
 
 
+async Filter() {
 
+    const [filterPage] = await Promise.all([
+        this.page.context().waitForEvent('page'),
+        this.filter.click()
+    ]);
 
+    await filterPage.waitForLoadState();
 
+    console.log("Filter window:", await filterPage.title());
+
+    // const cisNum = filterPage
+    //     .frameLocator('frame[name="right"]')
+    //     .locator('#cisnumber');
+
+    // const applyBtn = filterPage
+    //     .frameLocator('frame[name="right"]')
+    //     .locator('#apply_label');
+
+    // await cisNum.fill('LI3199');
+    // await applyBtn.click();
+}
+async Filter2() {
+
+    console.log("Page closed:", this.page.isClosed());
+
+    for (const frame of this.page.frames()) {
+        console.log("Frame:", frame.name());
+    }
+
+    console.log("Filter count:", await this.filter.count());
+
+    await this.filter.click();
+
+    console.log("Filter clicked");
+}
+async kitchenservice(){
+
+    await this.sent.click();
+await this.Accept.click();
+await this.commonActions.Constraintspopup();
+ console.log("Constraint save  clicked");
+
+ await this.home.navigateToKitchen();
+ await this.commonActions.closeUnacknowledgedpopup();
+ await this.AcceptStatus.click();
+  await this.ChangeReq.click();
+   await this.ChangeReqEditIcon.click();
+ await this.CloseBtn.click();
+
+ await this.QuantificationLink.click();
+ await this.QuntifyAll.click();
+
+ await this.GatherAll.click();
+
+ await this.home.navigateToKitchen();
+ await this.commonActions.closeUnacknowledgedpopup();
+ await this.AcceptStatus.click();
+
+ await this.Bill.click();
+ await this.home.navigateToKitchen();
+ await this.commonActions.closeUnacknowledgedpopup();
+}
 
 }

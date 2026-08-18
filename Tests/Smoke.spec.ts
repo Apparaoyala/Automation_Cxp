@@ -4,11 +4,13 @@ import { HomePage } from '../pages/HomePage';
 import {LoginHelper } from '../pages/LoginHelper';
 import { TestConfig } from '../Utilities/Test.Config';
 import { expect } from '@playwright/test';
-import { commonActions } from '../Utilities/CommonActions';
+import { CommonActions } from '../Utilities/CommonActions';
 import { JsonUtil } from '../Utilities/JsonUtil';
 import { Approvals } from '../pages/Approval';
 import { ChangeRequests } from '../pages/ChangeRequests';
-
+import { Home } from '../pages/Home';
+import { FrameManager } from '../Utilities/FrameManager';
+import { KitchenService } from '../pages/Kitchen';
 import { Event } from '../pages/Event';
 import { Services } from '../pages/Services';
 import { Customer } from '../pages/Customer';
@@ -40,7 +42,7 @@ if (
     );
 }
 
-for (let i = 0; i < customers.length; i++) {
+for (let i = 1; i < customers.length; i++) {
 
     const customerData = customers[i];
     const contactData = contacts[i];
@@ -62,17 +64,17 @@ let eventNumber: string;
     const estimate = new Estimate(page);
     const login = new Login(page);
     const homePage = new HomePage(page);
-    const CommonActions = new commonActions(page);
-     const changeRequests = new ChangeRequests(page);
-
+    const kitchen=new KitchenService(page)
+    const changeRequests = new ChangeRequests(page);
+    
     const loginelper = new LoginHelper();
     const customer = new Customer(page);
     const contact = new Contact(page);
     const mandatoryfieldseventutil = new MandatoryFieldsEventUtil(page);
     const mandatoryfieldutil = new MandatoryFieldUtil(page);
     const mandatoryFieldsContactUtil = new MandatoryFieldsContactUtil(page);
-
-
+ const commonActions = new CommonActions(page);
+const home = new Home(page);
     await test.step("Open Application", async () => {
 
         await page.goto(config.appUrl);
@@ -94,7 +96,7 @@ let eventNumber: string;
     });
     
 await test.step("Validate Sales New page", async () => {
-await CommonActions.closeCommonPopup();
+await commonActions.closeCommonPopup();
 
     await expect(
         page.getByText("Event Listing")
@@ -167,15 +169,16 @@ await event.Constraints()
 
 console.log(eventNumber);
 //await approval.Approvals(eventNumber);
-await CommonActions.closeCommonPopup();
+await commonActions.closeCommonPopup();
 
 });
-
+//await page.pause();
 await test.step("ApprovalsService", async () => {
     
   await approval.Approvals(eventNumber);
 
 });
+
 await test.step("Servicess", async () => {
    
     //Menu Service
@@ -243,10 +246,28 @@ await changeRequests.MChangeRequest();
 await changeRequests.addEditItems();
 //;await changeRequests.addEditItems();
 });
-        
 
 
+       await homePage.baseNavigation();
+
+
+
+
+await test.step("KitchenService", async () => {
+
+await home.navigateToKitchen();
+
+
+await commonActions.closeUnacknowledgedpopup();
+
+console.log("its kitchen screen")
+
+await kitchen.kitchenservice();
+
+//wait page.pause();
 });
+});
+
 
 
 }

@@ -4,6 +4,7 @@ export class HomePage {
 
     private readonly page: Page;
     private readonly HomeButton: Locator;
+    private readonly BaseNavigation: Locator;
 
     constructor(page: Page) {
 
@@ -12,6 +13,8 @@ export class HomePage {
         this.HomeButton = page
             .frameLocator('[name="header"]')
             .locator("img[title='Home']");
+
+            this.BaseNavigation=page.locator('span').filter({ hasText: 'dining' });
     }
 
     async clickHome(){
@@ -61,5 +64,8 @@ export class HomePage {
     await this.page.waitForLoadState("networkidle");
 
     console.log(`${moduleName} page loaded.`);
+}
+async baseNavigation(){
+     await this. BaseNavigation.click();
 }
 }
