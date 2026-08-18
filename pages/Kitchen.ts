@@ -107,19 +107,22 @@ await this.commonActions.Constraintspopup();
  await this.home.navigateToKitchen();
  await this.commonActions.closeUnacknowledgedpopup();
  await this.AcceptStatus.click();
+ console.log("AcceptStatus")
   await this.ChangeReq.click();
+   console.log("ChangeReq")
    await this.ChangeReqEditIcon.click();
+    console.log("ChangeReqEditIcon")
  await this.CloseBtn.click();
-
+ console.log("CloseBtn")
  await this.QuantificationLink.click();
  await this.QuntifyAll.click();
 
  await this.GatherAll.click();
-
+console.log("GatherAll")
  await this.home.navigateToKitchen();
  await this.commonActions.closeUnacknowledgedpopup();
  await this.AcceptStatus.click();
-
+console.log("AcceptStatus")
  await this.Bill.click();
  await this.home.navigateToKitchen();
  await this.commonActions.closeUnacknowledgedpopup();

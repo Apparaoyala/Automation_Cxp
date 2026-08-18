@@ -222,7 +222,7 @@ async childwindow() {
                 
                 .locator('#apply_label');
 
-            await cisNum.fill("3534");
+            await cisNum.fill("1965");
 
             await applyBtn.scrollIntoViewIfNeeded();
 

@@ -54,7 +54,7 @@ test('authenticate', async ({ page }) => {
 
    
 
-    await homePage.clickHome();
+    //await homePage.clickHome();
 
 /*
 
