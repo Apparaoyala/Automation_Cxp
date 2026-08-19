@@ -10,7 +10,9 @@ export class FrameManager {
   rightFrame(): FrameLocator {
     return this.page.frameLocator('frame[name="right"]');
   }
-
+ ScheduleFrame(): FrameLocator {
+    return this.page.frameLocator('frame[name="prsnlrequest"]');
+  }
   viewFrame(): FrameLocator {
     return this.page.frameLocator('frame[name="view"]');
   }

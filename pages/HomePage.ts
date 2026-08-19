@@ -67,5 +67,6 @@ export class HomePage {
 }
 async baseNavigation(){
      await this. BaseNavigation.click();
+      
 }
 }

@@ -248,14 +248,14 @@ await changeRequests.addEditItems();
 });
 
 
-       await homePage.baseNavigation();
+       
 
 
 
 
 await test.step("KitchenService", async () => {
 
-await home.navigateToKitchen();
+await home.SalesNewToKitchen();
 
 
 await commonActions.closeUnacknowledgedpopup();

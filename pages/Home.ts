@@ -1,12 +1,14 @@
-import { Page } from '@playwright/test';
+import { Page,Locator } from '@playwright/test';
 import { FrameManager } from '../Utilities/FrameManager';
 
 export class Home {
 
   private frames: FrameManager;
-
+private readonly BaseNavigation: Locator;
   constructor(private page: Page) {
     this.frames = new FrameManager(page);
+
+    this.BaseNavigation=page.locator('span').filter({ hasText: 'dining' });
   }
 
   // Header
@@ -22,12 +24,22 @@ export class Home {
   accountingMenu = '//a[contains(text(),"Accounting")]';
   schedulingMenu = '//a[contains(text(),"Scheduling")]';
   warehouseMenu = '//a[contains(text(),"Warehouse")]';
+  
 
   async navigateToHome() {
     await this.frames
       .headerFrame()
       .locator(this.homeButton)
       .click();
+  }
+  async SalesNewToKitchen() {
+  await this. BaseNavigation.click();
+
+    await this.frames
+      .rightFrame()
+      .locator(this.kitchenMenu)
+      .click();
+
   }
 
   async navigateToSales() {

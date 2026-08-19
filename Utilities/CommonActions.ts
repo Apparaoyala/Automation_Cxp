@@ -1,241 +1,290 @@
-import { Page, Locator,expect } from '@playwright/test';
+import { Page, Locator, expect } from '@playwright/test';
 import { Event } from '../pages/Event';
 
 //import { KitchenService } from '../pages/Kitchen';
 
-export class CommonActions{
+export class CommonActions {
 
     private readonly page: Page;
 
     constructor(page: Page) {
-  //const kitchen=new KitchenService(page)
+        //const kitchen=new KitchenService(page)
         this.page = page;
 
-       console.log("******** Common actions Loaded ********");
+        console.log("******** Common actions Loaded ********");
     }
 
 
-async closeCommonPopup(){
-    
-    // Wait for spinner to finish (if present)
-    await this.page.locator("ngx-spinner")
-        .waitFor({ state: "hidden", timeout: 30000 })
-        .catch(() => {});
+    async closeCommonPopup() {
 
-    const popup = this.page.locator("modal-container[role='dialog']");
+        // Wait for spinner to finish (if present)
+        await this.page.locator("ngx-spinner")
+            .waitFor({ state: "hidden", timeout: 30000 })
+            .catch(() => { });
 
-    try {
+        const popup = this.page.locator("modal-container[role='dialog']");
 
-        // Give the popup a chance to appear
-        await popup.waitFor({
-            state: "visible",
-            timeout: 5000
-        });
+        try {
 
-        console.log("Inventory popup displayed.");
+            // Give the popup a chance to appear
+            await popup.waitFor({
+                state: "visible",
+                timeout: 5000
+            });
 
-        const closeIcon = popup.locator(".p-sidebar-close-icon");
+            console.log("Inventory popup displayed.");
 
-        await closeIcon.click();
+            const closeIcon = popup.locator(".p-sidebar-close-icon");
 
-        await popup.waitFor({
-            state: "hidden",
-            timeout: 10000
-        });
+            await closeIcon.click();
 
-        console.log("Inventory popup closed.");
+            await popup.waitFor({
+                state: "hidden",
+                timeout: 10000
+            });
 
-    } catch {
+            console.log("Inventory popup closed.");
 
-        console.log("Inventory popup not displayed.");
+        } catch {
 
-    }
+            console.log("Inventory popup not displayed.");
 
-
-  
-}
-async Constraintspopup() {
-
-    for (let i = 0; i < 10; i++) {
-
-        const pages = this.page.context().pages();
-
-        if (pages.length > 1) {
-
-            const childPage = pages[pages.length - 1];
-
-            console.log(
-                "Child Window:",
-                await childPage.title()
-            );
-
-            await childPage.waitForLoadState();
-
-            await childPage
-                
-                .getByRole('button', { name: 'save' })
-                .click();
-
-            console.log("Popup Closed");
-
-            return;
         }
 
-        await this.page.waitForTimeout(5000);
+
+
     }
+    async Constraintspopup() {
 
-    console.log("No child window appeared");
-}
-async closeUnacknowledgedpopup() {
+        for (let i = 0; i < 10; i++) {
 
-    for (let i = 0; i < 10; i++) {
+            const pages = this.page.context().pages();
 
-        const pages = this.page.context().pages();
+            if (pages.length > 1) {
 
-        if (pages.length > 1) {
+                const childPage = pages[pages.length - 1];
 
-            const childPage = pages[pages.length - 1];
+                console.log(
+                    "Child Window:",
+                    await childPage.title()
+                );
 
-            console.log(
-                "Child Window:",
-                await childPage.title()
-            );
+                await childPage.waitForLoadState();
 
-            await childPage.waitForLoadState();
+                await childPage
 
-            await childPage
-                .frameLocator('frame[name="right"]')
-                .getByRole('button', { name: 'Close' })
-                .click();
+                    .getByRole('button', { name: 'save' })
+                    .click();
 
-            console.log("Popup Closed");
+                console.log("Popup Closed");
 
-            return;
+                return;
+            }
+
+            await this.page.waitForTimeout(5000);
         }
 
-        await this.page.waitForTimeout(5000);
+        console.log("No child window appeared");
     }
+    async closeUnacknowledgedpopup() {
 
-    console.log("No child window appeared");
-}
-async Unacknowledgedpopup() {
+        for (let i = 0; i < 10; i++) {
 
-    for (let i = 0; i < 10; i++) {
+            const pages = this.page.context().pages();
 
-        const pages = this.page.context().pages();
+            if (pages.length > 1) {
 
-        console.log("Pages Count:", pages.length);
+                const childPage = pages[pages.length - 1];
 
-        if (pages.length > 1) {
+                console.log(
+                    "Child Window:",
+                    await childPage.title()
+                );
 
-            const childPage = pages[1];
+                await childPage.waitForLoadState();
+                await childPage
+                    .frameLocator('frame[name="right"]')
+                    .getByRole('button', { name: 'Close' })
+                    .scrollIntoViewIfNeeded();
 
-            console.log(
-                "Child Window:",
-                await childPage.title()
-            );
+                await childPage
+                    .frameLocator('frame[name="right"]')
+                    .getByRole('button', { name: 'Close' })
+                    .click();
 
-            await childPage.waitForLoadState();
+                console.log("Popup Closed");
 
-            await childPage
-                .frameLocator('frame[name="right"]')
-                .getByRole('button', { name: 'Close' })
-                .click();
+                return;
+            }
 
-            console.log("Popup Closed");
-
-            return;
+            await this.page.waitForTimeout(5000);
         }
 
-        await this.page.waitForTimeout(1000);
+        console.log("No child window appeared");
     }
+    async Unacknowledgedpopup() {
 
-    console.log("No child window appeared");
-}
-async childwindow1() {
+        for (let i = 0; i < 10; i++) {
 
-    for (let i = 0; i < 10; i++) {
+            const pages = this.page.context().pages();
 
-        const pages = this.page.context().pages();
+            console.log("Pages Count:", pages.length);
 
-        console.log("Pages Count:", pages.length);
+            if (pages.length > 1) {
 
-        if (pages.length > 1) {
+                const childPage = pages[1];
 
-            const childPage = pages[pages.length - 1];
+                console.log(
+                    "Child Window:",
+                    await childPage.title()
+                );
 
-            console.log(
-                "Child Window:",
-                await childPage.title()
-            );
+                await childPage.waitForLoadState();
 
-            await childPage.waitForLoadState();
+                await childPage
+                    .frameLocator('frame[name="right"]')
+                    .getByRole('button', { name: 'Close' })
+                    .click();
 
-            const cisNum = childPage
-                .frameLocator('frame[name="right"]')
-                .locator('#cisnumber');
+                console.log("Popup Closed");
 
-            const applyBtn = childPage
-                .frameLocator('frame[name="right"]')
-                .locator('#apply_label');
+                return;
+            }
 
-            await cisNum.fill("LI3894");
-
-            await applyBtn.scrollIntoViewIfNeeded();
-
-            await applyBtn.click();
-
-            console.log("Apply button clicked");
-
-            return;
+            await this.page.waitForTimeout(1000);
         }
 
-        await this.page.waitForTimeout(1000);
+        console.log("No child window appeared");
     }
+    async childwindow1() {
 
-    console.log("No child window appeared");
-}
-async childwindow() {
+        for (let i = 0; i < 10; i++) {
 
-    for (let i = 0; i < 10; i++) {
+            const pages = this.page.context().pages();
 
-        const pages = this.page.context().pages();
+            console.log("Pages Count:", pages.length);
 
-        console.log("Pages Count:", pages.length);
+            if (pages.length > 1) {
 
-        if (pages.length > 1) {
+                const childPage = pages[pages.length - 1];
 
-            const childPage = pages[pages.length - 1];
+                console.log(
+                    "Child Window:",
+                    await childPage.title()
+                );
 
-            console.log(
-                "Child Window:",
-                await childPage.title()
-            );
+                await childPage.waitForLoadState();
 
-            await childPage.waitForLoadState();
+                const cisNum = childPage
+                    .frameLocator('frame[name="right"]')
+                    .locator('#cisnumber');
 
-            const cisNum = childPage
-                
-                .locator('#cisnumber');
+                const applyBtn = childPage
+                    .frameLocator('frame[name="right"]')
+                    .locator('#apply_label');
 
-            const applyBtn = childPage
-                
-                .locator('#apply_label');
+                await cisNum.fill("LI3894");
 
-            await cisNum.fill("1965");
+                await applyBtn.scrollIntoViewIfNeeded();
 
-            await applyBtn.scrollIntoViewIfNeeded();
+                await applyBtn.click();
 
-            await applyBtn.click();
+                console.log("Apply button clicked");
 
-            console.log("Apply button clicked");
+                return;
+            }
 
-            return;
+            await this.page.waitForTimeout(1000);
         }
 
-        await this.page.waitForTimeout(1000);
+        console.log("No child window appeared");
+    }
+    async childwindow() {
+
+        for (let i = 0; i < 10; i++) {
+
+            const pages = this.page.context().pages();
+
+            console.log("Pages Count:", pages.length);
+
+            if (pages.length > 1) {
+
+                const childPage = pages[pages.length - 1];
+
+                console.log(
+                    "Child Window:",
+                    await childPage.title()
+                );
+
+                await childPage.waitForLoadState();
+
+                const cisNum = childPage
+
+                    .locator('#cisnumber');
+
+                const applyBtn = childPage
+
+                    .locator('#apply_label');
+
+                await cisNum.fill("3909");
+
+                await applyBtn.scrollIntoViewIfNeeded();
+
+                await applyBtn.click();
+
+                console.log("Apply button clicked");
+
+                return;
+            }
+
+            await this.page.waitForTimeout(1000);
+        }
+
+        console.log("No child window appeared");
     }
 
-    console.log("No child window appeared");
-}
+    async Show_workers_childwindow() {
+
+        for (let i = 0; i < 10; i++) {
+
+            const pages = this.page.context().pages();
+
+            console.log("Pages Count:", pages.length);
+
+            if (pages.length > 1) {
+
+                const childPage = pages[pages.length - 1];
+
+                console.log(
+                    "Child Window:",
+                    await childPage.title()
+                );
+
+                await childPage.waitForLoadState();
+
+                const GoBtn = childPage.frameLocator('frame[name="list"]')
+
+                    .locator('#dijit_form_Button_0_label');
+
+                const ClickCheckBox = childPage.frameLocator('frame[name="list"]')
+
+                    .locator('#chkItem1');
+                const AddBtn = childPage.frameLocator('frame[name="list"]')
+
+                    .locator('#dijit_form_Button_1_label');
+
+                await GoBtn.click();
+                await ClickCheckBox.click();
+                await AddBtn.click();
+
+                console.log("AddBtn button clicked");
+
+                return;
+            }
+
+            await this.page.waitForTimeout(3000);
+        }
+
+        console.log("No child window appeared");
+    }
 }
