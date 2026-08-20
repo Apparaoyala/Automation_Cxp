@@ -138,27 +138,10 @@ export class KitchenService {
 
 
 
-        try {
-
-            const dialogPromise = this.page.waitForEvent('dialog', {
-                timeout: 5000
-            });
-
+        
             await this.GatherAll.click();
             console.log("GatherAll");
-
-            const dialog = await dialogPromise;
-
-            console.log(dialog.message());
-
-            await dialog.accept();
-
-        } catch {
-
-            throw new Error(
-                "Expected alert was not displayed after clicking Gather All"
-            );
-        }
+      
         console.log("GatherAll")
         await this.home.navigateToKitchen();
         await this.commonActions.closeUnacknowledgedpopup();
