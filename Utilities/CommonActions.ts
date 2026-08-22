@@ -183,7 +183,7 @@ export class CommonActions {
                     .frameLocator('frame[name="right"]')
                     .locator('#apply_label');
 
-                await cisNum.fill("LI3894");
+                await cisNum.fill("3841");
 
                 await applyBtn.scrollIntoViewIfNeeded();
 
@@ -226,7 +226,7 @@ export class CommonActions {
 
                     .locator('#apply_label');
 
-                await cisNum.fill("1863");
+                await cisNum.fill("3841");
 
                 await applyBtn.scrollIntoViewIfNeeded();
 

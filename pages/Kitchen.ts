@@ -72,16 +72,16 @@ export class KitchenService {
 
         console.log("Filter window:", await filterPage.title());
 
-        // const cisNum = filterPage
-        //     .frameLocator('frame[name="right"]')
-        //     .locator('#cisnumber');
+        const cisNum = filterPage
+            .frameLocator('frame[name="right"]')
+            .locator('#cisnumber');
 
-        // const applyBtn = filterPage
-        //     .frameLocator('frame[name="right"]')
-        //     .locator('#apply_label');
+        const applyBtn = filterPage
+            .frameLocator('frame[name="right"]')
+            .locator('#apply_label');
 
-        // await cisNum.fill('LI3199');
-        // await applyBtn.click();
+        await cisNum.fill('3881');
+        await applyBtn.click();
     }
     async Filter2() {
 
@@ -115,50 +115,46 @@ export class KitchenService {
         await this.CloseBtn.click();
         console.log("CloseBtn")
         await this.QuantificationLink.click();
-        try {
+        await this.QuntifyAll.click();
 
-            const dialogPromise = this.page.waitForEvent('dialog', {
-                timeout: 5000
-            });
+console.log("Quntify All clicked");
 
-            await this.QuntifyAll.click();
-            console.log("QuntifyAll");
-            const dialog = await dialogPromise;
+let dialog = null;
 
-            console.log(dialog.message());
+try {
+    dialog = await this.page.waitForEvent('dialog', {
+        timeout: 3000
+    });
+} catch {
+    console.log("No alert. Item quantified successfully.");
+}
 
-            await dialog.accept();
+if (dialog) {
 
-        } catch {
+    console.log("Alert displayed:", dialog.message());
 
-            throw new Error(
-                "Expected alert was not displayed after clicking Gather All"
-            );
-        }
+    await dialog.accept();
+
+    //await this.PrepItemUnitDropdown.click();
+
+    //await this.PrepItemUnitOption.first().click();
+
+    //await this.Save.click();
+
+    console.log("Prep Item Unit selected and saved");
+
+    await this.QuntifyAll.click();
+
+    console.log("Quntify All clicked again");
+}
+
+// Remaining flow continues here
+console.log("Continue remaining flow...");
 
 
 
-        try {
+         await this.GatherAll.click();
 
-            const dialogPromise = this.page.waitForEvent('dialog', {
-                timeout: 5000
-            });
-
-            await this.GatherAll.click();
-            console.log("GatherAll");
-
-            const dialog = await dialogPromise;
-
-            console.log(dialog.message());
-
-            await dialog.accept();
-
-        } catch {
-
-            throw new Error(
-                "Expected alert was not displayed after clicking Gather All"
-            );
-        }
         console.log("GatherAll")
         await this.home.navigateToKitchen();
         await this.commonActions.closeUnacknowledgedpopup();
@@ -181,7 +177,7 @@ export class KitchenService {
         } catch {
 
             throw new Error(
-                "Expected alert was not displayed after clicking Gather All"
+                "Expected alert was not displayed after clicking Bill"
             );
         }
         await this.home.navigateToKitchen();

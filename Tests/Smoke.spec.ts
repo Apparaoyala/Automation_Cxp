@@ -1,7 +1,6 @@
 import { test } from '@playwright/test';
-import { Login } from '../pages/Login';
 import { HomePage } from '../pages/HomePage';
-import {LoginHelper } from '../pages/LoginHelper';
+import { LoginHelper } from '../pages/LoginHelper';
 import { TestConfig } from '../Utilities/Test.Config';
 import { expect } from '@playwright/test';
 import { CommonActions } from '../Utilities/CommonActions';
@@ -10,27 +9,26 @@ import { Approvals } from '../pages/Approval';
 import { ChangeRequests } from '../pages/ChangeRequests';
 import { Home } from '../pages/Home';
 import { FrameManager } from '../Utilities/FrameManager';
-import { KitchenService } from '../pages/Kitchen';
+
+import { Login } from '../pages/Login';
+import { Contact } from '../pages/Contact';
+import { Customer } from '../pages/Customer';
 import { Event } from '../pages/Event';
 import { Services } from '../pages/Services';
-import { Customer } from '../pages/Customer';
 import { Estimate } from '../pages/Estimate';
 import { BillWorksheet } from '../pages/BillWorksheet';
 import { MandatoryFieldsEventUtil } from '../Utilities/MandatoryFieldsEventUtil';
 import { MandatoryFieldsContactUtil } from '../Utilities/MandatoryFieldsContactUtil';
-
 import { MandatoryFieldUtil } from '../Utilities/MandatoryFieldUtil';
-
-import { ExcelUtil } from '../Utilities/ExcelUtil';
-import { Contact } from '../pages/Contact';
-
+import { KitchenService } from '../pages/Kitchen';
+import { Scheduling } from '../pages/Scheduling';
 const customers = JsonUtil.readJson(
     './Utilities/TestData/Customer.json'
-    );
-    const contacts = JsonUtil.readJson(
+);
+const contacts = JsonUtil.readJson(
     './Utilities/TestData/Contact.json'
-  );
-  const Events = JsonUtil.readJson(
+);
+const Events = JsonUtil.readJson(
     './Utilities/TestData/Event.json'
 );
 if (
@@ -49,224 +47,243 @@ for (let i = 1; i < customers.length; i++) {
     const eventData = Events[i];
 
     test(`Smoke Run ${i + 1}`,
-        async ({ page }) =>{
+        async ({ page }) => {
 
-    test.setTimeout(1800000);
-    const config = new TestConfig();
-    console.log("APP_URL =", process.env.APP_URL);
-console.log("CONFIG_URL =", config.appUrl);
+            test.setTimeout(1800000);
+            const config = new TestConfig();
+            console.log("APP_URL =", process.env.APP_URL);
+            console.log("CONFIG_URL =", config.appUrl);
 
-let eventNumber: string;
-    const event = new Event(page);
-    const billworksheet = new BillWorksheet(page);
-    const services = new Services(page);
-    const approval = new Approvals(page);
-    const estimate = new Estimate(page);
-    const login = new Login(page);
-    const homePage = new HomePage(page);
-    const kitchen=new KitchenService(page)
-    const changeRequests = new ChangeRequests(page);
-    
-    const loginelper = new LoginHelper();
-    const customer = new Customer(page);
-    const contact = new Contact(page);
-    const mandatoryfieldseventutil = new MandatoryFieldsEventUtil(page);
-    const mandatoryfieldutil = new MandatoryFieldUtil(page);
-    const mandatoryFieldsContactUtil = new MandatoryFieldsContactUtil(page);
- const commonActions = new CommonActions(page);
-const home = new Home(page);
-    await test.step("Open Application", async () => {
+            let eventNumber: string;
+            const homePage = new HomePage(page);
 
-        await page.goto(config.appUrl);
+            const billworksheet = new BillWorksheet(page);
 
-    });
 
-    await test.step("Login into Application", async () => {
+            const login = new Login(page);
+            const contact = new Contact(page);
+            const customer = new Customer(page);
+            const event = new Event(page);
+            const estimate = new Estimate(page);
+            const services = new Services(page);
+            const approval = new Approvals(page);
+            const kitchen = new KitchenService(page)
+            const scheduling = new Scheduling(page)
+            const changeRequests = new ChangeRequests(page);
 
-        await LoginHelper.login(page);
-        
-    });
+            const loginelper = new LoginHelper();
 
-    await test.step("Navigate to Sales New Module", async () => {
 
-        await homePage.clickHome();
+            const mandatoryfieldseventutil = new MandatoryFieldsEventUtil(page);
+            const mandatoryfieldutil = new MandatoryFieldUtil(page);
+            const mandatoryFieldsContactUtil = new MandatoryFieldsContactUtil(page);
+            const commonActions = new CommonActions(page);
+            const home = new Home(page);
+            await test.step("Open Application", async () => {
 
-       await homePage.navigateToModule("Sales New");
+                await page.goto(config.appUrl);
 
-    });
-    
-await test.step("Validate Sales New page", async () => {
-await commonActions.closeCommonPopup();
+            });
 
-    await expect(
-        page.getByText("Event Listing")
-    ).toBeVisible();
+            await test.step("Login into Application", async () => {
 
-});
+                await LoginHelper.login(page);
 
-await test.step("Create Customer", async () => {
-    await customer.Menu1();
-    await customer.clickCustomer();
+            });
 
-    await customer.CustomerBtn();
-    await page.waitForTimeout(3000);
-     
+            await test.step("Navigate to Sales New Module", async () => {
 
-    await mandatoryfieldutil.getMandatoryFieldCount(customerData);
+                await homePage.clickHome();
 
-   await customer.createCusBtn();
- 
-   await customer.handleDuplicateCustomerPopup();
+                await homePage.navigateToModule("Sales New");
 
+            });
 
+            await test.step("Validate Sales New page", async () => {
+                await commonActions.closeCommonPopup();
 
-});
+                await expect(
+                    page.getByText("Event Listing")
+                ).toBeVisible();
 
+            });
 
-await test.step("Create Contact", async () => {
-    
-    
-  await contact.waitForContactScreen();
+            await test.step("Create Customer", async () => {
+                await customer.Menu1();
+                await customer.clickCustomer();
 
-  
+                await customer.CustomerBtn();
+                await page.waitForTimeout(3000);
 
-    await mandatoryFieldsContactUtil.getMandatoryFieldCount1(contactData);
 
+                await mandatoryfieldutil.getMandatoryFieldCount(customerData);
 
-    await contact.createContactBtn();
+                await customer.createCusBtn();
 
-    await contact.createEventIcon();
+                await customer.handleDuplicateCustomerPopup();
 
 
-});
 
-await test.step("Create Event", async () => {
-    await page.locator("ngx-spinner .overlay").waitFor({
-    state: "hidden",
-    timeout: 30000
-});
+            });
 
 
-await page.waitForTimeout(3000);
+            await test.step("Create Contact", async () => {
 
-console.log("Labels After 5 Seconds:",
-    await page.locator("label").count());
 
-    await page.locator("ngx-spinner .overlay").waitFor({
-    state: "hidden",
-    timeout: 180000
-});
-await page.waitForTimeout(500);
+                await contact.waitForContactScreen();
 
 
-await mandatoryfieldseventutil.getMandatoryFieldCount(eventData);
 
+                await mandatoryFieldsContactUtil.getMandatoryFieldCount1(contactData);
 
-await event.createbtn();
-await event.Constraints()
 
- eventNumber = await event.getCreatedEventNumber();
+                await contact.createContactBtn();
 
-console.log(eventNumber);
-//await approval.Approvals(eventNumber);
-await commonActions.closeCommonPopup();
+                await contact.createEventIcon();
 
-});
-//await page.pause();
-await test.step("ApprovalsService", async () => {
-    
-  await approval.Approvals(eventNumber);
 
-});
+            });
 
-await test.step("Servicess", async () => {
-   
-    //Menu Service
+            await test.step("Create Event", async () => {
+                await page.locator("ngx-spinner .overlay").waitFor({
+                    state: "hidden",
+                    timeout: 30000
+                });
 
-await services.openMenuService();
 
-await services.searchandAdd();
+                await page.waitForTimeout(3000);
 
-await services.filterICon();
+                console.log("Labels After 5 Seconds:",
+                    await page.locator("label").count());
 
-await services.goButton();
+                await page.locator("ngx-spinner .overlay").waitFor({
+                    state: "hidden",
+                    timeout: 180000
+                });
+                await page.waitForTimeout(500);
 
 
-//await services.itemSelectBox();
+                await mandatoryfieldseventutil.getMandatoryFieldCount(eventData);
 
-await services.processServiceRows();
 
+                await event.createbtn();
+                await event.Constraints()
 
-await services.saveBtn();
+                eventNumber = await event.getCreatedEventNumber();
 
-await services.closeBtn();
-await services.processFinalizeWorkflow();
+                console.log(eventNumber);
+                //await approval.Approvals(eventNumber);
+                await commonActions.closeCommonPopup();
 
-await services.serviceCloseBtn();
-await services.menuServiceStatus();
-//Sch Service
-await services.openSchService();
-await services.Schedulingsave();
+            });
+            //await page.pause();
+            await test.step("ApprovalsService", async () => {
 
-//Alc Service
-await services.AllServiceStatuses();
-await services.openAlcService();
+                await approval.Approvals(eventNumber);
 
-await services.AlcServiceStatus();
+            });
 
-await services.EquipService();
+            await test.step("Servicess", async () => {
 
+                //Menu Service
 
-});
+                await services.openMenuService();
 
-await test.step("EstimateService", async () => {
+                await services.searchandAdd();
 
-    await estimate.EstimateService();
-    await estimate.handleEstimateScreen();
-});
+                await services.filterICon();
 
+                await services.goButton();
 
-await test.step("BillService", async () => {
-await billworksheet.openbillService();
-await billworksheet.BillProcess();
 
-//const estimateTotal = await estimate.TotalEstimate();
+                //await services.itemSelectBox();
 
-//await billworksheet.BillValue(estimateTotal);
+                await services.processServiceRows();
 
-});
-await test.step("ApprovalsService", async () => {
-    
-  await approval.Approvals(eventNumber);
 
-});
-await test.step("ChangeRequest", async () => {
-await changeRequests.MenuChangeRequest();
-await changeRequests.MChangeRequest();
-await changeRequests.addEditItems();
-//;await changeRequests.addEditItems();
-});
+                await services.saveBtn();
 
+                await services.closeBtn();
+                await services.processFinalizeWorkflow();
 
-       
+                await services.serviceCloseBtn();
+                await services.menuServiceStatus();
+                //Sch Service
+                await services.openSchService();
+                await services.Schedulingsave();
 
+                //Alc Service
+                await services.AllServiceStatuses();
+                await services.openAlcService();
 
+                await services.AlcServiceStatus();
 
+                await services.EquipService();
 
-await test.step("KitchenService", async () => {
 
-await home.SalesNewToKitchen();
+            });
 
+            await test.step("EstimateService", async () => {
 
-await commonActions.closeUnacknowledgedpopup();
+                await estimate.EstimateService();
+                await estimate.handleEstimateScreen();
+            });
 
-console.log("its kitchen screen")
 
-await kitchen.kitchenservice();
+            await test.step("BillService", async () => {
+                await billworksheet.openbillService();
+                await billworksheet.BillProcess();
 
-//wait page.pause();
-});
-});
+                //const estimateTotal = await estimate.TotalEstimate();
+
+                //await billworksheet.BillValue(estimateTotal);
+
+            });
+            await test.step("ApprovalsService", async () => {
+
+                await approval.Approvals(eventNumber);
+
+            });
+            await test.step("ChangeRequest", async () => {
+                await changeRequests.MenuChangeRequest();
+                await changeRequests.MChangeRequest();
+                await changeRequests.addEditItems();
+                //;await changeRequests.addEditItems();
+            });
+
+
+
+
+
+
+
+            await test.step("KitchenService", async () => {
+
+                await home.SalesNewToKitchen();
+
+
+                await commonActions.closeUnacknowledgedpopup();
+
+                console.log("its kitchen screen")
+
+                await kitchen.kitchenservice();
+
+                //wait page.pause();
+            });
+
+            await test.step("SchedulingService", async () => {
+
+                await home.navigateToScheduling();
+                await commonActions.closeUnacknowledgedpopup();
+                //wait kitchen.Filter();
+               // await commonActions.childwindow();
+                await commonActions.closeUnacknowledgedpopup();
+                await scheduling.SchedulingAck();
+
+
+                await page.pause();
+            });
+        });
 
 
 
