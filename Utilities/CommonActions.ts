@@ -243,48 +243,52 @@ export class CommonActions {
         console.log("No child window appeared");
     }
 
-     async Show_workers_childwindow() {
- 
+    async Show_workers_childwindow() {
+
         for (let i = 0; i < 10; i++) {
- 
+
             const pages = this.page.context().pages();
- 
+
             console.log("Pages Count:", pages.length);
- 
+
             if (pages.length > 1) {
- 
+
                 const childPage = pages[pages.length - 1];
- 
+
                 console.log(
                     "Child Window:",
                     await childPage.title()
                 );
- 
+
                 await childPage.waitForLoadState();
- 
+
                 const GoBtn = childPage.frameLocator('frame[name="list"]')
- 
+
                     .locator('#dijit_form_Button_0_label');
- 
+
                 const ClickCheckBox = childPage.frameLocator('frame[name="list"]')
- 
+
                     .locator('#chkItem1');
                 const AddBtn = childPage.frameLocator('frame[name="list"]')
- 
+
                     .locator('#dijit_form_Button_1_label');
- 
+
                 await GoBtn.click();
                 await ClickCheckBox.click();
+                const childClosePromise = childPage.waitForEvent('close');
+
                 await AddBtn.click();
- 
+
                 console.log("AddBtn button clicked");
- 
-                return;
+
+                await childClosePromise;
+
+                console.log("Child window closed");
+
+                await this.page.waitForTimeout(3000);
             }
- 
-            await this.page.waitForTimeout(3000);
+
+            console.log("No child window appeared");
         }
- 
-        console.log("No child window appeared");
     }
 }

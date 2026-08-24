@@ -255,59 +255,45 @@ for (let i = 1; i < customers.length; i++) {
                 //;await changeRequests.addEditItems();
             });
 
-
-
-
-
-
-
             await test.step("KitchenService", async () => {
 
                 await home.SalesNewToKitchen();
-
-
                 await commonActions.closeUnacknowledgedpopup();
-
                 console.log("its kitchen screen")
-
                 await kitchen.kitchenservice();
 
-                //wait page.pause();
             });
 
             await test.step("SchedulingService", async () => {
 
                 await home.navigateToScheduling();
                 await commonActions.closeUnacknowledgedpopup();
-
-              
                 await scheduling.SchedulingAck();
-
                 await home.navigateToScheduling();
-                // await page.pause();
+                await commonActions.closeUnacknowledgedpopup();
+                // await scheduling.SchedulingBill();
+                
             });
+
 
             await test.step("WarehouseService", async () => {
 
 
                 await home.navigateToWarehouse();
                 await commonActions.closeUnacknowledgedpopup();
-                await kitchen.Filter();
-                // await commonActions.childwindow();
-                await commonActions.closeUnacknowledgedpopup();
-
                 await wareHouse.Warehouse_Alc();
                 await home.navigateToWarehouse();
                 await commonActions.closeUnacknowledgedpopup();
-                await page.pause();
+               
             });
+
 
 
             await test.step("AccountingService", async () => {
 
 
                 await home.navigateToAccounting();
-
+                await commonActions.closeUnacknowledgedpopup();
                 await accounting.AccountingVendorBills();
 
                 await homePage.clickHome();
@@ -321,7 +307,7 @@ for (let i = 1; i < customers.length; i++) {
                 await home.navigateToAccounting();
                 await commonActions.closeUnacknowledgedpopup();
 
-
+               await page.pause();
             });
 
 

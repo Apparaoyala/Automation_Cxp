@@ -21,7 +21,7 @@ export class Scheduling {
     private readonly PostSchedule: Locator;
     // private readonly rightFrame: Locator;
     // private readonly commonActions: Locator;
-
+//private readonly acceptLink: Locator;
 
 
 
@@ -36,7 +36,7 @@ export class Scheduling {
         this.Acceptbtn = this.page.frameLocator('frame[name="right"]').locator('#accept_label');
    //       this.PostSchedule1 = this.page.frameLocator('frame[name="header"]').getByRole('link', { name: 'Post Schedules', exact: true });
 
-        this.PostSchedule = this.page.frameLocator('frame[name="right"]').getByRole('link', { name: 'Post Schedules' });
+        this.PostSchedule = this.page.frameLocator('frame[name="header"]').getByRole('link', { name: 'Post Schedules' });
         this.ClickAcceptStatus = this.page.frameLocator('frame[name="right"]').getByRole('link', { name: 'Accpt', exact: true });
         this.popupIcon = this.page.frameLocator('frame[name="prsnlrequest"]').locator('img[src*="dhtml_popup.gif"]').first();
 
@@ -59,81 +59,75 @@ export class Scheduling {
         console.log("AcceptStatus");
  
 const frame = this.page.frameLocator('frame[name="prsnlrequest"]');
- 
+
 const popupIcon = frame
     .locator('img[src*="dhtml_popup.gif"]')
     .first();
- 
-console.log("Before mouse move");
- 
+
+await popupIcon.scrollIntoViewIfNeeded();
+
 const box = await popupIcon.boundingBox();
- 
+
 if (!box) {
     throw new Error("Popup icon not found");
 }
- 
-await this.page.mouse.move(
-    box.x + box.width / 2,
-    box.y + box.height / 2
-);
- 
-console.log("Mouse moved to popup icon");
- 
+
+const x = box.x + box.width / 2;
+const y = box.y + box.height / 2;
+
+console.log("Moving mouse to:", x, y);
+
+await this.page.mouse.move(x, y);
+
+await this.page.waitForTimeout(500);
+
 const menu = frame.locator('#popmenu');
- 
-console.log("Popmenu count:", await menu.count());
- 
-if (await menu.count() > 0) {
-    console.log("Popmenu visible:", await menu.isVisible());
+
+console.log("Popmenu visible:", await menu.isVisible());
+
+if (!(await menu.isVisible())) {
+    throw new Error("Popup menu was not displayed after mouse over");
 }
-        await this.ShowWorker.click();
-        console.log("ShowWorker");
-        await this.commonActions.Show_workers_childwindow();
+
+console.log("Popmenu is visible");
+
+await this.ShowWorker.click();
+
+console.log("ShowWorker");
+
+await this.commonActions.Show_workers_childwindow();
+console.log("ShowWorker screen closed");
  
+     await this.PostSchedule.click();
  
-        await this.PostSchedule.click();
- 
-        await this.BillBtn.click();
+       try {
+
+            const dialogPromise = this.page.waitForEvent('dialog', {
+                timeout: 5000
+            });
+this.page.on('dialog', async dialog => {
+    console.log("Dialog Found:", dialog.message());
+    await dialog.accept();
+});
+             await this.BillBtn.click();
+
+            const dialog = await dialogPromise;
+
+            console.log(dialog.message());
+
+           
+
+        } catch {
+
+            throw new Error(
+                "Expected alert was not displayed after clicking Bill"
+            );
+        }
+       
  
     }
 
-     async SchedulingBill() {
-        const frame = this.page.frameLocator('frame[name="right"]');
-
-const popupIcon = frame
-    .locator('img[src*="dhtml_popup.gif"]')
-    .first();
-
-console.log("Before mouse move");
-
-const box = await popupIcon.boundingBox();
-
-if (!box) {
-    throw new Error("Popup icon not found");
-}
-
-await this.page.mouse.move(
-    box.x + box.width / 2,
-    box.y + box.height / 2
-);
-
-console.log("Mouse moved to popup icon");
-
-const menu = frame.locator('#mouseoverstyle');
-
-console.log("Popmenu count:", await menu.count());
-
-if (await menu.count() > 0) {
-    console.log("Popmenu visible:", await menu.isVisible());
-}
-        
-        await this.PostSchedule.click();
-        console.log("PostSchedule");
-   
-  await this.BillBtn.click();
-console.log("Scheduling screen");
-
-     }
+  
 }
 
 
