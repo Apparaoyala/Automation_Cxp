@@ -22,6 +22,8 @@ import { MandatoryFieldsContactUtil } from '../Utilities/MandatoryFieldsContactU
 import { MandatoryFieldUtil } from '../Utilities/MandatoryFieldUtil';
 import { KitchenService } from '../pages/Kitchen';
 import { Scheduling } from '../pages/Scheduling';
+import { Accounting } from '../pages/Accounting';
+import { WareHouse } from '../pages/WareHouse';
 const customers = JsonUtil.readJson(
     './Utilities/TestData/Customer.json'
 );
@@ -40,7 +42,7 @@ if (
     );
 }
 
-for (let i = 0; i < customers.length; i++) {
+for (let i = 1; i < customers.length; i++) {
 
     const customerData = customers[i];
     const contactData = contacts[i];
@@ -70,6 +72,7 @@ for (let i = 0; i < customers.length; i++) {
             const kitchen = new KitchenService(page)
             const scheduling = new Scheduling(page)
             const changeRequests = new ChangeRequests(page);
+            const accounting = new Accounting(page);
 
             const loginelper = new LoginHelper();
 
@@ -79,6 +82,7 @@ for (let i = 0; i < customers.length; i++) {
             const mandatoryFieldsContactUtil = new MandatoryFieldsContactUtil(page);
             const commonActions = new CommonActions(page);
             const home = new Home(page);
+            const wareHouse = new WareHouse(page);
             await test.step("Open Application", async () => {
 
                 await page.goto(config.appUrl);
@@ -275,14 +279,53 @@ for (let i = 0; i < customers.length; i++) {
 
                 await home.navigateToScheduling();
                 await commonActions.closeUnacknowledgedpopup();
-                //wait kitchen.Filter();
-               // await commonActions.childwindow();
-                await commonActions.closeUnacknowledgedpopup();
+
+              
                 await scheduling.SchedulingAck();
 
+                await home.navigateToScheduling();
+                // await page.pause();
+            });
 
+            await test.step("WarehouseService", async () => {
+
+
+                await home.navigateToWarehouse();
+                await commonActions.closeUnacknowledgedpopup();
+                await kitchen.Filter();
+                // await commonActions.childwindow();
+                await commonActions.closeUnacknowledgedpopup();
+
+                await wareHouse.Warehouse_Alc();
+                await home.navigateToWarehouse();
+                await commonActions.closeUnacknowledgedpopup();
                 await page.pause();
             });
+
+
+            await test.step("AccountingService", async () => {
+
+
+                await home.navigateToAccounting();
+
+                await accounting.AccountingVendorBills();
+
+                await homePage.clickHome();
+                await homePage.navigateToModule("Sales New");
+
+                await accounting.AccountingService();
+                await accounting.openbillService();
+                await accounting.BillProcess();
+                await home.SalesNewToAccounting();
+                await accounting.AccountingAccept();
+                await home.navigateToAccounting();
+                await commonActions.closeUnacknowledgedpopup();
+
+
+            });
+
+
+
         });
 
 

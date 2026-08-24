@@ -41,7 +41,15 @@ private readonly BaseNavigation: Locator;
       .click();
 
   }
+ async SalesNewToAccounting() {
+  await this. BaseNavigation.click();
 
+    await this.frames
+      .rightFrame()
+      .locator(this.accountingMenu)
+      .click();
+
+  }
   async navigateToSales() {
 
     await this.navigateToHome();

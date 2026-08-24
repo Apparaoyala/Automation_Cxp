@@ -76,7 +76,7 @@ else {
     }
 
     mandatoryFieldNames.forEach((field, index) => {
-        console.log(`${index + 1}. ${field}`);
+       // console.log(`${index + 1}. ${field}`);
     });
 
     console.log(
@@ -123,9 +123,9 @@ else {
                 controlContainer
             );
 
-        console.log(
-            `Field: ${fieldName} | Type: ${controlType} | Value: ${value}`
-        );
+        // console.log(
+        //     `Field: ${fieldName} | Type: ${controlType} | Value: ${value}`
+        // );
 
         switch (controlType) {
 

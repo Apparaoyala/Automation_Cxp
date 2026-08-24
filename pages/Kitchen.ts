@@ -73,14 +73,12 @@ export class KitchenService {
         console.log("Filter window:", await filterPage.title());
 
         const cisNum = filterPage
-            .frameLocator('frame[name="right"]')
             .locator('#cisnumber');
-
+        await cisNum.fill('DO4027');
         const applyBtn = filterPage
-            .frameLocator('frame[name="right"]')
             .locator('#apply_label');
 
-        await cisNum.fill('3881');
+
         await applyBtn.click();
     }
     async Filter2() {
@@ -117,43 +115,43 @@ export class KitchenService {
         await this.QuantificationLink.click();
         await this.QuntifyAll.click();
 
-console.log("Quntify All clicked");
+        console.log("Quntify All clicked");
 
-let dialog = null;
+        let dialog = null;
 
-try {
-    dialog = await this.page.waitForEvent('dialog', {
-        timeout: 3000
-    });
-} catch {
-    console.log("No alert. Item quantified successfully.");
-}
+        try {
+            dialog = await this.page.waitForEvent('dialog', {
+                timeout: 3000
+            });
+        } catch {
+            console.log("No alert. Item quantified successfully.");
+        }
 
-if (dialog) {
+        if (dialog) {
 
-    console.log("Alert displayed:", dialog.message());
+            console.log("Alert displayed:", dialog.message());
 
-    await dialog.accept();
+            await dialog.accept();
 
-    //await this.PrepItemUnitDropdown.click();
+            //await this.PrepItemUnitDropdown.click();
 
-    //await this.PrepItemUnitOption.first().click();
+            //await this.PrepItemUnitOption.first().click();
 
-    //await this.Save.click();
+            //await this.Save.click();
 
-    console.log("Prep Item Unit selected and saved");
+            console.log("Prep Item Unit selected and saved");
 
-    await this.QuntifyAll.click();
+            await this.QuntifyAll.click();
 
-    console.log("Quntify All clicked again");
-}
+            console.log("Quntify All clicked again");
+        }
 
-// Remaining flow continues here
-console.log("Continue remaining flow...");
+        // Remaining flow continues here
+        console.log("Continue remaining flow...");
 
-           await this.GatherAll.click();
-            console.log("GatherAll");
-      
+        await this.GatherAll.click();
+        console.log("GatherAll");
+
         await this.home.navigateToKitchen();
         await this.commonActions.closeUnacknowledgedpopup();
         await this.AcceptStatus.click();
