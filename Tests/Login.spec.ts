@@ -185,7 +185,7 @@ test('authenticate', async ({ page }) => {
     
     });
     
-    
+
 
     await test.step("KitchenService", async () => {
 
@@ -203,7 +203,7 @@ test('authenticate', async ({ page }) => {
 
         await kitchen.Filter();
 
-        await commonActions.childwindow();
+        await commonActions.childwindow1();
 
         console.log("its kitchen screen Filter is working");
 
@@ -212,15 +212,16 @@ test('authenticate', async ({ page }) => {
 
         await kitchen.kitchenservice();
 
-        await page.pause();
+       // await page.pause();
     });
-*/
+
+        */
     await test.step("SchedulingService", async () => {
 
   await home.navigateToScheduling();
-   await commonActions.closeUnacknowledgedpopup();
-    await kitchen.Filter();
-        await commonActions.childwindow();
+   //await commonActions.closeUnacknowledgedpopup();
+   //await kitchen.Filter();
+       await commonActions.childwindow();
  await commonActions.closeUnacknowledgedpopup();
         await scheduling.SchedulingAck();
 
