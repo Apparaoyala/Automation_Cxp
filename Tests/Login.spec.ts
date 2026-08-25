@@ -235,14 +235,30 @@ test('authenticate', async ({ page }) => {
         await page.pause();
     });
 
-    */
+    *//*
+    await test.step("WarehouseService", async () => {
+   
+   
+           await home.navigateToWarehouse();
+           await commonActions.closeUnacknowledgedpopup();
+           await kitchen.Filter();
+         
+          await commonActions.closeUnacknowledgedpopup();
+   
+           await wareHouse.Warehouse_Alc();
+            await home.navigateToWarehouse();
+           await commonActions.closeUnacknowledgedpopup();
+         //  await page.pause();
+       });
+   
+  */
        
           await test.step("AccountingService", async () => {
       
       
               await home.navigateToAccounting();
               await commonActions.closeUnacknowledgedpopup();
-              await kitchen.Filter();
+             await kitchen.Filter();
                
                await commonActions.closeUnacknowledgedpopup();
                
@@ -263,23 +279,8 @@ test('authenticate', async ({ page }) => {
           });
      
   
-  /*
-       await test.step("WarehouseService", async () => {
-   
-   
-           await home.navigateToWarehouse();
-           await commonActions.closeUnacknowledgedpopup();
-           await kitchen.Filter();
-         
-          await commonActions.closeUnacknowledgedpopup();
-   
-           await wareHouse.Warehouse_Alc();
-            await home.navigateToWarehouse();
-           await commonActions.closeUnacknowledgedpopup();
-           await page.pause();
-       });
-   
   
-*/
+      
+
 
 });

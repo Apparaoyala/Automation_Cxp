@@ -251,6 +251,7 @@ for (let i = 1; i < customers.length; i++) {
             await test.step("ChangeRequest", async () => {
                 await changeRequests.MenuChangeRequest();
                 await changeRequests.MChangeRequest();
+                
                 await changeRequests.addEditItems();
                 //;await changeRequests.addEditItems();
             });
@@ -276,36 +277,44 @@ for (let i = 1; i < customers.length; i++) {
             });
 
 
-            await test.step("WarehouseService", async () => {
+           await test.step("WarehouseService", async () => {
+   
+   
+           await home.navigateToWarehouse();
+           await commonActions.closeUnacknowledgedpopup();
+           //await kitchen.Filter();
+         
+         // await commonActions.closeUnacknowledgedpopup();
+   
+           await wareHouse.Warehouse_Alc();
+            await home.navigateToWarehouse();
+           await commonActions.closeUnacknowledgedpopup();
+         //  await page.pause();
+       });
 
 
-                await home.navigateToWarehouse();
-                await commonActions.closeUnacknowledgedpopup();
-                await wareHouse.Warehouse_Alc();
-                await home.navigateToWarehouse();
-                await commonActions.closeUnacknowledgedpopup();
+
+           await test.step("AccountingService", async () => {
+      
+      
+              await home.navigateToAccounting();
+              await commonActions.closeUnacknowledgedpopup();
+            //  await kitchen.Filter();
                
-            });
-
-
-
-            await test.step("AccountingService", async () => {
-
-
-                await home.navigateToAccounting();
-                await commonActions.closeUnacknowledgedpopup();
-                await accounting.AccountingVendorBills();
-
-                await homePage.clickHome();
-                await homePage.navigateToModule("Sales New");
-
-                await accounting.AccountingService();
-                await accounting.openbillService();
-                await accounting.BillProcess();
-                await home.SalesNewToAccounting();
-                await accounting.AccountingAccept();
-                await home.navigateToAccounting();
-                await commonActions.closeUnacknowledgedpopup();
+             //  await commonActions.closeUnacknowledgedpopup();
+               
+              await accounting.AccountingVendorBills();
+           
+              await homePage.clickHome();
+              await homePage.navigateToModule("Sales New");
+      
+              await accounting.AccountingService();
+              await accounting.openbillService();
+              await accounting.BillProcess();
+              await home.SalesNewToAccounting();
+               await accounting.AccountingAccept();
+               await home.navigateToAccounting();
+              await commonActions.closeUnacknowledgedpopup();
 
                await page.pause();
             });
