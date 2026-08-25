@@ -42,7 +42,7 @@ if (
     );
 }
 
-for (let i = 1; i < customers.length; i++) {
+for (let i = 0; i < customers.length; i++) {
 
     const customerData = customers[i];
     const contactData = contacts[i];
@@ -251,7 +251,7 @@ for (let i = 1; i < customers.length; i++) {
             await test.step("ChangeRequest", async () => {
                 await changeRequests.MenuChangeRequest();
                 await changeRequests.MChangeRequest();
-                
+
                 await changeRequests.addEditItems();
                 //;await changeRequests.addEditItems();
             });

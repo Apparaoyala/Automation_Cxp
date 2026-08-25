@@ -221,7 +221,7 @@ test('authenticate', async ({ page }) => {
             // await page.pause();
         });
     */
-/*
+
     await test.step("SchedulingService", async () => {
 
         await home.navigateToScheduling();
@@ -235,15 +235,15 @@ test('authenticate', async ({ page }) => {
         await page.pause();
     });
 
-    *//*
+   
     await test.step("WarehouseService", async () => {
    
    
            await home.navigateToWarehouse();
            await commonActions.closeUnacknowledgedpopup();
-           await kitchen.Filter();
+        //    await kitchen.Filter();
          
-          await commonActions.closeUnacknowledgedpopup();
+        //   await commonActions.closeUnacknowledgedpopup();
    
            await wareHouse.Warehouse_Alc();
             await home.navigateToWarehouse();
@@ -251,16 +251,16 @@ test('authenticate', async ({ page }) => {
          //  await page.pause();
        });
    
-  */
+ 
        
           await test.step("AccountingService", async () => {
       
       
               await home.navigateToAccounting();
               await commonActions.closeUnacknowledgedpopup();
-             await kitchen.Filter();
+            //  await kitchen.Filter();
                
-               await commonActions.closeUnacknowledgedpopup();
+            //    await commonActions.closeUnacknowledgedpopup();
                
               await accounting.AccountingVendorBills();
            
