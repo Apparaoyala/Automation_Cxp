@@ -48,7 +48,7 @@ export class Scheduling {
 
     async SchedulingAck() {
  
- 
+
        await this.SentBtn.click();
         await this.Acceptbtn.click();
        await this.commonActions.Constraintspopup();

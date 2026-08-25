@@ -272,7 +272,7 @@ for (let i = 0; i < customers.length; i++) {
                 await scheduling.SchedulingAck();
                 await home.navigateToScheduling();
                 await commonActions.closeUnacknowledgedpopup();
-                // await scheduling.SchedulingBill();
+               
                 
             });
 

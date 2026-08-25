@@ -226,13 +226,13 @@ test('authenticate', async ({ page }) => {
 
         await home.navigateToScheduling();
         await commonActions.closeUnacknowledgedpopup();
+   
         await kitchen.Filter();
         await commonActions.closeUnacknowledgedpopup();
         await scheduling.SchedulingAck();
              await home.navigateToScheduling();
         await commonActions.closeUnacknowledgedpopup();
-       // await scheduling.SchedulingBill();
-        await page.pause();
+       
     });
 
    
