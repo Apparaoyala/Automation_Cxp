@@ -1,4 +1,4 @@
-import { Page, Locator, expect } from '@playwright/test';
+import { Page, Locator, expect,Dialog } from '@playwright/test';
 import { Event } from '../pages/Event';
 
 //import { KitchenService } from '../pages/Kitchen';
@@ -291,4 +291,47 @@ export class CommonActions {
             console.log("No child window appeared");
         }
     }
+
+
+
+    async clickBillAndAcceptAlerts(BillBtn: Locator) {
+
+    let dialogCount = 0;
+
+    const dialogHandler = async (dialog: Dialog) => {
+
+        dialogCount++;
+
+        console.log(
+            `Dialog ${dialogCount}:`,
+            dialog.message()
+        );
+
+        await dialog.accept();
+    };
+
+    this.page.on('dialog', dialogHandler);
+
+    try {
+
+        await BillBtn.click();
+
+        // Wait for the Bill operation/dialog chain to finish
+        await this.page.waitForTimeout(1000);
+
+        if (dialogCount === 0) {
+            throw new Error(
+                "Expected Bill alert was not displayed after clicking Bill"
+            );
+        }
+
+        console.log(
+            `Bill completed. Total dialogs handled: ${dialogCount}`
+        );
+
+    } finally {
+
+        this.page.off('dialog', dialogHandler);
+    }
+}
 }

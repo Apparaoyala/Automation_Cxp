@@ -99,33 +99,13 @@ await this.commonActions.Show_workers_childwindow();
 console.log("ShowWorker screen closed");
  
      await this.PostSchedule.click();
- 
-       try {
-
-            const dialogPromise = this.page.waitForEvent('dialog', {
-                timeout: 5000
-            });
-this.page.on('dialog', async dialog => {
-    console.log("Dialog Found:", dialog.message());
-    await dialog.accept();
-});
-             await this.BillBtn.click();
-
-            const dialog = await dialogPromise;
-
-            console.log(dialog.message());
-
-           
-
-        } catch {
-
-            throw new Error(
-                "Expected alert was not displayed after clicking Bill"
-            );
-        }
-       
+ await this.commonActions.clickBillAndAcceptAlerts(this.BillBtn);
+      console.log("Scheduling bill completed");
  
     }
+
+
+
 
   
 }
