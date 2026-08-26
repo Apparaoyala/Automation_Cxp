@@ -1,120 +1,175 @@
-import { test, expect, Page } from '@playwright/test';
-import { Login } from '../pages/Login';
+import { test } from '@playwright/test';
 import { HomePage } from '../pages/HomePage';
+import { LoginHelper } from '../pages/LoginHelper';
+import { TestConfig } from '../Utilities/Test.Config';
+import { expect } from '@playwright/test';
+import { CommonActions } from '../Utilities/CommonActions';
+import { JsonUtil } from '../Utilities/JsonUtil';
+import { Approvals } from '../pages/Approval';
+import { ChangeRequests } from '../pages/ChangeRequests';
+import { Home } from '../pages/Home';
+import { FrameManager } from '../Utilities/FrameManager';
+import { Login } from '../pages/Login';
+import { Contact } from '../pages/Contact';
 import { Customer } from '../pages/Customer';
 import { Event } from '../pages/Event';
 import { MandatoryFieldsEventUtil } from '../Utilities/MandatoryFieldsEventUtil';
-//import { MandatoryFieldUtil } from '../Utilities/MandatoryFieldUtil';
-import { TestConfig } from '../Utilities/Test.Config';
-import { ExcelUtil } from '../Utilities/ExcelUtil';
-
-const config = new TestConfig();
-
-test('authenticate', async ({ page }) => {
-
-    test.setTimeout(180000);
-
-    const login = new Login(page);
-    const homePage = new HomePage(page);
-    const customer = new Customer(page);
-    const event = new Event(page);
-    //const mandatoryfieldutil = new MandatoryFieldUtil(page);
-    const mandatoryfieldseventutil = new MandatoryFieldsEventUtil(page);
-
-    await page.goto(config.appUrl);
-
-    await login.login(
-        config.Caterid,
-        config.UserId,
-        config.password
-    );
-
-    await page
-        .frameLocator('[name="header"]')
-        .getByText('Superadmin Login', { exact: true });
-
-    await page.context().storageState({
-        path: 'playwright/.auth/user.json'
-    });
-
-    console.log("login success");
-
-    await homePage.clickHome();
-
-
-    await homePage.navigateToModule("Sales New");
-
-    console.log("Sales New navigation complete");
-    
-
-    await customer.Menu1();
-//event creation --------------------------------------
-
-
-
-await event.CreateEvent();
-
-//await event.CreateEvent();
-
-await page.waitForTimeout(3000);
-
-// ===== DEBUG START =====
-console.log(
-    "Total Labels:",
-    await page.locator("//label").count()
+import { MandatoryFieldsContactUtil } from '../Utilities/MandatoryFieldsContactUtil';
+import { MandatoryFieldUtil } from '../Utilities/MandatoryFieldUtil';
+const customers = JsonUtil.readJson(
+    './Utilities/TestData/Customer.json'
 );
-
-console.log(
-    "Mandatory Spans:",
-    await page.locator("//span[contains(@class,'text-danger')]").count()
+const contacts = JsonUtil.readJson(
+    './Utilities/TestData/Contact.json'
 );
-
-const labels = page.locator("//label");
-
-const totalLabels = await labels.count();
-
-for (let i = 0; i < totalLabels; i++) {
-    console.log(
-        `${i + 1}.`,
-        await labels.nth(i).textContent()
+const Events = JsonUtil.readJson(
+    './Utilities/TestData/Event.json'
+);
+if (
+    customers.length !== contacts.length ||
+    customers.length !== Events.length
+) {
+    throw new Error(
+        "Customer, Contact and Event record count mismatch"
     );
 }
-// ===== DEBUG END =====
 
-const excelData = ExcelUtil.readExcel(
-    './Utilities/TestData/Customer.xlsx',
-    'Sheet2'
-);
+for (let i = 1; i < customers.length; i++) {
 
-await mandatoryfieldseventutil.getMandatoryFieldCount(excelData);
+    const customerData = customers[i];
+    const contactData = contacts[i];
+    const eventData = Events[i];
 
-await page.waitForTimeout(30000);
-await page.waitForTimeout(600000);
+    test(`Menu Services ${i + 1}`,
+        async ({ page }) => {
 
-//start customer creation---------------------------------------
-/*
-    await customer.clickCustomer();
+            test.setTimeout(1800000);
+            const config = new TestConfig();
+            console.log("APP_URL =", process.env.APP_URL);
+            console.log("CONFIG_URL =", config.appUrl);
 
-    //await page.pause();
-await page.waitForTimeout(3000);
-    await customer.CustomerBtn();
-await page.waitForTimeout(3000);
-const excelData = ExcelUtil.readExcel(
-    './Utilities/TestData/Customer.xlsx',
-    'Sheet1'
-);
+            let eventNumber: string;
 
-console.log(excelData);
-console.log(excelData.get("Customer Name"));
-console.log(excelData.get("Street"));
-//await page.pause();
-    await mandatoryfieldutil.getMandatoryFieldCount(excelData);
+            const homePage = new HomePage(page);
+            
+            const login = new Login(page);
+            const contact = new Contact(page);
+            const customer = new Customer(page);
+            const event = new Event(page);
+            
+            const approval = new Approvals(page);
+            const changeRequests = new ChangeRequests(page);
+            const loginelper = new LoginHelper();
+            const mandatoryfieldseventutil = new MandatoryFieldsEventUtil(page);
+            const mandatoryfieldutil = new MandatoryFieldUtil(page);
+            const mandatoryFieldsContactUtil = new MandatoryFieldsContactUtil(page);
+            const commonActions = new CommonActions(page);
+            const home = new Home(page);
+            await test.step("Open Application", async () => {
 
-    await page.waitForTimeout(30000);
-    //await mandatoryfieldutil.handleTextbox()
-//await page.pause();
-   //await mandatoryfieldutil.identifyControlType();
+                await page.goto(config.appUrl);
 
-*/
-  
-});
+            });
+
+            await test.step("Login into Application", async () => {
+
+                await LoginHelper.login(page);
+
+            });
+
+            await test.step("Navigate to Sales New Module", async () => {
+
+                await homePage.clickHome();
+
+                await homePage.navigateToModule("Sales New");
+
+            });
+
+            await test.step("Validate Sales New page", async () => {
+                await commonActions.closeCommonPopup();
+
+                await expect(
+                    page.getByText("Event Listing")
+                ).toBeVisible();
+
+            });
+
+            await test.step("Create Customer", async () => {
+                await customer.Menu1();
+                await customer.clickCustomer();
+
+                await customer.CustomerBtn();
+                await page.waitForTimeout(3000);
+
+
+                await mandatoryfieldutil.getMandatoryFieldCount(customerData);
+
+                await customer.createCusBtn();
+
+                await customer.handleDuplicateCustomerPopup();
+
+
+
+            });
+
+
+            await test.step("Create Contact", async () => {
+
+
+                await contact.waitForContactScreen();
+
+
+
+                await mandatoryFieldsContactUtil.getMandatoryFieldCount1(contactData);
+
+
+                await contact.createContactBtn();
+
+                await contact.createEventIcon();
+
+
+            });
+
+            await test.step("Create Event", async () => {
+                await page.locator("ngx-spinner .overlay").waitFor({
+                    state: "hidden",
+                    timeout: 30000
+                });
+
+
+                await page.waitForTimeout(3000);
+
+                console.log("Labels After 5 Seconds:",
+                    await page.locator("label").count());
+
+                await page.locator("ngx-spinner .overlay").waitFor({
+                    state: "hidden",
+                    timeout: 180000
+                });
+                await page.waitForTimeout(500);
+
+
+                await mandatoryfieldseventutil.getMandatoryFieldCount(eventData);
+
+
+                await event.createbtn();
+                await event.Constraints()
+
+                eventNumber = await event.getCreatedEventNumber();
+
+                console.log(eventNumber);
+                //await approval.Approvals(eventNumber);
+                await commonActions.closeCommonPopup();
+
+            });
+            //await page.pause();
+            await test.step("ApprovalsService", async () => {
+
+                await approval.Approvals(eventNumber);
+
+            });
+        });
+
+
+
+}

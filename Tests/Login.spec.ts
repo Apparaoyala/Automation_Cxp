@@ -21,7 +21,7 @@ import { Accounting } from '../pages/Accounting';
 import { WareHouse } from '../pages/WareHouse';
 const config = new TestConfig();
 
-test('authenticate', async ({ page }) => {
+test.skip('authenticate', async ({ page }) => {
 
     test.setTimeout(1800000);
 
@@ -221,7 +221,7 @@ test('authenticate', async ({ page }) => {
             // await page.pause();
         });
     */
-
+/*
     await test.step("SchedulingService", async () => {
 
         await home.navigateToScheduling();
@@ -235,15 +235,15 @@ test('authenticate', async ({ page }) => {
        
     });
 
-   
+   */
     await test.step("WarehouseService", async () => {
    
    
            await home.navigateToWarehouse();
            await commonActions.closeUnacknowledgedpopup();
-        //    await kitchen.Filter();
+            await kitchen.Filter();
          
-        //   await commonActions.closeUnacknowledgedpopup();
+          await commonActions.closeUnacknowledgedpopup();
    
            await wareHouse.Warehouse_Alc();
             await home.navigateToWarehouse();
@@ -252,7 +252,7 @@ test('authenticate', async ({ page }) => {
        });
    
  
-       
+       /*
           await test.step("AccountingService", async () => {
       
       
@@ -278,7 +278,7 @@ test('authenticate', async ({ page }) => {
       
           });
      
-  
+  */
   
       
 

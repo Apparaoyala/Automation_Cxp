@@ -100,7 +100,7 @@ export class Approvals {
 
         await this.clickFilter.fill(eventNumber);
 
-        await this.page.waitForTimeout(300);
+        await this.page.waitForTimeout(1000);
         await this.DashBoard.click();
 
     }

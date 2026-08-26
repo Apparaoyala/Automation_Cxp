@@ -1,109 +1,112 @@
-import { test, expect, Page } from '@playwright/test';
-import { Login } from '../pages/Login';
+import { test } from '@playwright/test';
 import { HomePage } from '../pages/HomePage';
-import { Customer } from '../pages/Customer';
-import { commonActions } from '../Utilities/CommonActions';
-import { MandatoryFieldUtil } from '../Utilities/MandatoryFieldUtil';
-import { MandatoryFieldsContactUtil } from '../Utilities/MandatoryFieldsContactUtil';
-
+import { LoginHelper } from '../pages/LoginHelper';
 import { TestConfig } from '../Utilities/Test.Config';
-import { ExcelUtil } from '../Utilities/ExcelUtil';
+import { expect } from '@playwright/test';
+import { CommonActions } from '../Utilities/CommonActions';
 import { JsonUtil } from '../Utilities/JsonUtil';
-import {LoginHelper } from '../pages/LoginHelper';
+import { Approvals } from '../pages/Approval';
+import { ChangeRequests } from '../pages/ChangeRequests';
+import { Home } from '../pages/Home';
+import { FrameManager } from '../Utilities/FrameManager';
+import { MandatoryFieldsEventUtil } from '../Utilities/MandatoryFieldsEventUtil';
+import { MandatoryFieldsContactUtil } from '../Utilities/MandatoryFieldsContactUtil';
+import { MandatoryFieldUtil } from '../Utilities/MandatoryFieldUtil';
+import { Customer } from '../pages/Customer';
 
-
-const config = new TestConfig();
-
-test('authenticate', async ({ page }) => {
-
-    test.setTimeout(1800000);
-
-    const login = new Login(page);
-    const homePage = new HomePage(page);
-    const customer = new Customer(page);
-    const mandatoryfieldutil = new MandatoryFieldUtil(page);
-const CommonActions = new commonActions(page);
-const loginelper = new LoginHelper();
-    const mandatoryFieldsContactUtil = new MandatoryFieldsContactUtil(page);
-
-    // await page.goto(config.appUrl);
-
-    // await login.login(
-    //     config.Caterid,
-    //     config.UserId,
-    //     config.password
-    // );
-    await LoginHelper.login(page);
-
-    await page
-        .frameLocator('[name="header"]')
-        .getByText('Superadmin Login', { exact: true });
-
-    await page.context().storageState({
-        path: 'playwright/.auth/user.json'
-    });
-
-    console.log("login success");
-
-    await homePage.clickHome();
-
-
-    await homePage.navigateToModule("Sales New");
-
-    console.log("Sales New navigation complete");
-
-    await CommonActions.closeCommonPopup();
-    // await page.pause();
-    await customer.Menu1();
-
-    await customer.clickCustomer();
-
-   
-await page.waitForTimeout(3000);
-    await customer.CustomerBtn();
-await page.waitForTimeout(3000);
-
-const customerData = JsonUtil.readJson(
-    './Utilities/TestData/Customer.json'
+import { Login } from '../pages/Login';
+import { Contact } from '../pages/Contact';
+const customers = JsonUtil.readJson(
+  './Utilities/TestData/Customer.json'
 );
+const contacts = JsonUtil.readJson(
+  './Utilities/TestData/Contact.json'
+);
+if (
+  customers.length !== contacts.length
+) {
+  throw new Error(
+    "Customer, Contact and Event record count mismatch"
+  );
+}
+for (let i = 1; i < customers.length; i++) {
 
-console.log(customerData);
+  const customerData = customers[i];
+  const contactData = contacts[i];
+  test(`Customer ${i + 1}`,
+    async ({ page }) => {
 
-console.log("Customer Name :", customerData["Customer Name"]);
-console.log("First Name :", customerData["First Name"]);
-console.log("State :", customerData["State"]);
-console.log("Business Units :", customerData["Business Units"]);
+      test.setTimeout(1800000);
+      const config = new TestConfig();
+      console.log("APP_URL =", process.env.APP_URL);
+      console.log("CONFIG_URL =", config.appUrl);
 
-await mandatoryfieldutil.getMandatoryFieldCount(customerData);
-   
+      let eventNumber: string;
+      const homePage = new HomePage(page);
+
   
 
-   await customer.createCusBtn();
-   console.log("Customer created successfully");
-//await page.pause();
-await customer.handleDuplicateCustomerPopup();
-   console.log(" successfully executed");
+
+      const login = new Login(page);
+      const contact = new Contact(page);
+      const customer = new Customer(page);
+
+      const loginelper = new LoginHelper();
+
+
+      const mandatoryfieldseventutil = new MandatoryFieldsEventUtil(page);
+      const mandatoryfieldutil = new MandatoryFieldUtil(page);
+      const mandatoryFieldsContactUtil = new MandatoryFieldsContactUtil(page);
+      const commonActions = new CommonActions(page);
+      const home = new Home(page);
+      await test.step("Open Application", async () => {
+
+                await page.goto(config.appUrl);
+
+            });
+
+            await test.step("Login into Application", async () => {
+
+                await LoginHelper.login(page);
+
+            });
+
+            await test.step("Navigate to Sales New Module", async () => {
+
+                await homePage.clickHome();
+
+                await homePage.navigateToModule("Sales New");
+
+            });
+
+            await test.step("Validate Sales New page", async () => {
+                await commonActions.closeCommonPopup();
+
+                await expect(
+                    page.getByText("Event Listing")
+                ).toBeVisible();
+
+            });
+
+            await test.step("Create Customer", async () => {
+                await customer.Menu1();
+                await customer.clickCustomer();
+
+                await customer.CustomerBtn();
+                await page.waitForTimeout(3000);
+
+
+                await mandatoryfieldutil.getMandatoryFieldCount(customerData);
+
+                await customer.createCusBtn();
+
+                await customer.handleDuplicateCustomerPopup();
 
 
 
+            });
 
 
-
-
-//await page.pause();
-   //contact
-  const contactData = JsonUtil.readJson(
-    './Utilities/TestData/Contact.json'
-);
-
-
-console.log(contactData);
-
-await mandatoryFieldsContactUtil.getMandatoryFieldCount1(contactData);
-
-await customer.createCusBtn();
-    
-    await page.pause();
-
-
-});
+            
+          });
+        }

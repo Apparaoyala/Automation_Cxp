@@ -56,7 +56,7 @@ export class CommonActions {
     }
     async Constraintspopup() {
 
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 5; i++) {
 
             const pages = this.page.context().pages();
 
@@ -81,14 +81,14 @@ export class CommonActions {
                 return;
             }
 
-            await this.page.waitForTimeout(5000);
+            await this.page.waitForTimeout(3000);
         }
 
         console.log("No child window appeared");
     }
     async closeUnacknowledgedpopup() {
 
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 5; i++) {
 
             const pages = this.page.context().pages();
 
