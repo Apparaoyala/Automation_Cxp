@@ -21,7 +21,7 @@ import { Accounting } from '../pages/Accounting';
 import { WareHouse } from '../pages/WareHouse';
 const config = new TestConfig();
 
-test.skip('authenticate', async ({ page }) => {
+test('authenticate', async ({ page }) => {
 
     test.setTimeout(1800000);
 
@@ -59,7 +59,7 @@ test.skip('authenticate', async ({ page }) => {
 
 
 
-    //await homePage.clickHome();
+    await homePage.clickHome();
 
 
     /*
@@ -235,7 +235,7 @@ test.skip('authenticate', async ({ page }) => {
        
     });
 
-   */
+   *//*
     await test.step("WarehouseService", async () => {
    
    
@@ -251,7 +251,7 @@ test.skip('authenticate', async ({ page }) => {
          //  await page.pause();
        });
    
- 
+ */
        /*
           await test.step("AccountingService", async () => {
       

@@ -40,7 +40,7 @@ for (let i = 1; i < customers.length; i++) {
     const contactData = contacts[i];
     const eventData = Events[i];
 
-    test(`Menu Services ${i + 1}`,
+    test(`Create_Event ${i + 1}`,
         async ({ page }) => {
 
             test.setTimeout(1800000);
