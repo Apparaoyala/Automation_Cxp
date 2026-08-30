@@ -117,7 +117,7 @@ export class CommonActions {
                 return;
             }
 
-            await this.page.waitForTimeout(2000);
+            await this.page.waitForTimeout(3000);
         }
 
         console.log("No child window appeared");

@@ -62,7 +62,7 @@ test('authenticate', async ({ page }) => {
     await homePage.clickHome();
 
 
-    /*
+    
     
         await homePage.navigateToModule("Sales New");
     
@@ -120,18 +120,20 @@ test('authenticate', async ({ page }) => {
         const eventNumber = await event.getCreatedEventNumber();
     
         console.log(eventNumber);
+          await commonActions.closeCommonPopup();
+
     
-        //await CommonActions.closeCommonPopup();
+       
     
-        // await test.step("EventFilter", async () => {
-        //  await event.EventFilter();
-    
-        // console.log("Event dashBoard is displayed");
-    
-        // });
-    
-        //Menu Service
-        
+       
+         await test.step("ApprovalsService", async () => {
+
+                await approval.Approvals(eventNumber);
+ await page.pause();
+            });
+           
+/*
+         //Menu Service
         await test.step("MEnu", async () => {
             await services.openMenuService();
     
@@ -189,9 +191,9 @@ test('authenticate', async ({ page }) => {
     
     
         });
-    */
+   
 
-    /*
+  
         await test.step("KitchenService", async () => {
     
             await home.navigateToKitchen();
@@ -203,8 +205,8 @@ test('authenticate', async ({ page }) => {
     
     
         });
-        */
-    /*
+        
+    
         await test.step("kitchenfilter", async () => {
     
             await kitchen.Filter();
@@ -220,8 +222,8 @@ test('authenticate', async ({ page }) => {
     
             // await page.pause();
         });
-    */
-/*
+    
+
     await test.step("SchedulingService", async () => {
 
         await home.navigateToScheduling();
@@ -235,13 +237,13 @@ test('authenticate', async ({ page }) => {
        
     });
 
-   *//*
+   
     await test.step("WarehouseService", async () => {
    
    
            await home.navigateToWarehouse();
-           await commonActions.closeUnacknowledgedpopup();
-            await kitchen.Filter();
+        //   await commonActions.closeUnacknowledgedpopup();
+        //    await kitchen.Filter();
          
           await commonActions.closeUnacknowledgedpopup();
    
@@ -251,8 +253,8 @@ test('authenticate', async ({ page }) => {
          //  await page.pause();
        });
    
- */
-       /*
+ 
+       
           await test.step("AccountingService", async () => {
       
       
@@ -278,7 +280,7 @@ test('authenticate', async ({ page }) => {
       
           });
      
-  */
+   */
   
       
 

@@ -84,7 +84,7 @@ async addEditItems() {
         })
         .click();
 const searchInputs = this.page.locator(
-    'tbody tr:first-child input[type="search"]'
+    '//tbody/tr[1]//input[@type="search" and @maxlength="6"]'
 );
 
 console.log(
