@@ -74,7 +74,7 @@ export class KitchenService {
 
         const cisNum = filterPage
             .locator('#cisnumber');
-        await cisNum.fill('LI4162');
+        await cisNum.fill('4181');
         const applyBtn = filterPage
             .locator('#apply_label');
 

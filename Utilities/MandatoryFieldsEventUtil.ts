@@ -308,7 +308,7 @@ async selectDate(date: string) {
 
     await this.page
         .locator(
-            "bs-datepicker-container td span:not(.is-other-month)"
+            "//td[@role='gridcell']//span[not(contains(@class, 'is-other-month'))]"
         )
         .filter({
             hasText: String(Number(day))

@@ -59,10 +59,10 @@ test('authenticate', async ({ page }) => {
 
 
 
-    await homePage.clickHome();
+    //await homePage.clickHome();
 
 
-    
+    /*
     
         await homePage.navigateToModule("Sales New");
     
@@ -223,14 +223,14 @@ test('authenticate', async ({ page }) => {
             // await page.pause();
         });
     
-
+*/
     await test.step("SchedulingService", async () => {
 
         await home.navigateToScheduling();
         await commonActions.closeUnacknowledgedpopup();
    
-        //await kitchen.Filter();
-       // await commonActions.closeUnacknowledgedpopup();
+        await kitchen.Filter();
+       await commonActions.closeUnacknowledgedpopup();
         await scheduling.SchedulingAck();
              await home.navigateToScheduling();
         await commonActions.closeUnacknowledgedpopup();
@@ -280,7 +280,7 @@ test('authenticate', async ({ page }) => {
       
           });
      
-   */
+   
   
       
 

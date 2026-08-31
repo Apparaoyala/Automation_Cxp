@@ -77,24 +77,34 @@ const y = box.y + box.height / 2;
 
 console.log("Moving mouse to:", x, y);
 
-await this.page.mouse.move(x, y);
+// await this.page.mouse.move(x, y);
 
-await this.page.waitForTimeout(2000);
+// await this.page.waitForTimeout(500);
 
 const menu = frame.locator('#popmenu');
 
-console.log("Popmenu visible:", await menu.isVisible());
+// console.log("Popmenu visible:", await menu.isVisible());
 
-if (!(await menu.isVisible())) {
-    throw new Error("Popup menu was not displayed after mouse over");
+// if (!(await menu.isVisible())) {
+//     throw new Error("Popup menu was not displayed after mouse over");
+// }
+
+// console.log("Popmenu is visible");
+
+// await this.ShowWorker.click();
+
+
+for (let i = 0; i < 3; i++) {
+    await this.page.mouse.move(x, y);
+
+    if (await menu.isVisible()) {
+        await this.ShowWorker.click();
+        break;
+    }
+
+    await this.page.waitForTimeout(500);
 }
-
-console.log("Popmenu is visible");
-
-await this.ShowWorker.click();
-
 console.log("ShowWorker");
-
 await this.commonActions.Show_workers_childwindow();
 console.log("ShowWorker screen closed");
  
