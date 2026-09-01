@@ -59,10 +59,10 @@ test('authenticate', async ({ page }) => {
 
 
 
-    //await homePage.clickHome();
+    await homePage.clickHome();
 
 
-    /*
+    
     
         await homePage.navigateToModule("Sales New");
     
@@ -71,9 +71,9 @@ test('authenticate', async ({ page }) => {
     
     
         await commonActions.closeCommonPopup();
-        await customer.Menu1();
+      //  await customer.Menu1();
     
-    
+    /*
         //---------------------------------------------------event creation --------------------------------------
     
     

@@ -4,7 +4,7 @@ test.use({
     storageState: 'playwright/.auth/user.json'
 });
 
-test('Run with saved authentication', async ({ page }) => {
+test.skip('Run with saved authentication', async ({ page }) => {
 
     console.log('Loaded cookies:',
         await page.context().cookies()

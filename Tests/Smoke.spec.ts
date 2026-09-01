@@ -42,7 +42,7 @@ if (
     );
 }
 
-for (let i = 1; i < customers.length; i++) {
+for (let i = 0; i < customers.length; i++) {
 
     const customerData = customers[i];
     const contactData = contacts[i];
@@ -243,7 +243,7 @@ for (let i = 1; i < customers.length; i++) {
                 //await billworksheet.BillValue(estimateTotal);
 
             });
-            await test.step("ApprovalsService", async () => {
+            await test.step("Final_Approvals", async () => {
 
                 await approval.Approvals(eventNumber);
 
@@ -307,7 +307,7 @@ for (let i = 1; i < customers.length; i++) {
            
               await homePage.clickHome();
               await homePage.navigateToModule("Sales New");
-      
+               await commonActions.closeCommonPopup();
               await accounting.AccountingService();
               await accounting.openbillService();
               await accounting.BillProcess();

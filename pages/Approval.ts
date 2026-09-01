@@ -3,7 +3,7 @@ import { Page, Locator } from '@playwright/test';
 import { Services } from './Services';
 import { Customer } from './Customer';
 import { Event } from './Event';
-
+import { CommonActions } from '../Utilities/CommonActions';
 export class Approvals {
 
 
@@ -18,6 +18,7 @@ export class Approvals {
     private readonly clickFilter: Locator;
     private readonly EventDashBoard: Locator;
     private readonly DashBoard: Locator;
+     private readonly commonActions: CommonActions;
     constructor(page: Page) {
 
         const event1 = new Event(page);
@@ -43,7 +44,7 @@ export class Approvals {
             .first();
 
         this.EventDashBoard = page.locator('span').filter({ hasText: 'dashboard' }).first()
-
+  this.commonActions = new CommonActions(page);
 
     }
 
@@ -97,9 +98,9 @@ export class Approvals {
         }
 
         await this.close.click();
-
+        await this.commonActions.closeCommonPopup();
         await this.clickFilter.fill(eventNumber);
-
+        await this.commonActions.closeCommonPopup();
         await this.page.waitForTimeout(3000);
         await this.DashBoard.click();
 

@@ -1,3 +1,4 @@
+
 import {
     Reporter,
     TestCase,
@@ -13,6 +14,9 @@ import { MailUtil } from './MailUtil';
 export default class TestReporter implements Reporter {
 
     private results: any[] = [];
+
+    // Store complete execution start time
+    private executionStartTime: number = Date.now();
 
 
     onTestEnd(test: TestCase, result: TestResult) {
@@ -67,6 +71,11 @@ export default class TestReporter implements Reporter {
 
     async onEnd() {
 
+        // Calculate total execution duration
+        const executionDuration =
+            Date.now() - this.executionStartTime;
+
+
         // JSON file location
         const filePath = path.join(
             process.cwd(),
@@ -88,7 +97,10 @@ export default class TestReporter implements Reporter {
         fs.writeFileSync(
             filePath,
             JSON.stringify(
-                this.results,
+                {
+                    executionDuration,
+                    results: this.results
+                },
                 null,
                 2
             )
@@ -100,9 +112,15 @@ export default class TestReporter implements Reporter {
         );
 
 
+        console.log(
+            `===== TOTAL TESTS: ${this.results.length} =====`
+        );
+
+
         // Send ONE email after ALL tests finish
         await MailUtil.sendTestReport(
-            this.results
+            this.results,
+            executionDuration
         );
 
 

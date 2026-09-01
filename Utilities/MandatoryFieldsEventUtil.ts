@@ -311,7 +311,7 @@ async selectDate(date: string) {
             "//td[@role='gridcell']//span[not(contains(@class, 'is-other-month'))]"
         )
         .filter({
-            hasText: String(Number(day))
+            hasText: new RegExp(`^${Number(day)}$`)
         })
         .click();
 }
