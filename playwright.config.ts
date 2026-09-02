@@ -42,7 +42,7 @@ export default defineConfig({
      video: 'retain-on-failure',
      headless: false,
      viewport: null,
-      actionTimeout: 15000, // 15 seconds
+     // actionTimeout: 15000, // 15 seconds
     launchOptions: {
       slowMo: 1000,
       args: ['--start-maximized']
