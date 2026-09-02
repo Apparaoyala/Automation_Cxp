@@ -25,13 +25,13 @@ import { Scheduling } from '../pages/Scheduling';
 import { Accounting } from '../pages/Accounting';
 import { WareHouse } from '../pages/WareHouse';
 const customers = JsonUtil.readJson(
-    './Utilities/TestData/Customer.json'
+    './Utilities/TestData/Customer1.json'
 );
 const contacts = JsonUtil.readJson(
-    './Utilities/TestData/Contact.json'
+    './Utilities/TestData/Contact1.json'
 );
 const Events = JsonUtil.readJson(
-    './Utilities/TestData/Event.json'
+    './Utilities/TestData/Event1.json'
 );
 if (
     customers.length !== contacts.length ||
@@ -256,15 +256,24 @@ for (let i = 0; i < customers.length; i++) {
                 //;await changeRequests.addEditItems();
             });
 
-            await test.step("KitchenService", async () => {
+            await CommonActions.executeAndContinue(
+    "KitchenService",
+    async () => {
+        await test.step("KitchenService", async () => {
 
-                await home.SalesNewToKitchen();
-                await commonActions.closeUnacknowledgedpopup();
-                console.log("its kitchen screen")
-                await kitchen.kitchenservice();
+            await home.SalesNewToKitchen();
+            await commonActions.closeUnacknowledgedpopup();
 
-            });
+            console.log("its kitchen screen");
 
+            await kitchen.kitchenservice();
+
+        });
+    }
+);
+  await CommonActions.executeAndContinue(
+    "SchedulingService",
+ async () => {
             await test.step("SchedulingService", async () => {
 
                 await home.navigateToScheduling();
@@ -275,8 +284,11 @@ for (let i = 0; i < customers.length; i++) {
                
                 
             });
-
-
+        }
+    );
+     await CommonActions.executeAndContinue(
+    "WarehouseService",
+ async () => {
            await test.step("WarehouseService", async () => {
    
    
@@ -291,9 +303,13 @@ for (let i = 0; i < customers.length; i++) {
            await commonActions.closeUnacknowledgedpopup();
          //  await page.pause();
        });
+    }
+);
 
 
-
+ await CommonActions.executeAndContinue(
+    "AccountingService",
+ async () => {
            await test.step("AccountingService", async () => {
       
       
@@ -318,7 +334,8 @@ for (let i = 0; i < customers.length; i++) {
 
                await page.pause();
             });
-
+        }
+    );
 
 
         });

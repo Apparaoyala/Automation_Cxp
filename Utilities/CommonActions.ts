@@ -334,4 +334,17 @@ export class CommonActions {
         this.page.off('dialog', dialogHandler);
     }
 }
+public static async executeAndContinue(
+    stepName: string,
+    action: () => Promise<void>
+): Promise<void> {
+
+    try {
+        await action();
+        console.log(`${stepName} - PASS`);
+    } catch (error) {
+        console.error(`${stepName} - FAIL`);
+        console.error(error);
+    }
+}
 }

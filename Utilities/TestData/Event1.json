@@ -3,7 +3,7 @@
 
 [
   {
-  "Business Unit": "Hybrid",
+  "Business Unit": "CaterXpert_Lite",
   "Event Manager": "donglee",
   "Event Type": "Anniversary",
   "Platter Type": "Drop-off with pick-up",
@@ -48,7 +48,7 @@
 }
 ,
 {
-  "Business Unit": "Behindthescenes",
+  "Business Unit": "CaterXpert",
   "Event Manager": "donglee",
   "Event Type": "Bar Only",
   "Platter Type": "Drop-off with pick-up",
