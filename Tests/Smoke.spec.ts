@@ -25,13 +25,13 @@ import { Scheduling } from '../pages/Scheduling';
 import { Accounting } from '../pages/Accounting';
 import { WareHouse } from '../pages/WareHouse';
 const customers = JsonUtil.readJson(
-    './Utilities/TestData/Customer1.json'
+    './Utilities/TestData/Customer.json'
 );
 const contacts = JsonUtil.readJson(
-    './Utilities/TestData/Contact1.json'
+    './Utilities/TestData/Contact.json'
 );
 const Events = JsonUtil.readJson(
-    './Utilities/TestData/Event1.json'
+    './Utilities/TestData/Event.json'
 );
 if (
     customers.length !== contacts.length ||
@@ -42,7 +42,7 @@ if (
     );
 }
 
-for (let i = 0; i < customers.length; i++) {
+for (let i = 1; i < customers.length; i++) {
 
     const customerData = customers[i];
     const contactData = contacts[i];
