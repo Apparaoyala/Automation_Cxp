@@ -59,18 +59,18 @@ test('authenticate', async ({ page }) => {
 
 
 
-    await homePage.clickHome();
+    //await homePage.clickHome();
 
 
     
     
-        await homePage.navigateToModule("Sales New");
+//await homePage.navigateToModule("Sales New");
     
     
-        console.log("Sales New navigation complete");
+     //   console.log("Sales New navigation complete");
     
     
-        await commonActions.closeCommonPopup();
+       // await commonActions.closeCommonPopup();
       //  await customer.Menu1();
     
     /*
@@ -223,7 +223,7 @@ test('authenticate', async ({ page }) => {
             // await page.pause();
         });
     
-*/
+
     await test.step("SchedulingService", async () => {
 
         await home.navigateToScheduling();
@@ -237,24 +237,28 @@ test('authenticate', async ({ page }) => {
        
     });
 
-   
+   */
     await test.step("WarehouseService", async () => {
    
    
            await home.navigateToWarehouse();
-        //   await commonActions.closeUnacknowledgedpopup();
-        //    await kitchen.Filter();
+          await commonActions.closeUnacknowledgedpopup();
+            await kitchen.Filter();
          
           await commonActions.closeUnacknowledgedpopup();
-   
+        // await page.pause();
            await wareHouse.Warehouse_Alc();
             await home.navigateToWarehouse();
            await commonActions.closeUnacknowledgedpopup();
-         //  await page.pause();
+            await wareHouse.Warehouse_Eqp();
+           await home.navigateToWarehouse();
+           await commonActions.closeUnacknowledgedpopup();
+
+           await page.pause();
        });
    
  
-       
+       /*
           await test.step("AccountingService", async () => {
       
       
@@ -284,5 +288,5 @@ test('authenticate', async ({ page }) => {
   
       
 
-
+*/
 });

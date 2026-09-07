@@ -408,8 +408,36 @@ export class Services {
             await qtyInputs.nth(i).fill('25');
         }
         await this.SaveBtn.click();
+        if (await this.OkButton.isVisible()) {
+
+            await this.OkButton.click();
+
+            console.log("Inventory Alert Accepted");
+        }
 
         await this.CloseBtn.click();
+
+        // Reserve button optional
+        try {
+
+            if (await this.ReserveBtn.isVisible()) {
+
+                console.log("Reserve Button Displayed");
+
+                await this.ReserveBtn.click();
+
+                await this.OkButton.click();
+
+                console.log("Stock Reserved");
+            }
+
+        } catch {
+
+            console.log("Reserve Button Not Displayed");
+
+        }
+
+       // await this.CloseBtn.click();
 
         await this.processFinalizeWorkflow();
 

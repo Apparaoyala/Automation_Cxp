@@ -271,6 +271,7 @@ for (let i = 1; i < customers.length; i++) {
         });
     }
 );
+
   await CommonActions.executeAndContinue(
     "SchedulingService",
  async () => {
@@ -286,6 +287,7 @@ for (let i = 1; i < customers.length; i++) {
             });
         }
     );
+    
      await CommonActions.executeAndContinue(
     "WarehouseService",
  async () => {
