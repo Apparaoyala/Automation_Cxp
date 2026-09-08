@@ -10,8 +10,13 @@ export class MailUtil {
         results: any[],
         executionDuration: number
     ) {
-const [emailUser, emailPassword] =
-    (process.env.EMAIL_CREDENTIALS || ':').split(':');
+let emailUser = process.env.EMAIL_USER;
+let emailPassword = process.env.EMAIL_PASSWORD;
+
+if (process.env.EMAIL_CREDENTIALS) {
+    [emailUser, emailPassword] =
+        process.env.EMAIL_CREDENTIALS.split(':');
+}
         const transporter = nodemailer.createTransport({
 
             host: 'smtp.office365.com',
@@ -520,20 +525,29 @@ const [emailUser, emailPassword] =
         // SEND EMAIL
         // ==========================================
 
+        // await transporter.sendMail({
+
+        //    from: emailUser,
+
+        //     to: process.env.EMAIL_TO,
+
+        //     subject:
+        //         failedTests > 0
+        //             ? 'Playwright Automation - FAILED'
+        //             : 'Playwright Automation - PASSED',
+
+        //     html: html
+
+        // });
         await transporter.sendMail({
-
-           from: emailUser,
-
-            to: process.env.EMAIL_TO,
-
-            subject:
-                failedTests > 0
-                    ? 'Playwright Automation - FAILED'
-                    : 'Playwright Automation - PASSED',
-
-            html: html
-
-        });
+    from: emailUser,
+    to: 'apparao.yala@hospiquesoftware.com',
+    subject:
+        failedTests > 0
+            ? 'Playwright Automation - FAILED'
+            : 'Playwright Automation - PASSED',
+    html: html
+});
 
 
         console.log(
