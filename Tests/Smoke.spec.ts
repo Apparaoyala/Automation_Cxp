@@ -42,7 +42,7 @@ if (
     );
 }
 
-for (let i = 1; i < customers.length; i++) {
+for (let i = 0; i < customers.length; i++) {
 
     const customerData = customers[i];
     const contactData = contacts[i];
@@ -302,6 +302,9 @@ for (let i = 1; i < customers.length; i++) {
    
            await wareHouse.Warehouse_Alc();
             await home.navigateToWarehouse();
+           await commonActions.closeUnacknowledgedpopup();
+            await wareHouse.Warehouse_Eqp();
+           await home.navigateToWarehouse();
            await commonActions.closeUnacknowledgedpopup();
          //  await page.pause();
        });
