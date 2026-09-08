@@ -541,7 +541,7 @@ if (process.env.EMAIL_CREDENTIALS) {
         // });
       await transporter.sendMail({
     from: emailUser,
-    to: process.env.EMAIL_TO || 'vimala.salana@hospiquesoftware.com',
+    to: process.env.EMAIL_TO || 'vimala.salana@hospiquesoftware.com'||'Kranthi.Arumulla@hospiquesoftware.com'||'Apparao.Yala@hospiquesoftware.com',
 
     subject:
         failedTests > 0
