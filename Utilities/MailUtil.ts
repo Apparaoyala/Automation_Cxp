@@ -539,14 +539,35 @@ if (process.env.EMAIL_CREDENTIALS) {
         //     html: html
 
         // });
-        await transporter.sendMail({
+      await transporter.sendMail({
     from: emailUser,
     to: process.env.EMAIL_TO || 'vimala.salana@hospiquesoftware.com',
+
     subject:
         failedTests > 0
             ? 'Playwright Automation - FAILED'
             : 'Playwright Automation - PASSED',
-    html: html
+
+    html: `
+        ${html}
+
+        <hr>
+
+        <h3>Allure Report</h3>
+
+        <p>
+            <a href="${process.env.BUILD_URL}allure/"
+               target="_blank"
+               style="display:inline-block;
+                      padding:10px 16px;
+                      background:#4CAF50;
+                      color:white;
+                      text-decoration:none;
+                      border-radius:5px;">
+                📊 Open Allure Report
+            </a>
+        </p>
+    `
 });
 
 
