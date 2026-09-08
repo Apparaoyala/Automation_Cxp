@@ -541,7 +541,7 @@ if (process.env.EMAIL_CREDENTIALS) {
         // });
         await transporter.sendMail({
     from: emailUser,
-    to: 'apparao.yala@hospiquesoftware.com',
+    to: process.env.EMAIL_TO || 'vimala.salana@hospiquesoftware.com',
     subject:
         failedTests > 0
             ? 'Playwright Automation - FAILED'

@@ -237,7 +237,7 @@ test('authenticate', async ({ page }) => {
        
     });
 
-   */
+   *//*
     await test.step("WarehouseService", async () => {
    
    
@@ -257,7 +257,7 @@ test('authenticate', async ({ page }) => {
            await page.pause();
        });
    
- 
+ */
        /*
           await test.step("AccountingService", async () => {
       
