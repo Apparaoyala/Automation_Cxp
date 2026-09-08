@@ -10,7 +10,8 @@ export class MailUtil {
         results: any[],
         executionDuration: number
     ) {
-
+const [emailUser, emailPassword] =
+    (process.env.EMAIL_CREDENTIALS || ':').split(':');
         const transporter = nodemailer.createTransport({
 
             host: 'smtp.office365.com',
@@ -20,8 +21,8 @@ export class MailUtil {
             secure: false,
 
             auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASSWORD
+               user: emailUser,
+               pass: emailPassword
             }
 
         });
@@ -521,7 +522,7 @@ export class MailUtil {
 
         await transporter.sendMail({
 
-            from: process.env.EMAIL_USER,
+           from: emailUser,
 
             to: process.env.EMAIL_TO,
 
