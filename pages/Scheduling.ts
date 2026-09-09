@@ -94,7 +94,7 @@ const menu = frame.locator('#popmenu');
 // await this.ShowWorker.click();
 
 
-for (let i = 0; i < 3; i++) {
+for (let i = 0; i < 5; i++) {
     await this.page.mouse.move(x, y);
 
     if (await menu.isVisible()) {
