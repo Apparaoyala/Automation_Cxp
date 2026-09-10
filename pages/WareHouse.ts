@@ -18,6 +18,7 @@ export class WareHouse {
     private readonly Close: Locator;
      private readonly Checkin: Locator;
     private readonly ClickCheckIn: Locator;
+     private readonly Reserve: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -36,7 +37,7 @@ export class WareHouse {
         this.Checkin = page.frameLocator('frame[name="header"]').getByRole('link', { name: ' Check In ' });
 
         this.ClickCheckIn = page.frameLocator('frame[name="view"]').locator("//span[text()='Check In']").first();
-
+  this.Reserve = page.frameLocator('frame[name="right"]').locator("//span[text()='Reserve']");
 
 
     }
@@ -47,7 +48,11 @@ export class WareHouse {
         
         await this.sentLink.click();
         await this.AcceptBtn.click();
-         if (await this.CheckOut.isVisible()) {
+        if(await this.Reserve.isVisible()) {
+            console.log('Reserve');
+ await this.Reserve.click();
+        }
+         if(await this.CheckOut.isVisible()) {
         await this.CheckOut.click();
         await this.CheckService.check();
         await this.ClickCheckOut.click();
@@ -61,7 +66,11 @@ export class WareHouse {
 
         await this.EqpsentLink.click();
         await this.AcceptBtn.click();
-         if (await this.CheckOut.isVisible()) {
+  if(await this.Reserve.isVisible()) {
+    console.log('Reserve');
+ await this.Reserve.click();
+        }
+         if(await this.CheckOut.isVisible()) {
         await this.CheckOut.click();
         await this.CheckService.click();
         await this.ClickCheckOut.click();
