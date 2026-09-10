@@ -44,14 +44,16 @@ export class WareHouse {
 
     async Warehouse_Alc() {
 
+        
         await this.sentLink.click();
         await this.AcceptBtn.click();
+         if (await this.CheckOut.isVisible()) {
         await this.CheckOut.click();
         await this.CheckService.check();
         await this.ClickCheckOut.click();
         await this.Close.click();
-
-        console.log("AcceptStatus")
+         }
+        console.log("Accept Status")
         await this.commonActions.clickBillAndAcceptAlerts(this.BillBtn);
     }
 
@@ -59,6 +61,7 @@ export class WareHouse {
 
         await this.EqpsentLink.click();
         await this.AcceptBtn.click();
+         if (await this.CheckOut.isVisible()) {
         await this.CheckOut.click();
         await this.CheckService.click();
         await this.ClickCheckOut.click();
@@ -67,7 +70,7 @@ export class WareHouse {
         await this.CheckService.click();
         await this.ClickCheckIn.click();
         await this.Close.click();
-
+         }
 
         console.log("AcceptStatus")
         await this.commonActions.clickBillAndAcceptAlerts(this.BillBtn);

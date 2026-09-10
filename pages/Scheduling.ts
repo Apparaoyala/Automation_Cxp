@@ -51,10 +51,10 @@ export class Scheduling {
 
        await this.SentBtn.click();
         await this.Acceptbtn.click();
-       await this.commonActions.Constraintspopup();
-        console.log("Constraint save  clicked");
+     await this.commonActions.Constraintspopup();
+       console.log("Constraint save  clicked");
        await this.home.navigateToScheduling();
-        await this.commonActions.closeUnacknowledgedpopup();
+       await this.commonActions.closeUnacknowledgedpopup();
         await this.ClickAcceptStatus.click();
         console.log("AcceptStatus");
  
@@ -94,18 +94,59 @@ const menu = frame.locator('#popmenu');
 // await this.ShowWorker.click();
 
 
+let showWorkerClicked = false;
+
 for (let i = 0; i < 5; i++) {
+
+    console.log(`Attempt ${i + 1}: Moving mouse to popup icon`);
+
+    // Move mouse to popup icon
     await this.page.mouse.move(x, y);
 
-    if (await menu.isVisible()) {
-        await this.ShowWorker.click();
+    // Keep mouse at the popup position and check for up to 2 seconds
+    const startTime = Date.now();
+
+    while (Date.now() - startTime < 2000) {
+
+        if (await menu.isVisible().catch(() => false)) {
+
+            console.log("Popmenu is visible");
+
+            // Mouse is still at popup icon
+            await this.ShowWorker.click();
+
+            showWorkerClicked = true;
+
+            console.log("ShowWorker clicked");
+
+            break;
+        }
+
+        await this.page.waitForTimeout(100);
+    }
+
+    if (showWorkerClicked) {
         break;
     }
 
+    console.log("Menu not visible. Retrying...");
+
+    // Move away so the next attempt triggers mouse-over again
+    await this.page.mouse.move(x - 50, y);
+
     await this.page.waitForTimeout(500);
 }
+
+if (!showWorkerClicked) {
+    throw new Error(
+        "Show Workers menu did not become visible after 5 attempts"
+    );
+}
+
 console.log("ShowWorker");
+
 await this.commonActions.Show_workers_childwindow();
+
 console.log("ShowWorker screen closed");
  
      await this.PostSchedule.click();

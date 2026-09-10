@@ -222,7 +222,7 @@ test('authenticate', async ({ page }) => {
     
             // await page.pause();
         });
-    
+
 
     await test.step("SchedulingService", async () => {
 
@@ -234,10 +234,10 @@ test('authenticate', async ({ page }) => {
         await scheduling.SchedulingAck();
              await home.navigateToScheduling();
         await commonActions.closeUnacknowledgedpopup();
-       
+       await page.pause();
     });
 
-   *//*
+   */
     await test.step("WarehouseService", async () => {
    
    
@@ -257,7 +257,7 @@ test('authenticate', async ({ page }) => {
            await page.pause();
        });
    
- */
+ 
        /*
           await test.step("AccountingService", async () => {
       
