@@ -222,8 +222,8 @@ test('authenticate', async ({ page }) => {
     
             // await page.pause();
         });
-
-
+*/
+/*
     await test.step("SchedulingService", async () => {
 
         await home.navigateToScheduling();
