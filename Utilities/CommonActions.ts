@@ -314,9 +314,10 @@ export class CommonActions {
 
     try {
 
+        await BillBtn.scrollIntoViewIfNeeded();
         await BillBtn.click();
 
-        // Wait for the Bill operation/dialog chain to finish
+        
         await this.page.waitForTimeout(1000);
 
         if (dialogCount === 0) {

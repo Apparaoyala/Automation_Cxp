@@ -33,11 +33,5 @@ console.log("Username entered:", await this.Userid.inputValue());
 
     }
 
-//    async home() {
-//    // await this.HomeButton.waitFor({ state: 'visible', timeout: 60000 });
-//    await this.page.locator('.spinner').waitFor({
-//     state: 'hidden'
-// });
-//     await this.HomeButton.click();
-// }
+
 }
