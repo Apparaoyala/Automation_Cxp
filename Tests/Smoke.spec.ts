@@ -42,7 +42,7 @@ if (
     );
 }
 
-for (let i = 0; i < customers.length; i++) {
+for (let i = 1; i < customers.length; i++) {
 
     const customerData = customers[i];
     const contactData = contacts[i];
