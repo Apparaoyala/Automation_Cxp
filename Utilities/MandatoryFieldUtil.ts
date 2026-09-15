@@ -93,23 +93,11 @@ const value = jsonData[fieldName];
             await this.identifyControlType(controlContainer);
 
         //console.log("Control Type :", controlType);
-// if (controlType === "CHECKBOX" && value !== undefined) {
 
-//     await this.handleCheckbox(
-//         controlContainer,
-//         String(value)
-//     );
-
-// }
 if (value === undefined) {
     continue;
 }
-// console.log(
-//     "Field:",
-//     fieldName,
-//     "Control Type:",
-//     controlType
-// );
+
 switch (controlType) {
 
     case "TEXTBOX":

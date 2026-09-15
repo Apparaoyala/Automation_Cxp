@@ -42,7 +42,7 @@ else {
 
         this.page = page;
 
-       console.log("******** MandatoryFieldsEventUtil Loaded ********");
+       console.log(" MandatoryFieldsEventUtil Loaded ");
     }
       
       async getMandatoryFieldCount(jsonData: Record<string, any>) {
@@ -91,7 +91,7 @@ else {
 
     console.log("Mandatory Count :", count);
 
-    console.log("\n========== MANDATORY FIELDS ==========");
+    console.log("\n MANDATORY FIELDS ");
 
     const mandatoryFieldNames: string[] = [];
 

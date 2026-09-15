@@ -249,72 +249,72 @@ for (let i = 1; i < customers.length; i++) {
                 await changeRequests.addEditItems();
             });
 
-            await CommonActions.executeAndContinue("KitchenService",async () => {
-                    await test.step("KitchenService", async () => {
+            await CommonActions.executeAndContinue("KitchenService", async () => {
+                await test.step("KitchenService", async () => {
 
-                        await home.SalesNewToKitchen();
-                        await commonActions.closeUnacknowledgedpopup();
+                    await home.SalesNewToKitchen();
+                    await commonActions.closeUnacknowledgedpopup();
 
-                        console.log("its kitchen screen");
+                    console.log("its kitchen screen");
 
-                        await kitchen.kitchenservice();
+                    await kitchen.kitchenservice();
 
-                    });
-                }
+                });
+            }
             );
 
-            await CommonActions.executeAndContinue("SchedulingService",async () => {
-                    await test.step("SchedulingService", async () => {
+            await CommonActions.executeAndContinue("SchedulingService", async () => {
+                await test.step("SchedulingService", async () => {
 
-                        await home.navigateToScheduling();
-                        await commonActions.closeUnacknowledgedpopup();
-                        await scheduling.SchedulingAck();
-                        await home.navigateToScheduling();
-                        await commonActions.closeUnacknowledgedpopup();
+                    await home.navigateToScheduling();
+                    await commonActions.closeUnacknowledgedpopup();
+                    await scheduling.SchedulingAck();
+                    await home.navigateToScheduling();
+                    await commonActions.closeUnacknowledgedpopup();
 
 
-                    });
-                }
+                });
+            }
             );
 
-            await CommonActions.executeAndContinue("WarehouseService",async () => {
-                    await test.step("WarehouseService", async () => {
+            await CommonActions.executeAndContinue("WarehouseService", async () => {
+                await test.step("WarehouseService", async () => {
 
 
-                        await home.navigateToWarehouse();
-                        await commonActions.closeUnacknowledgedpopup();
-                        await wareHouse.Warehouse_Alc();
-                        await home.navigateToWarehouse();
-                        await commonActions.closeUnacknowledgedpopup();
-                        await wareHouse.Warehouse_Eqp();
-                        await home.navigateToWarehouse();
-                        await commonActions.closeUnacknowledgedpopup();
-                    });
-                }
+                    await home.navigateToWarehouse();
+                    await commonActions.closeUnacknowledgedpopup();
+                    await wareHouse.Warehouse_Alc();
+                    await home.navigateToWarehouse();
+                    await commonActions.closeUnacknowledgedpopup();
+                    await wareHouse.Warehouse_Eqp();
+                    await home.navigateToWarehouse();
+                    await commonActions.closeUnacknowledgedpopup();
+                });
+            }
             );
 
 
-            await CommonActions.executeAndContinue("AccountingService",async () => {
-                    await test.step("AccountingService", async () => {
+            await CommonActions.executeAndContinue("AccountingService", async () => {
+                await test.step("AccountingService", async () => {
 
 
-                        await home.navigateToAccounting();
-                        await commonActions.closeUnacknowledgedpopup();
-                        await accounting.AccountingVendorBills();
-                        await homePage.clickHome();
-                        await homePage.navigateToModule("Sales New");
-                        await commonActions.closeCommonPopup();
-                        await accounting.AccountingService();
-                        await accounting.openbillService();
-                        await accounting.BillProcess();
-                        await home.SalesNewToAccounting();
-                        await accounting.AccountingAccept();
-                        await home.navigateToAccounting();
-                        await commonActions.closeUnacknowledgedpopup();
+                    await home.navigateToAccounting();
+                    await commonActions.closeUnacknowledgedpopup();
+                    await accounting.AccountingVendorBills();
+                    await homePage.clickHome();
+                    await homePage.navigateToModule("Sales New");
+                    await commonActions.closeCommonPopup();
+                    await accounting.AccountingService();
+                    await accounting.openbillService();
+                    await accounting.BillProcess();
+                    await home.SalesNewToAccounting();
+                    await accounting.AccountingAccept();
+                    await home.navigateToAccounting();
+                    await commonActions.closeUnacknowledgedpopup();
 
-                        await page.pause();
-                    });
-                }
+                    await page.pause();
+                });
+            }
             );
 
 
