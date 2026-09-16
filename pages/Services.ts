@@ -389,24 +389,23 @@ export class Services {
 
         await this.GoButton.click();
 
-        // Select All
-        const selectAll = this.page.locator(
-            'p-checkbox[inputid="binary"] .p-checkbox'
-        );
+           // Qty Inputs
+const qtyInputs = this.page.locator(
+    'input[id^="qts_"]'
+);
 
-        await selectAll.click();
+const count = await qtyInputs.count();
 
-        // Qty Inputs
-        const qtyInputs = this.page.locator(
-            'input[id^="qts_"]'
-        );
+console.log("Available Items:", count);
 
-        const count = await qtyInputs.count();
+// Add maximum 3 items
+const itemsToAdd = Math.min(3, count);
 
-        for (let i = 0; i < count; i++) {
+console.log("Items to Add:", itemsToAdd);
 
-            await qtyInputs.nth(i).fill('25');
-        }
+for (let i = 0; i < itemsToAdd; i++) {
+    await qtyInputs.nth(i).fill('25');
+}
         await this.SaveBtn.click();
         if (await this.OkButton.isVisible()) {
 
@@ -498,27 +497,44 @@ export class Services {
 
         await this.GoButton.click();
 
-        // Select All
-        const selectAll = this.page.locator(
-            'p-checkbox[inputid="binary"] .p-checkbox'
-        );
+        // // Select All
+        // const selectAll = this.page.locator(
+        //     'p-checkbox[inputid="binary"] .p-checkbox'
+        // );
 
-        await selectAll.click();
+        // await selectAll.click();
 
-        // just dbug
+        // // just dbug
 
-        const qtyInputs = this.page.locator(
-            'input[id^="eqp_"]'
-        );
+        // const qtyInputs = this.page.locator(
+        //     'input[id^="eqp_"]'
+        // );
 
-        const count = await qtyInputs.count();
+        // const count = await qtyInputs.count();
 
-        for (let i = 0; i < count; i++) {
+        // for (let i = 0; i < count; i++) {
 
-            await qtyInputs.nth(i).fill('20');
-        }
+        //     await qtyInputs.nth(i).fill('20');
+        // }
 
 
+           // Qty Inputs
+const qtyInputs = this.page.locator(
+    'input[id^="eqp_"]'
+);
+
+const count = await qtyInputs.count();
+
+console.log("Available Items:", count);
+
+// Add maximum 3 items
+const itemsToAdd = Math.min(3, count);
+
+console.log("Items to Add:", itemsToAdd);
+
+for (let i = 0; i < itemsToAdd; i++) {
+    await qtyInputs.nth(i).fill('25');
+}
 
 
         await this.SaveBtn.click();

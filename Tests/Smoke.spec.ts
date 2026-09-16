@@ -188,7 +188,7 @@ for (let i = 1; i < customers.length; i++) {
 
             await test.step("Servicess", async () => {
 
-                //Menu Service is started
+            //Menu Service is started
 
                 await services.openMenuService();
 
