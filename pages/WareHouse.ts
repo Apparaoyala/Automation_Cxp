@@ -50,6 +50,11 @@ export class WareHouse {
         await this.sentLink.click();
         await this.AcceptBtn.click();
 
+        await Promise.race([
+    this.BillBtn.waitFor({ state: 'visible', timeout: 180000 }),
+    this.Reserve.waitFor({ state: 'visible', timeout: 180000 }),
+    this.CheckOut.waitFor({ state: 'visible', timeout: 180000 })
+]);
         const isBillVisible = await this.BillBtn.isVisible();
         const isReserveVisible = await this.Reserve.isVisible();
         const isCheckoutVisible = await this.CheckOut.isVisible();
@@ -103,7 +108,12 @@ export class WareHouse {
 
         await this.EqpsentLink.click();
         await this.AcceptBtn.click();
-
+      
+        await Promise.race([
+    this.BillBtn.waitFor({ state: 'visible', timeout: 180000 }),
+    this.Reserve.waitFor({ state: 'visible', timeout: 180000 }),
+    this.CheckOut.waitFor({ state: 'visible', timeout: 180000 })
+]);
         const isBillVisible = await this.BillBtn.isVisible();
         const isReserveVisible = await this.Reserve.isVisible();
         const isCheckoutVisible = await this.CheckOut.isVisible();

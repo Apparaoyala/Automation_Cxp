@@ -223,7 +223,7 @@ test('authenticate', async ({ page }) => {
             // await page.pause();
         });
 */
-/*
+
     await test.step("SchedulingService", async () => {
 
         await home.navigateToScheduling();
@@ -237,7 +237,8 @@ test('authenticate', async ({ page }) => {
        await page.pause();
     });
 
-   */
+   
+  /*
     await test.step("WarehouseService", async () => {
    
    
@@ -257,7 +258,7 @@ test('authenticate', async ({ page }) => {
            await page.pause();
        });
    
- 
+ */
        /*
           await test.step("AccountingService", async () => {
       

@@ -64,7 +64,7 @@ const popupIcon = frame
     .locator('img[src*="dhtml_popup.gif"]')
     .first();
 
-await popupIcon.scrollIntoViewIfNeeded();
+//await popupIcon.scrollIntoViewIfNeeded();
 
 const box = await popupIcon.boundingBox();
 
