@@ -10,4 +10,15 @@ export class JsonUtil {
 
     }
 
+
+      static writeJson(filePath: string, data: any): void {
+
+        fs.writeFileSync(
+            filePath,
+            JSON.stringify(data, null, 2),
+            'utf-8'
+        );
+
+    }
+
 }
