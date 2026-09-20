@@ -59,21 +59,20 @@ test('authenticate', async ({ page }) => {
 
 
 
-    //await homePage.clickHome();
+    await homePage.clickHome();
 
 
     
-    
-//await homePage.navigateToModule("Sales New");
-    
-    
-     //   console.log("Sales New navigation complete");
+    await homePage.navigateToModule("Sales New");
     
     
-       // await commonActions.closeCommonPopup();
-      //  await customer.Menu1();
+        console.log("Sales New navigation complete");
     
-    /*
+    
+        await commonActions.closeCommonPopup();
+        await customer.Menu1();
+    
+    
         //---------------------------------------------------event creation --------------------------------------
     
     
@@ -129,9 +128,8 @@ test('authenticate', async ({ page }) => {
          await test.step("ApprovalsService", async () => {
 
                 await approval.Approvals(eventNumber);
- await page.pause();
-            });
-           
+
+          
 /*
          //Menu Service
         await test.step("MEnu", async () => {
@@ -154,6 +152,8 @@ test('authenticate', async ({ page }) => {
             await services.serviceCloseBtn();
             await services.menuServiceStatus();
         });
+
+        */
         await services.AllServiceStatuses();
         await services.openAlcService();
     
@@ -173,13 +173,14 @@ test('authenticate', async ({ page }) => {
     
         await changeRequests.MenuChangeRequest();
         await changeRequests.MChangeRequest();
-        //await page.pause();
+        await page.pause();
         await changeRequests.addEditItems();
     
     
+      });
+           
     
     
-    */
     /*
         await test.step("BillService", async () => {
     

@@ -28,6 +28,7 @@ export class Services {
     //Alc service
 
     private readonly alcHeader: Locator;
+    private readonly checkboxBox: Locator;
 
     //equip service
 
@@ -87,7 +88,9 @@ export class Services {
 
         this.mandatoryFieldInfoUtil =
             new MandatoryFieldInfoUtil(page);
-
+        this.checkboxBox =  this.page.locator(
+            "//div[@role='region']//div[contains(@class,'p-checkbox-box')]"
+        );
 
     }
 
@@ -376,36 +379,39 @@ export class Services {
 
         await this.FilterICon.click();
 
-        try {
+       
+     
 
-            await this.page.locator("//div[@role='region']//div[@class = 'p-checkbox-box p-highlight']").click();
+        const classes = await this.checkboxBox.getAttribute("class");
 
+        if (classes?.includes("p-highlight")) {
+            console.log("Checkbox is checked");
+            await this.checkboxBox.click();
             console.log("Unchecked");
-
-        } catch (e) {
-
-            console.log("Click Failed:", e);
+        } else {
+            console.log("Already unchecked");
         }
+
 
         await this.GoButton.click();
 
-           // Qty Inputs
-const qtyInputs = this.page.locator(
-    'input[id^="qts_"]'
-);
+        // Qty Inputs
+        const qtyInputs = this.page.locator(
+            'input[id^="qts_"]'
+        );
 
-const count = await qtyInputs.count();
+        const count = await qtyInputs.count();
 
-console.log("Available Items:", count);
+        console.log("Available Items:", count);
 
-// Add maximum 3 items
-const itemsToAdd = Math.min(3, count);
+        // Add maximum 3 items
+        const itemsToAdd = Math.min(3, count);
 
-console.log("Items to Add:", itemsToAdd);
+        console.log("Items to Add:", itemsToAdd);
 
-for (let i = 0; i < itemsToAdd; i++) {
-    await qtyInputs.nth(i).fill('25');
-}
+        for (let i = 0; i < itemsToAdd; i++) {
+            await qtyInputs.nth(i).fill('25');
+        }
         await this.SaveBtn.click();
         if (await this.OkButton.isVisible()) {
 
@@ -436,7 +442,7 @@ for (let i = 0; i < itemsToAdd; i++) {
 
         }
 
-       // await this.CloseBtn.click();
+        // await this.CloseBtn.click();
 
         await this.processFinalizeWorkflow();
 
@@ -484,57 +490,39 @@ for (let i = 0; i < itemsToAdd; i++) {
 
         await this.FilterICon.click();
 
-        try {
+      
 
-            await this.page.locator("//div[@role='region']//div[@class = 'p-checkbox-box p-highlight']").click();
+        const classes = await this.checkboxBox.getAttribute("class");
 
+        if (classes?.includes("p-highlight")) {
+            console.log("Checkbox is checked");
+            await this.checkboxBox.click();
             console.log("Unchecked");
-
-        } catch (e) {
-
-            console.log("Click Failed:", e);
+        } else {
+            console.log("Already unchecked");
         }
 
         await this.GoButton.click();
 
-        // // Select All
-        // const selectAll = this.page.locator(
-        //     'p-checkbox[inputid="binary"] .p-checkbox'
-        // );
-
-        // await selectAll.click();
-
-        // // just dbug
-
-        // const qtyInputs = this.page.locator(
-        //     'input[id^="eqp_"]'
-        // );
-
-        // const count = await qtyInputs.count();
-
-        // for (let i = 0; i < count; i++) {
-
-        //     await qtyInputs.nth(i).fill('20');
-        // }
 
 
-           // Qty Inputs
-const qtyInputs = this.page.locator(
-    'input[id^="eqp_"]'
-);
+        // Qty Inputs
+        const qtyInputs = this.page.locator(
+            'input[id^="eqp_"]'
+        );
 
-const count = await qtyInputs.count();
+        const count = await qtyInputs.count();
 
-console.log("Available Items:", count);
+        console.log("Available Items:", count);
 
-// Add maximum 3 items
-const itemsToAdd = Math.min(3, count);
+        // Add maximum 3 items
+        const itemsToAdd = Math.min(3, count);
 
-console.log("Items to Add:", itemsToAdd);
+        console.log("Items to Add:", itemsToAdd);
 
-for (let i = 0; i < itemsToAdd; i++) {
-    await qtyInputs.nth(i).fill('25');
-}
+        for (let i = 0; i < itemsToAdd; i++) {
+            await qtyInputs.nth(i).fill('25');
+        }
 
 
         await this.SaveBtn.click();

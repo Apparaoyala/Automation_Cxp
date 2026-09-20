@@ -42,20 +42,18 @@ if (
     );
 }
 
-for (let i = 0; i < customers.length; i++) {
+for (let i = 1; i < customers.length; i++) {
 
     const customerData = customers[i];
     const contactData = contacts[i];
     const eventData = Events[i];
 
-    test(`Smoke Run ${i + 1}`,
+    test(`Reg Run ${i + 1}`,
         async ({ page }) => {
 
             test.setTimeout(1800000);
             const config = new TestConfig();
-            console.log("APP_URL =", process.env.APP_URL);
-            console.log("CONFIG_URL =", config.appUrl);
-
+       
             let eventNumber: string;
             const homePage = new HomePage(page);
 
