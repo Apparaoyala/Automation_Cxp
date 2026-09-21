@@ -25,13 +25,13 @@ import { Scheduling } from '../pages/Scheduling';
 import { Accounting } from '../pages/Accounting';
 import { WareHouse } from '../pages/WareHouse';
 const customers = JsonUtil.readJson(
-    './Utilities/TestData/Customer.json'
+    './Utilities/TestData/Customer1.json'
 );
 const contacts = JsonUtil.readJson(
-    './Utilities/TestData/Contact.json'
+    './Utilities/TestData/Contact1.json'
 );
 const Events = JsonUtil.readJson(
-    './Utilities/TestData/Event.json'
+    './Utilities/TestData/Event1.json'
 );
 if (
     customers.length !== contacts.length ||
