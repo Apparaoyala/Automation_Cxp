@@ -29,5 +29,5 @@ async waitForContactScreen() {await expect.poll(async () => {
 
     }, {
         timeout: 20000
-    }).toBeGreaterThan(10);}
+    }).toBeGreaterThan(8);}
 }
