@@ -180,9 +180,17 @@ for (let i = 0; i < customers.length; i++) {
                 await commonActions.closeCommonPopup();
 
             });
+
+           
+
+
             await test.step("ApprovalsService", async () => {
 
                 await approval.Approvals(eventNumber);
+
+            });
+             await test.step("Update Event", async () => {
+                
 
             });
 
