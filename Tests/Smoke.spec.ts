@@ -25,13 +25,17 @@ import { Scheduling } from '../pages/Scheduling';
 import { Accounting } from '../pages/Accounting';
 import { WareHouse } from '../pages/WareHouse';
 const customers = JsonUtil.readJson(
-    './Utilities/TestData/Customer.json'
+    './Utilities/TestData/CustomerTpg.json'
 );
 const contacts = JsonUtil.readJson(
     './Utilities/TestData/Contact.json'
 );
 const Events = JsonUtil.readJson(
-    './Utilities/TestData/Event.json'
+    './Utilities/TestData/EventTpg.json'
+);
+
+const ServiceStatus= JsonUtil.readJson(
+    './Utilities/TestData/ServiceStatus.json'
 );
 if (
     customers.length !== contacts.length ||
@@ -171,6 +175,7 @@ for (let i = 0; i < customers.length; i++) {
 
 
                 await event.createbtn();
+             //  await commonActions.Constraintspopup();
                 await event.Constraints()
 
                 eventNumber = await event.getCreatedEventNumber();
@@ -191,7 +196,8 @@ for (let i = 0; i < customers.length; i++) {
             });
              await test.step("Edit/Update Event", async () => {
                 await page.pause();
-                await event.EditEvent();
+                await services.EditEvent();
+                 await commonActions.closeCommonPopup();
                 
 
             });

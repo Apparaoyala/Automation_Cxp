@@ -10,7 +10,7 @@ export class Event {
     private readonly EventDashBoard: Locator;
     private readonly CreateEventBtn: Locator;
      private readonly SaveBtn: Locator;
-     private readonly EditEventBtn: Locator;
+
 private readonly DashBoard: Locator;
 
 
@@ -19,13 +19,17 @@ private readonly DashBoard: Locator;
     constructor(page: Page) {
 
         this.page = page;
-
+ 
         this.Event = page.locator('span').filter({ hasText: 'Create Event' }).first()
         this.SaveBtn = page.getByRole('button', { name: ' Save ' }).last()
        this.CreateEventBtn= page.getByRole('button', { name: 'Create' })
+
+
+
+       
        this.EventList= page.getByRole('button', { name: 'Event Listing' })
       //  this.EditEventBtn= page.getByRole('button', { name: 'Edit Event' })
-      this.EditEventBtn=page.locator('.fa fa-edit')
+
        this.EventDashBoard=page.locator('span').filter({ hasText: 'dashboard' }).first()
         this.EventListFilter=page.locator('span').filter({ hasText: ' filter_alt ' }).first()
        this.clickFilter=page.getByRole('searchbox', { name: 'Event #' })
@@ -53,13 +57,7 @@ async CreateEvent() {
      await this.Event.click();
      
     }
-async EditEvent() {
 
-await this.EditEventBtn.click();
-await this.SaveBtn.click();
-
-     
-    }
     async createbtn(){
 
 

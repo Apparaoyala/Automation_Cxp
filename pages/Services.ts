@@ -339,7 +339,22 @@ export class Services {
             );
         }
     }
+ async EditEvent() {
 
+        console.log("EditEvent");
+
+
+        const EditEventInfo = this.page.locator('.card').filter({
+            has: this.page.getByText('Event Info')
+        });
+        const EditIcon =
+            EditEventInfo.locator('.service-request .icon-circle').first();
+    
+            await EditIcon.click();
+             await this.SaveBtn.click();
+             
+       
+    }
     //alc service
 
     async openAlcService() {

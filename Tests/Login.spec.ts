@@ -97,7 +97,7 @@ test('authenticate', async ({ page }) => {
     
     
         const EventData = JsonUtil.readJson(
-            './Utilities/TestData/Event.json'
+            './Utilities/TestData/EventTpg.json'
         )[0];
     
     
@@ -130,7 +130,7 @@ test('authenticate', async ({ page }) => {
                 await approval.Approvals(eventNumber);
 
           
-/*
+
          //Menu Service
         await test.step("MEnu", async () => {
             await services.openMenuService();
@@ -153,7 +153,8 @@ test('authenticate', async ({ page }) => {
             await services.menuServiceStatus();
         });
 
-        */
+       
+      
         await services.AllServiceStatuses();
         await services.openAlcService();
     
@@ -180,8 +181,8 @@ test('authenticate', async ({ page }) => {
       });
            
     
-    
-    /*
+   
+
         await test.step("BillService", async () => {
     
             await billworksheet.openbillService();
@@ -223,7 +224,7 @@ test('authenticate', async ({ page }) => {
     
             // await page.pause();
         });
-*/
+
 
     await test.step("SchedulingService", async () => {
 
@@ -239,7 +240,7 @@ test('authenticate', async ({ page }) => {
     });
 
    
-  /*
+
     await test.step("WarehouseService", async () => {
    
    
@@ -259,8 +260,8 @@ test('authenticate', async ({ page }) => {
            await page.pause();
        });
    
- */
-       /*
+
+
           await test.step("AccountingService", async () => {
       
       
@@ -290,5 +291,5 @@ test('authenticate', async ({ page }) => {
   
       
 
-*/
+
 });

@@ -1,0 +1,13 @@
+{
+"New_Status": ["New"],
+"Prog_Status": ["In Progress", "Prog"],
+"Sent_Status": ["Sent"],
+"Accept_status": ["Accept", "Ack", "Approved"],
+"Bill_Status": ["bill","To Accounting"],
+"Menu": ["Menu","Menu -"],
+"Staffing": ["Staf", "personal", "scheduling","Staffing","Scheduling  -"],
+"Alchol": ["alchol", "alc","Alcohol","Alcohol  -"],
+"beverage": ["non-Alchol", "bev", "beverage"],
+"Accounting":["Bill"],
+"equpiment": ["Internal Equipment","Equipment","Equipment  -"]
+}
