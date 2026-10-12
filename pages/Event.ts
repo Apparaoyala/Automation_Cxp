@@ -71,6 +71,26 @@ async CreateEvent() {
      await this.clickFilter.fill('3410');
      
     }
+    async CustomerTaxExamptPopUp() {
+
+    const YesButton = this.page.getByRole("button", {
+        name: "Yes",
+        exact: true
+    });
+
+    // Check whether Save is visible
+    if (await YesButton.isVisible()) {
+
+        await YesButton.click();
+
+        console.log("Customer Tax Exempt Popup displayed. Save clicked.");
+
+    } else {
+
+        console.log("Customer Tax Exempt Popup not displayed. Continuing...");
+
+    }
+}
         async Constraints() {
 
      const eventConstraints = this.page.getByText("Event Constraints");

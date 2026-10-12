@@ -3,7 +3,7 @@ import * as dotenv from 'dotenv';
 dotenv.config();
     
 
-const configNumber = process.env.ACTIVE_CONFIG || '3';
+const configNumber = process.env.ACTIVE_CONFIG || '2';
 
 export class TestConfig {
 

@@ -123,7 +123,7 @@ else {
     for (let i = 0; i < count; i++) {
 
         const label = mandatoryLabels.nth(i);
-
+console.log(label)
         const fieldName =
             (await label.textContent())
                 ?.replace("*", "")
@@ -212,7 +212,7 @@ private async findControlContainer(label: Locator): Promise<Locator> {
 
     const fieldName = await label.textContent();
 
-    
+    console.log(fieldName)
 
     const parentDivContainer = label.locator(
         "xpath=parent::div/following-sibling::div[1]"
@@ -255,7 +255,7 @@ async identifyControlType(control: Locator): Promise<string> {
 
     return "UNKNOWN";
 }
-
+//259 to 280
 async handleTextbox(controlContainer: Locator, value: string) {
 
     
@@ -266,10 +266,8 @@ async handleTextbox(controlContainer: Locator, value: string) {
 //already data fill to the field 
  const currentValue = (await textbox.inputValue()).trim();
 
-    if (currentValue !== "") {
-
+    if (currentValue !== "" && currentValue !== "0") {
         console.log("Textbox already has value:", currentValue);
-
         return;
     }
    //already data fill to the field just skip the field

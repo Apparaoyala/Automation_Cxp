@@ -97,7 +97,7 @@ test('authenticate', async ({ page }) => {
     
     
         const EventData = JsonUtil.readJson(
-            './Utilities/TestData/EventTpg.json'
+            './Utilities/TestData/Event.json'
         )[0];
     
     
@@ -115,6 +115,7 @@ test('authenticate', async ({ page }) => {
     
         //await page.pause();
         await event.createbtn();
+          await event.CustomerTaxExamptPopUp()
     
         const eventNumber = await event.getCreatedEventNumber();
     
@@ -129,10 +130,16 @@ test('authenticate', async ({ page }) => {
 
                 await approval.Approvals(eventNumber);
 
-          
+          await test.step("Edit/Update Event", async () => {
+                await page.pause();
+                await services.EditEvent();
+                 await commonActions.closeCommonPopup();
+                
+
+            });
 
          //Menu Service
-        await test.step("MEnu", async () => {
+        await test.step("Menu", async () => {
             await services.openMenuService();
     
     

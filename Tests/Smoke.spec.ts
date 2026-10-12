@@ -25,13 +25,13 @@ import { Scheduling } from '../pages/Scheduling';
 import { Accounting } from '../pages/Accounting';
 import { WareHouse } from '../pages/WareHouse';
 const customers = JsonUtil.readJson(
-    './Utilities/TestData/CustomerTpg.json'
+    './Utilities/TestData/Customer.json'
 );
 const contacts = JsonUtil.readJson(
     './Utilities/TestData/Contact.json'
 );
 const Events = JsonUtil.readJson(
-    './Utilities/TestData/EventTpg.json'
+    './Utilities/TestData/Event.json'
 );
 
 const ServiceStatus= JsonUtil.readJson(
@@ -175,8 +175,8 @@ for (let i = 0; i < customers.length; i++) {
 
 
                 await event.createbtn();
-             //  await commonActions.Constraintspopup();
-                await event.Constraints()
+           
+                await event.CustomerTaxExamptPopUp()
 
                 eventNumber = await event.getCreatedEventNumber();
 
@@ -195,7 +195,7 @@ for (let i = 0; i < customers.length; i++) {
 
             });
              await test.step("Edit/Update Event", async () => {
-                await page.pause();
+                
                 await services.EditEvent();
                  await commonActions.closeCommonPopup();
                 
