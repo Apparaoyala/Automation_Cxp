@@ -189,7 +189,9 @@ for (let i = 0; i < customers.length; i++) {
                 await approval.Approvals(eventNumber);
 
             });
-             await test.step("Update Event", async () => {
+             await test.step("Edit/Update Event", async () => {
+                await page.pause();
+                await event.EditEvent();
                 
 
             });
