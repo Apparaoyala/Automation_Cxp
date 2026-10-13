@@ -212,7 +212,7 @@ private async findControlContainer(label: Locator): Promise<Locator> {
 
     const fieldName = await label.textContent();
 
-    console.log(fieldName)
+   // console.log(fieldName)
 
     const parentDivContainer = label.locator(
         "xpath=parent::div/following-sibling::div[1]"

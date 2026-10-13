@@ -2,7 +2,11 @@
 import { Page, Locator, expect } from '@playwright/test';
 import { FrameManager } from '../Utilities/FrameManager';
 import { CommonActions } from '../Utilities/CommonActions';
+import { JsonUtil } from '../Utilities/JsonUtil';
 import { Home } from '../pages/Home';
+const ServiceStatus = JsonUtil.readJson(
+    './Utilities/TestData/ServiceStatus.json'
+);
 export class Scheduling {
 
 
@@ -21,7 +25,7 @@ export class Scheduling {
     private readonly PostSchedule: Locator;
     // private readonly rightFrame: Locator;
     // private readonly commonActions: Locator;
-//private readonly acceptLink: Locator;
+    //private readonly acceptLink: Locator;
 
 
 
@@ -34,10 +38,16 @@ export class Scheduling {
         this.home = new Home(page);
         this.SentBtn = this.page.frameLocator('frame[name="right"]').getByRole('link', { name: 'Sent' });
         this.Acceptbtn = this.page.frameLocator('frame[name="right"]').locator('#accept_label');
-   //       this.PostSchedule1 = this.page.frameLocator('frame[name="header"]').getByRole('link', { name: 'Post Schedules', exact: true });
+        //       this.PostSchedule1 = this.page.frameLocator('frame[name="header"]').getByRole('link', { name: 'Post Schedules', exact: true });
 
         this.PostSchedule = this.page.frameLocator('frame[name="header"]').getByRole('link', { name: 'Post Schedules' });
-        this.ClickAcceptStatus = this.page.frameLocator('frame[name="right"]').getByRole('link', { name: 'Accpt', exact: true });
+        //this.ClickAcceptStatus = this.page.frameLocator('frame[name="right"]').getByRole('link', { name: 'Accpt', exact: true });
+        // Read Accept status names from JSON because status names may differ between cater configurations.
+        // join('|') combines the names using OR, and 'i' ignores uppercase/lowercase differences.
+        this.ClickAcceptStatus = this.page.frameLocator('frame[name="right"]').getByRole('link', {
+            name: new RegExp(ServiceStatus.Accept_status.join('|'), 'i')
+        });
+
         this.popupIcon = this.page.frameLocator('frame[name="prsnlrequest"]').locator('img[src*="dhtml_popup.gif"]').first();
 
         this.ShowWorker = this.page.frameLocator('frame[name="prsnlrequest"]').getByRole('link', { name: 'Show Workers' });
@@ -47,118 +57,118 @@ export class Scheduling {
     }
 
     async SchedulingAck() {
- 
 
-       await this.SentBtn.click();
+
+        await this.SentBtn.click();
         await this.Acceptbtn.click();
-     await this.commonActions.Constraintspopup();
-       console.log("Constraint save  clicked");
-       await this.home.navigateToScheduling();
-       await this.commonActions.closeUnacknowledgedpopup();
+        await this.commonActions.Constraintspopup();
+        console.log("Constraint save  clicked");
+        await this.home.navigateToScheduling();
+        await this.commonActions.closeUnacknowledgedpopup();
         await this.ClickAcceptStatus.click();
         console.log("AcceptStatus");
- 
-const frame = this.page.frameLocator('frame[name="prsnlrequest"]');
 
-const popupIcon = frame
-    .locator('img[src*="dhtml_popup.gif"]')
-    .first();
+        const frame = this.page.frameLocator('frame[name="prsnlrequest"]');
 
-//await popupIcon.scrollIntoViewIfNeeded();
+        const popupIcon = frame
+            .locator('img[src*="dhtml_popup.gif"]')
+            .first();
 
-const box = await popupIcon.boundingBox();
+        //await popupIcon.scrollIntoViewIfNeeded();
 
-if (!box) {
-    throw new Error("Popup icon not found");
-}
+        const box = await popupIcon.boundingBox();
 
-const x = box.x + box.width / 2;
-const y = box.y + box.height / 2;
-
-console.log("Moving mouse to:", x, y);
-
-// await this.page.mouse.move(x, y);
-
-// await this.page.waitForTimeout(500);
-
-const menu = frame.locator('#popmenu');
-
-// console.log("Popmenu visible:", await menu.isVisible());
-
-// if (!(await menu.isVisible())) {
-//     throw new Error("Popup menu was not displayed after mouse over");
-// }
-
-// console.log("Popmenu is visible");
-
-// await this.ShowWorker.click();
-
-
-let showWorkerClicked = false;
-
-for (let i = 0; i < 5; i++) {
-
-    console.log(`Attempt ${i + 1}: Moving mouse to popup icon`);
-
-    // Move mouse to popup icon
-    await this.page.mouse.move(x, y);
-
-    // Keep mouse at the popup position and check for up to 2 seconds
-    const startTime = Date.now();
-
-    while (Date.now() - startTime < 2000) {
-
-        if (await menu.isVisible().catch(() => false)) {
-
-            console.log("Popmenu is visible");
-
-            // Mouse is still at popup icon
-            await this.ShowWorker.click();
-
-            showWorkerClicked = true;
-
-            console.log("ShowWorker clicked");
-
-            break;
+        if (!box) {
+            throw new Error("Popup icon not found");
         }
 
-        await this.page.waitForTimeout(100);
+        const x = box.x + box.width / 2;
+        const y = box.y + box.height / 2;
+
+        console.log("Moving mouse to:", x, y);
+
+        // await this.page.mouse.move(x, y);
+
+        // await this.page.waitForTimeout(500);
+
+        const menu = frame.locator('#popmenu');
+
+        // console.log("Popmenu visible:", await menu.isVisible());
+
+        // if (!(await menu.isVisible())) {
+        //     throw new Error("Popup menu was not displayed after mouse over");
+        // }
+
+        // console.log("Popmenu is visible");
+
+        // await this.ShowWorker.click();
+
+
+        let showWorkerClicked = false;
+
+        for (let i = 0; i < 5; i++) {
+
+            console.log(`Attempt ${i + 1}: Moving mouse to popup icon`);
+
+            // Move mouse to popup icon
+            await this.page.mouse.move(x, y);
+
+            // Keep mouse at the popup position and check for up to 2 seconds
+            const startTime = Date.now();
+
+            while (Date.now() - startTime < 2000) {
+
+                if (await menu.isVisible().catch(() => false)) {
+
+                    console.log("Popmenu is visible");
+
+                    // Mouse is still at popup icon
+                    await this.ShowWorker.click();
+
+                    showWorkerClicked = true;
+
+                    console.log("ShowWorker clicked");
+
+                    break;
+                }
+
+                await this.page.waitForTimeout(100);
+            }
+
+            if (showWorkerClicked) {
+                break;
+            }
+
+            console.log("Menu not visible. Retrying...");
+
+            // Move away so the next attempt triggers mouse-over again
+            await this.page.mouse.move(x - 50, y);
+
+            await this.page.waitForTimeout(500);
+        }
+
+        if (!showWorkerClicked) {
+            throw new Error(
+                "Show Workers menu did not become visible after 5 attempts"
+            );
+        }
+
+        console.log("ShowWorker");
+
+        await this.commonActions.Show_workers_childwindow();
+
+        console.log("ShowWorker screen closed");
+
+        await this.PostSchedule.click();
+        await this.commonActions.clickBillAndAcceptAlerts(this.BillBtn);
+        console.log("Scheduling bill completed");
+
     }
 
-    if (showWorkerClicked) {
-        break;
-    }
-
-    console.log("Menu not visible. Retrying...");
-
-    // Move away so the next attempt triggers mouse-over again
-    await this.page.mouse.move(x - 50, y);
-
-    await this.page.waitForTimeout(500);
-}
-
-if (!showWorkerClicked) {
-    throw new Error(
-        "Show Workers menu did not become visible after 5 attempts"
-    );
-}
-
-console.log("ShowWorker");
-
-await this.commonActions.Show_workers_childwindow();
-
-console.log("ShowWorker screen closed");
- 
-     await this.PostSchedule.click();
- await this.commonActions.clickBillAndAcceptAlerts(this.BillBtn);
-      console.log("Scheduling bill completed");
- 
-    }
 
 
 
 
-  
 }
 
 

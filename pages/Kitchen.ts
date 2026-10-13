@@ -1,7 +1,11 @@
 import { Page, Locator, expect } from '@playwright/test';
 import { FrameManager } from '../Utilities/FrameManager';
 import { CommonActions } from '../Utilities/CommonActions';
+import { JsonUtil } from '../Utilities/JsonUtil';
 import { Home } from '../pages/Home';
+const ServiceStatus = JsonUtil.readJson(
+    './Utilities/TestData/ServiceStatus.json'
+);
 export class KitchenService {
 
     private readonly page: Page;
@@ -23,17 +27,27 @@ export class KitchenService {
     // private readonly ChangeReqAccept: Locator;
     private readonly commonActions: CommonActions;
     private readonly home: Home;
+
     constructor(page: Page) {
 
         this.page = page;
 
 
-        this.sent = this.page.frameLocator('frame[name="right"]').getByRole('link', { name: 'Sent' });
+        //this.sent = this.page.frameLocator('frame[name="right"]').getByRole('link', { name: 'Sent' });
+
+        this.sent = this.page.frameLocator('frame[name="right"]').getByRole('link', {
+            name: new RegExp(ServiceStatus.Sent_Status.join('|'), 'i')
+        });
+
 
         this.filter = page.frameLocator('frame[name="header"]').getByRole('link', { name: 'Filter', exact: true });
         this.CisNum = page.frameLocator('frame[name="right"]').locator('#cisnumber');
         this.Applybtn = page.frameLocator('frame[name="right"]').locator('#apply_label');
-        this.AcceptStatus = this.page.frameLocator('frame[name="right"]').getByRole('link', { name: 'Accpt', exact: true });
+        //this.AcceptStatus = this.page.frameLocator('frame[name="right"]').getByRole('link', { name: 'Accpt', exact: true });
+        this.AcceptStatus = this.page.frameLocator('frame[name="right"]').getByRole('link', {
+            name: new RegExp(ServiceStatus.Accept_status.join('|'), 'i')
+        });
+
         this.Bill = this.page.frameLocator('frame[name="right"]').locator('#billBtn');
         this.Accept = this.page.frameLocator('frame[name="right"]').locator('#acceptBtn_label');
         this.ChangeReq = page.frameLocator('frame[name="header"]').getByRole('link', { name: 'Change Requests', exact: true });
@@ -74,7 +88,7 @@ export class KitchenService {
 
         const cisNum = filterPage
             .locator('#cisnumber');
-        await cisNum.fill('4359');
+        await cisNum.fill('LI4452');
         const applyBtn = filterPage
             .locator('#apply_label');
 

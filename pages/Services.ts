@@ -1,7 +1,9 @@
 import { Page, Locator } from '@playwright/test';
 import { JsonUtil } from '../Utilities/JsonUtil';
 import { MandatoryFieldInfoUtil } from '../Utilities/MandatoryFieldInfoUtil';
-
+const ServiceStatus= JsonUtil.readJson(
+    './Utilities/TestData/ServiceStatus.json'
+);
 export class Services {
 
 
@@ -60,7 +62,7 @@ export class Services {
         });
 
         this.SchHeader = this.page.locator('.header-fs', {
-            hasText: 'Scheduling'
+            hasText: /Scheduling|Staffing/i
         });
 
         //menu servie
@@ -88,7 +90,7 @@ export class Services {
 
         this.mandatoryFieldInfoUtil =
             new MandatoryFieldInfoUtil(page);
-        this.checkboxBox =  this.page.locator(
+        this.checkboxBox = this.page.locator(
             "//div[@role='region']//div[contains(@class,'p-checkbox-box')]"
         );
 
@@ -244,7 +246,7 @@ export class Services {
         const statusText = await this.menuHeader.textContent();
 
         console.log(statusText);
-        if (statusText?.includes('Sent')) {
+        if (statusText?.includes(ServiceStatus.Sent_Status)) {
 
             console.log("✅ Menu Service Sent");
 
@@ -259,7 +261,7 @@ export class Services {
         const statusText = await this.alcHeader.textContent();
 
         console.log(statusText);
-        if (statusText?.includes('Sent')) {
+        if (statusText?.includes(ServiceStatus.Sent_Status)) {
 
             console.log("✅ Alc Service Sent");
 
@@ -285,7 +287,7 @@ export class Services {
             menuCard.locator('.service-request .icon-circle').first();
         console.log(await menuCard.locator('.icon-circle').count());
         // Step 3: If Menu is New
-        if (headerText?.includes('New')) {
+        if (headerText?.includes(ServiceStatus.New_Status)) {
 
             console.log("Menu is New");
 
@@ -298,7 +300,7 @@ export class Services {
             await serviceIcon.click();
         }
         // Step 4: If Menu is Prog
-        else if (headerText?.includes('Prog')) {
+        else if (headerText?.includes(ServiceStatus.Prog_Status)) {
 
             console.log("Menu is In Progress");
             await serviceIcon.click();
@@ -339,7 +341,7 @@ export class Services {
             );
         }
     }
- async EditEvent() {
+    async EditEvent() {
 
         console.log("EditEvent");
 
@@ -349,11 +351,11 @@ export class Services {
         });
         const EditIcon =
             EditEventInfo.locator('.service-request .icon-circle').first();
-    
-            await EditIcon.click();
-             await this.SaveBtn.click();
-             
-       
+
+        await EditIcon.click();
+        await this.SaveBtn.click();
+
+
     }
     //alc service
 
@@ -370,14 +372,14 @@ export class Services {
             alcCard.locator('.service-request .icon-circle').first();
         console.log(await alcCard.locator('.icon-circle').count());
         // Step 3: If Alc is New
-        if (headerText?.includes('New')) {
+        if (headerText?.includes(ServiceStatus.New_Status)) {
 
             console.log("Alc is New");
 
             await serviceIcon.click();
         }
         // Step 4: If Alc is Prog
-        else if (headerText?.includes('Prog')) {
+        else if (headerText?.includes(ServiceStatus.Prog_Status)) {
 
             console.log("Alc is In Progress");
             await serviceIcon.click();
@@ -394,8 +396,8 @@ export class Services {
 
         await this.FilterICon.click();
 
-       
-     
+
+
 
         const classes = await this.checkboxBox.getAttribute("class");
 
@@ -481,14 +483,14 @@ export class Services {
             EqpCard.locator('.service-request .icon-circle').first();
         console.log(await EqpCard.locator('.icon-circle').count());
         // Step 3: If Eqp is New
-        if (headerText?.includes('New')) {
+        if (headerText?.includes(ServiceStatus.New_Status)) {
 
             console.log("Eqp is New");
 
             await serviceIcon.click();
         }
         // Step 4: If Eqp is Prog
-        else if (headerText?.includes('Prog')) {
+        else if (headerText?.includes(ServiceStatus.Prog_Status)) {
 
             console.log("Eqp is In Progress");
             await serviceIcon.click();
@@ -505,7 +507,7 @@ export class Services {
 
         await this.FilterICon.click();
 
-      
+
 
         const classes = await this.checkboxBox.getAttribute("class");
 
@@ -586,20 +588,20 @@ export class Services {
         console.log(headerText);
 
         const schCard = this.page.locator('.card').filter({
-            has: this.page.getByText('Scheduling  -')
+            has: this.page.getByText(/Scheduling\s*-|Staffing\s*-/i)
         });
         const serviceIcon =
             schCard.locator('.service-request .icon-circle').first();
         console.log(await schCard.locator('.icon-circle').count());
         // Step 3: If Alc is New
-        if (headerText?.includes('New')) {
+        if (headerText?.includes(ServiceStatus.New_Status)) {
 
             console.log("Sch is New");
 
             await serviceIcon.click();
         }
         // Step 4: If Alc is Prog
-        else if (headerText?.includes('Prog')) {
+        else if (headerText?.includes(ServiceStatus.Prog_Status)) {
 
             console.log("Sch is In Progress");
             await serviceIcon.click();

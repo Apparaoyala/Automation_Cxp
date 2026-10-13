@@ -19,6 +19,7 @@ import { JsonUtil } from '../Utilities/JsonUtil';
 import { Scheduling } from '../pages/Scheduling';
 import { Accounting } from '../pages/Accounting';
 import { WareHouse } from '../pages/WareHouse';
+
 const config = new TestConfig();
 
 test('authenticate', async ({ page }) => {
@@ -58,24 +59,25 @@ test('authenticate', async ({ page }) => {
     });
 
 
+    /*
+      await homePage.clickHome();
+    
+    
+        
+     await homePage.navigateToModule("Sales New");
+        
+        
+         console.log("Sales New navigation complete");
+        
+        
+          await commonActions.closeCommonPopup();
+         page.pause();
+            await customer.Menu1();
+        */
 
-    await homePage.clickHome();
+    //---------------------------------------------------event creation --------------------------------------
 
-
-    
-    await homePage.navigateToModule("Sales New");
-    
-    
-        console.log("Sales New navigation complete");
-    
-    
-        await commonActions.closeCommonPopup();
-        await customer.Menu1();
-    
-    
-        //---------------------------------------------------event creation --------------------------------------
-    
-    
+    /*
     
         await event.CreateEvent();
     
@@ -131,7 +133,7 @@ test('authenticate', async ({ page }) => {
                 await approval.Approvals(eventNumber);
 
           await test.step("Edit/Update Event", async () => {
-                await page.pause();
+                //await page.pause();
                 await services.EditEvent();
                  await commonActions.closeCommonPopup();
                 
@@ -201,102 +203,104 @@ test('authenticate', async ({ page }) => {
     
         });
    
-
-  
-        await test.step("KitchenService", async () => {
-    
-            await home.navigateToKitchen();
-    
-    
-            await commonActions.closeUnacknowledgedpopup();
-    
-            console.log("its kitchen screen")
-    
-    
-        });
-        
-    
-        await test.step("kitchenfilter", async () => {
-    
-            await kitchen.Filter();
-    
-            await commonActions.childwindow1();
-    
-            console.log("its kitchen screen Filter is working");
-    
-            await commonActions.closeUnacknowledgedpopup();
-    
-    
-            await kitchen.kitchenservice();
-    
-            // await page.pause();
-        });
-
-
-    await test.step("SchedulingService", async () => {
-
-        await home.navigateToScheduling();
-        await commonActions.closeUnacknowledgedpopup();
-   
-        await kitchen.Filter();
-       await commonActions.closeUnacknowledgedpopup();
-        await scheduling.SchedulingAck();
-             await home.navigateToScheduling();
-        await commonActions.closeUnacknowledgedpopup();
-       await page.pause();
-    });
-
-   
-
-    await test.step("WarehouseService", async () => {
-   
-   
-           await home.navigateToWarehouse();
-          await commonActions.closeUnacknowledgedpopup();
-            await kitchen.Filter();
-         
-          await commonActions.closeUnacknowledgedpopup();
-        // await page.pause();
-           await wareHouse.Warehouse_Alc();
-            await home.navigateToWarehouse();
-           await commonActions.closeUnacknowledgedpopup();
-            await wareHouse.Warehouse_Eqp();
-           await home.navigateToWarehouse();
-           await commonActions.closeUnacknowledgedpopup();
-
-           await page.pause();
-       });
-   
-
-
-          await test.step("AccountingService", async () => {
+*/
+    /*
+          await test.step("KitchenService", async () => {
+      
+              await home.navigateToKitchen();
       
       
-              await home.navigateToAccounting();
               await commonActions.closeUnacknowledgedpopup();
-            //  await kitchen.Filter();
-               
-            //    await commonActions.closeUnacknowledgedpopup();
-               
-              await accounting.AccountingVendorBills();
-           
-              await homePage.clickHome();
-              await homePage.navigateToModule("Sales New");
       
-              await accounting.AccountingService();
-              await accounting.openbillService();
-              await accounting.BillProcess();
-              await home.SalesNewToAccounting();
-               await accounting.AccountingAccept();
-               await home.navigateToAccounting();
-              await commonActions.closeUnacknowledgedpopup();
+              console.log("its kitchen screen")
       
       
           });
-     
-   
-  
+          
       
+          await test.step("kitchenfilter", async () => {
+      
+              await kitchen.Filter();
+      
+              await commonActions.childwindow1();
+      
+              console.log("its kitchen screen Filter is working");
+      
+              await commonActions.closeUnacknowledgedpopup();
+      
+      
+              await kitchen.kitchenservice();
+      
+               await page.pause();
+          });
+  
+  */
+ /*
+    await test.step("SchedulingService", async () => {
+        console.log("scheduling  screen navigation before")
 
+        await home.navigateToScheduling();
+        await commonActions.closeUnacknowledgedpopup();
+
+        await kitchen.Filter();
+        await commonActions.closeUnacknowledgedpopup();
+        await scheduling.SchedulingAck();
+        await home.navigateToScheduling();
+        await commonActions.closeUnacknowledgedpopup();
+        await page.pause();
+    });
+
+*/
+    
+        await test.step("WarehouseService", async () => {
+       
+       
+               await home.navigateToWarehouse();
+              await commonActions.closeUnacknowledgedpopup();
+                await kitchen.Filter();
+             
+              await commonActions.closeUnacknowledgedpopup();
+            // await page.pause();
+               await wareHouse.Warehouse_Alc();
+                await home.navigateToWarehouse();
+               await commonActions.closeUnacknowledgedpopup();
+                await wareHouse.Warehouse_Eqp();
+               await home.navigateToWarehouse();
+               await commonActions.closeUnacknowledgedpopup();
+    
+               await page.pause();
+           });
+       
+    
+    /*
+              await test.step("AccountingService", async () => {
+          
+          
+                  await home.navigateToAccounting();
+                  await commonActions.closeUnacknowledgedpopup();
+                //  await kitchen.Filter();
+                   
+                //    await commonActions.closeUnacknowledgedpopup();
+                   
+                  await accounting.AccountingVendorBills();
+               
+                  await homePage.clickHome();
+                  await homePage.navigateToModule("Sales New");
+          
+                  await accounting.AccountingService();
+                  await accounting.openbillService();
+                  await accounting.BillProcess();
+                  await home.SalesNewToAccounting();
+                   await accounting.AccountingAccept();
+                   await home.navigateToAccounting();
+                  await commonActions.closeUnacknowledgedpopup();
+          
+          
+              });
+         
+       
+      
+          
+    */
 
 });

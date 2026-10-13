@@ -1,9 +1,9 @@
 {
 "New_Status": ["New"],
-"Prog_Status": ["In Progress", "Prog"],
+"Prog_Status": ["In Progress", "Prog"," In Progres ","In Progres"],
 "Sent_Status": ["Sent"],
-"Accept_status": ["Accept", "Ack", "Approved"],
-"Bill_Status": ["bill","To Accounting"],
+"Accept_status": ["Accept", "Ack", "Approved","Accpt"],
+"Bill_Status": ["bill","To Acctng"],
 "Menu": ["Menu","Menu -"],
 "Staffing": ["Staf", "personal", "scheduling","Staffing","Scheduling  -"],
 "Alchol": ["alchol", "alc","Alcohol","Alcohol  -"],
@@ -11,3 +11,4 @@
 "Accounting":["Bill"],
 "equpiment": ["Internal Equipment","Equipment","Equipment  -"]
 }
+
