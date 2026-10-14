@@ -3,7 +3,11 @@ import { Page, Locator, expect } from '@playwright/test';
 import { FrameManager } from '../Utilities/FrameManager';
 import { CommonActions } from '../Utilities/CommonActions';
 import { Home } from '../pages/Home';
+import { JsonUtil } from '../Utilities/JsonUtil';
 import { HomePage } from '../pages/HomePage';
+const ServiceStatus = JsonUtil.readJson(
+    './Utilities/TestData/ServiceStatus.json'
+);
 export class WareHouse {
     private readonly page: Page;
     private readonly commonActions: CommonActions;
@@ -25,8 +29,17 @@ export class WareHouse {
         const frameManager = new FrameManager(page);
         this.commonActions = new CommonActions(page);
         this.home = new Home(page);
-        this.sentLink = page.frameLocator('frame[name="right"]').locator('td[title="Alcohol"] a');
-        this.EqpsentLink = page.frameLocator('frame[name="right"]').locator('td[title="Equipment"] a');
+       this.EqpsentLink = page.frameLocator('frame[name="right"]').locator(
+            ServiceStatus.equpiment.map((name: string) => `td[title="${name}"] a`).join(', ')
+        );
+        this.sentLink = page.frameLocator('frame[name="right"]').locator(
+            ServiceStatus.Alchol.map((name: string) => `td[title="${name}"] a`).join(', ')
+        );
+       // this.sentLink = page.frameLocator('frame[name="right"]').locator('td[title="Alcohol"] a');
+        //   this.EqpsentLink = page.frameLocator('frame[name="right"]').locator('td[title="Equipment"] a');
+        this.EqpsentLink = page.frameLocator('frame[name="right"]').locator(
+            ServiceStatus.equpiment.map((name: string) => `td[title="${name}"] a`).join(', ')
+        );
         this.AcceptBtn = page.frameLocator('frame[name="right"]').getByRole('button', { name: 'Accept' });
         // this.BillBtn = page.frameLocator('frame[name="right"]').getByRole('button', { name: 'Bill' });
         this.BillBtn = page.frameLocator('frame[name="right"]').locator("//span[text()='Bill']");
@@ -51,10 +64,10 @@ export class WareHouse {
         await this.AcceptBtn.click();
 
         await Promise.race([
-    this.BillBtn.waitFor({ state: 'visible', timeout: 180000 }),
-    this.Reserve.waitFor({ state: 'visible', timeout: 180000 }),
-    this.CheckOut.waitFor({ state: 'visible', timeout: 180000 })
-]);
+            this.BillBtn.waitFor({ state: 'visible', timeout: 180000 }),
+            this.Reserve.waitFor({ state: 'visible', timeout: 180000 }),
+            this.CheckOut.waitFor({ state: 'visible', timeout: 180000 })
+        ]);
         const isBillVisible = await this.BillBtn.isVisible();
         const isReserveVisible = await this.Reserve.isVisible();
         const isCheckoutVisible = await this.CheckOut.isVisible();
@@ -75,14 +88,14 @@ export class WareHouse {
 
             console.log("Reserve Flow");
 
-        const dialogHandler = async (dialog: any) => {
-            console.log("Reserve Alert:", dialog.message());
-            await dialog.accept();
-        };
+            const dialogHandler = async (dialog: any) => {
+                console.log("Reserve Alert:", dialog.message());
+                await dialog.accept();
+            };
 
-        this.page.once('dialog', dialogHandler);
+            this.page.once('dialog', dialogHandler);
 
-        await this.Reserve.click();
+            await this.Reserve.click();
             await this.CheckOut.click();
             await this.CheckService.check();
             await this.ClickCheckOut.click();
@@ -90,7 +103,7 @@ export class WareHouse {
 
             await this.commonActions.clickBillAndAcceptAlerts(this.BillBtn);
 
-        } else{
+        } else {
 
             console.log("Warehouse: Checkout → Bill");
 
@@ -101,19 +114,19 @@ export class WareHouse {
 
             await this.commonActions.clickBillAndAcceptAlerts(this.BillBtn);
 
-        } 
+        }
     }
 
     async Warehouse_Eqp() {
 
         await this.EqpsentLink.click();
         await this.AcceptBtn.click();
-      
+
         await Promise.race([
-    this.BillBtn.waitFor({ state: 'visible', timeout: 180000 }),
-    this.Reserve.waitFor({ state: 'visible', timeout: 180000 }),
-    this.CheckOut.waitFor({ state: 'visible', timeout: 180000 })
-]);
+            this.BillBtn.waitFor({ state: 'visible', timeout: 180000 }),
+            this.Reserve.waitFor({ state: 'visible', timeout: 180000 }),
+            this.CheckOut.waitFor({ state: 'visible', timeout: 180000 })
+        ]);
         const isBillVisible = await this.BillBtn.isVisible();
         const isReserveVisible = await this.Reserve.isVisible();
         const isCheckoutVisible = await this.CheckOut.isVisible();
@@ -134,14 +147,14 @@ export class WareHouse {
 
             console.log("Reserve Flow");
 
-        const dialogHandler = async (dialog: any) => {
-            console.log("Reserve Alert:", dialog.message());
-            await dialog.accept();
-        };
+            const dialogHandler = async (dialog: any) => {
+                console.log("Reserve Alert:", dialog.message());
+                await dialog.accept();
+            };
 
-        this.page.once('dialog', dialogHandler);
+            this.page.once('dialog', dialogHandler);
 
-        await this.Reserve.click();
+            await this.Reserve.click();
             await this.CheckOut.click();
             await this.CheckService.check();
             await this.ClickCheckOut.click();
@@ -153,7 +166,7 @@ export class WareHouse {
 
             await this.commonActions.clickBillAndAcceptAlerts(this.BillBtn);
 
-        } else{
+        } else {
 
             console.log("Warehouse: Checkout → Bill");
 
@@ -167,6 +180,6 @@ export class WareHouse {
             await this.Close.click();
             await this.commonActions.clickBillAndAcceptAlerts(this.BillBtn);
 
-        } 
         }
     }
+}
