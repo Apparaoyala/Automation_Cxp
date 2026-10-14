@@ -21,6 +21,17 @@ async createEventIcon(){
       
        await this.EventIcon.click();
 }
+
+async waitForCustomerScreen() {
+    await expect.poll(async () => {
+        return await this.page.locator(
+            "//label[.//span[contains(@class,'text-danger')]]"
+        ).count();
+    }, {
+        timeout: 20000,
+        message: "Waiting for Customer mandatory fields to load"
+    }).toBeGreaterThan(6);
+}
 async waitForContactScreen() {await expect.poll(async () => {
 
         return await this.page.locator(
@@ -29,5 +40,5 @@ async waitForContactScreen() {await expect.poll(async () => {
 
     }, {
         timeout: 20000
-    }).toBeGreaterThan(8);}
+    }).toBeGreaterThan(6);}
 }

@@ -25,16 +25,16 @@ import { Scheduling } from '../pages/Scheduling';
 import { Accounting } from '../pages/Accounting';
 import { WareHouse } from '../pages/WareHouse';
 const customers = JsonUtil.readJson(
-    './Utilities/TestData/CustomerTpg.json'
+    './Utilities/TestData/CustomerBoot.json'
 );
 const contacts = JsonUtil.readJson(
-    './Utilities/TestData/Contact.json'
+    './Utilities/TestData/ContactBoot.json'
 );
 const Events = JsonUtil.readJson(
-    './Utilities/TestData/EventTpg.json'
+    './Utilities/TestData/EventBoot.json'
 );
 
-const ServiceStatus= JsonUtil.readJson(
+const ServiceStatus = JsonUtil.readJson(
     './Utilities/TestData/ServiceStatus.json'
 );
 if (
@@ -121,8 +121,8 @@ for (let i = 0; i < customers.length; i++) {
                 await customer.clickCustomer();
 
                 await customer.CustomerBtn();
-                await page.waitForTimeout(3000);
-
+                //await page.waitForTimeout(5000);
+                await contact.waitForCustomerScreen();
 
                 await mandatoryfieldutil.getMandatoryFieldCount(customerData);
 
@@ -175,7 +175,7 @@ for (let i = 0; i < customers.length; i++) {
 
 
                 await event.createbtn();
-           
+
                 await event.CustomerTaxExamptPopUp()
 
                 eventNumber = await event.getCreatedEventNumber();
@@ -186,7 +186,7 @@ for (let i = 0; i < customers.length; i++) {
 
             });
 
-           
+
 
 
             await test.step("ApprovalsService", async () => {
@@ -194,17 +194,17 @@ for (let i = 0; i < customers.length; i++) {
                 await approval.Approvals(eventNumber);
 
             });
-             await test.step("Edit/Update Event", async () => {
-                
+            await test.step("Edit/Update Event", async () => {
+
                 await services.EditEvent();
-                 await commonActions.closeCommonPopup();
-                
+                await commonActions.closeCommonPopup();
+
 
             });
 
             await test.step("Servicess", async () => {
 
-            //Menu Service is started
+                //Menu Service is started
 
                 await services.openMenuService();
 
